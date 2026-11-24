@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>Les Cavernes de Hammerfest - Jouer</title>
+		<script type="text/javascript" src="http://www.hammerfest.fr/js/flashobject.js"></script>
+	</head>
+	<body>
+		
+<div class="siteMinHeight">
+							<a name="play"></a>
+	<div class="game">
+		<div class="topBar"></div>
+	    <script type="text/javascript">
+	    //<![CDATA[
+	    // 420x520  630x780  504x624
+	    var fo = new FlashObject("http://data.hammerfest.fr/loader.swf?v=96", "game", 420,520, 7);
+		//fo.addVariable("$mode",		"solo");
+		//fo.addVariable("$options",	"boost");
+		//fo.addVariable("$mode",		"tutorial");
+		fo.addVariable("$mode",   	  "multicoop");
+		fo.addVariable("$options",	"boost,lifesharing");
+		//fo.addVariable("$mode",   	  "timeattack");
+		//fo.addVariable("$options",    "set_ta_0");
+		//fo.addVariable("$mode",		"soccer");
+		//fo.addVariable("$options",	"soccerbomb,set_soc_3");
+		fo.addVariable("$lang",			"fr");
+		fo.addVariable("swf",			"game.swf?v=101");
+		fo.addVariable("srv",			"play.html/manage");
+		fo.addVariable("$shake",		"1");
+		fo.addVariable("$detail",		"1");
+		fo.addVariable("$sound",		"1");
+		fo.addVariable("$music",		"1");
+		fo.addVariable("$volume",		"100");
+//		fo.addVariable("$alt", "1");
+
+		//fo.addParam("allowScriptAccess","always"); // flash 9 redirect fix
+	    fo.write();
+	    //]]>
+	    </script>	<div class="bottomBar"></div>
+	</div>
+	
+</body>
+</html>

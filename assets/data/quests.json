@@ -1,0 +1,1846 @@
+[
+  {
+    "id" : 0,
+    "nameKey" : "quest.0.title",
+    "descKey" : "quest.0.desc",
+    "require" : [
+      {
+        "item" : 40,
+        "qty" : 1
+      },
+      {
+        "item" : 41,
+        "qty" : 1
+      },
+      {
+        "item" : 42,
+        "qty" : 1
+      },
+      {
+        "item" : 43,
+        "qty" : 1
+      },
+      {
+        "item" : 44,
+        "qty" : 1
+      },
+      {
+        "item" : 45,
+        "qty" : 1
+      },
+      {
+        "item" : 46,
+        "qty" : 1
+      },
+      {
+        "item" : 47,
+        "qty" : 1
+      },
+      {
+        "item" : 48,
+        "qty" : 1
+      },
+      {
+        "item" : 49,
+        "qty" : 1
+      },
+      {
+        "item" : 50,
+        "qty" : 1
+      },
+      {
+        "item" : 51,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      100,
+      6
+    ],
+    "remove" : [
+      5
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 1,
+    "nameKey" : "quest.1.title",
+    "descKey" : "quest.1.desc",
+    "require" : [
+      {
+        "item" : 52,
+        "qty" : 1
+      },
+      {
+        "item" : 53,
+        "qty" : 1
+      },
+      {
+        "item" : 54,
+        "qty" : 1
+      },
+      {
+        "item" : 55,
+        "qty" : 1
+      },
+      {
+        "item" : 56,
+        "qty" : 1
+      },
+      {
+        "item" : 57,
+        "qty" : 1
+      },
+      {
+        "item" : 58,
+        "qty" : 1
+      },
+      {
+        "item" : 59,
+        "qty" : 1
+      },
+      {
+        "item" : 60,
+        "qty" : 1
+      },
+      {
+        "item" : 61,
+        "qty" : 1
+      },
+      {
+        "item" : 62,
+        "qty" : 1
+      },
+      {
+        "item" : 63,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      101
+    ],
+    "remove" : [
+      6
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 2,
+    "nameKey" : "quest.2.title",
+    "descKey" : "quest.2.desc",
+    "require" : [
+      {
+        "item" : 103,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      102
+    ],
+    "remove" : [
+      7
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 3,
+    "nameKey" : "quest.3.title",
+    "descKey" : "quest.3.desc",
+    "require" : [
+      {
+        "item" : 104,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      103,
+      9
+    ],
+    "remove" : [
+      8
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 4,
+    "nameKey" : "quest.4.title",
+    "descKey" : "quest.4.desc",
+    "require" : [
+      {
+        "item" : 105,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      104
+    ],
+    "remove" : [
+      9
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 5,
+    "nameKey" : "quest.5.title",
+    "descKey" : "quest.5.desc",
+    "require" : [
+      {
+        "item" : 36,
+        "qty" : 5
+      }
+    ],
+    "give" : [
+      105
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 6,
+    "nameKey" : "quest.6.title",
+    "descKey" : "quest.6.desc",
+    "require" : [
+      {
+        "item" : 1000,
+        "qty" : 5
+      },
+      {
+        "item" : 1003,
+        "qty" : 1
+      },
+      {
+        "item" : 1013,
+        "qty" : 1
+      },
+      {
+        "item" : 1027,
+        "qty" : 1
+      },
+      {
+        "item" : 1041,
+        "qty" : 1
+      },
+      {
+        "item" : 1043,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      1001
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 7,
+    "nameKey" : "quest.7.title",
+    "descKey" : "quest.7.desc",
+    "require" : [
+      {
+        "item" : 1003,
+        "qty" : 10
+      },
+      {
+        "item" : 1027,
+        "qty" : 10
+      },
+      {
+        "item" : 1041,
+        "qty" : 10
+      },
+      {
+        "item" : 1070,
+        "qty" : 2
+      },
+      {
+        "item" : 1074,
+        "qty" : 2
+      }
+    ],
+    "give" : [
+      1002
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 8,
+    "nameKey" : "quest.8.title",
+    "descKey" : "quest.8.desc",
+    "require" : [
+      {
+        "item" : 1022,
+        "qty" : 5
+      },
+      {
+        "item" : 1024,
+        "qty" : 5
+      },
+      {
+        "item" : 1028,
+        "qty" : 20
+      },
+      {
+        "item" : 1025,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      1004
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 9,
+    "nameKey" : "quest.9.title",
+    "descKey" : "quest.9.desc",
+    "require" : [
+      {
+        "item" : 1002,
+        "qty" : 1
+      },
+      {
+        "item" : 1046,
+        "qty" : 2
+      },
+      {
+        "item" : 1040,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      1005
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 10,
+    "nameKey" : "quest.10.title",
+    "descKey" : "quest.10.desc",
+    "require" : [
+      {
+        "item" : 4,
+        "qty" : 1
+      },
+      {
+        "item" : 7,
+        "qty" : 1
+      },
+      {
+        "item" : 13,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      1,
+      8,
+      13,
+      15
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 11,
+    "nameKey" : "quest.11.title",
+    "descKey" : "quest.11.desc",
+    "require" : [
+      {
+        "item" : 106,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      3
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 12,
+    "nameKey" : "quest.12.title",
+    "descKey" : "quest.12.desc",
+    "require" : [
+      {
+        "item" : 1051,
+        "qty" : 150
+      }
+    ],
+    "give" : [
+      1007
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 13,
+    "nameKey" : "quest.13.title",
+    "descKey" : "quest.13.desc",
+    "require" : [
+      {
+        "item" : 107,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 14,
+    "nameKey" : "quest.14.title",
+    "descKey" : "quest.14.desc",
+    "require" : [
+      {
+        "item" : 1,
+        "qty" : 10
+      },
+      {
+        "item" : 5,
+        "qty" : 5
+      },
+      {
+        "item" : 11,
+        "qty" : 5
+      },
+      {
+        "item" : 21,
+        "qty" : 10
+      },
+      {
+        "item" : 22,
+        "qty" : 5
+      },
+      {
+        "item" : 24,
+        "qty" : 1
+      },
+      {
+        "item" : 25,
+        "qty" : 1
+      },
+      {
+        "item" : 28,
+        "qty" : 3
+      },
+      {
+        "item" : 38,
+        "qty" : 1
+      },
+      {
+        "item" : 82,
+        "qty" : 5
+      }
+    ],
+    "give" : [
+      2
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 15,
+    "nameKey" : "quest.15.title",
+    "descKey" : "quest.15.desc",
+    "require" : [
+      {
+        "item" : 1057,
+        "qty" : 11
+      },
+      {
+        "item" : 1074,
+        "qty" : 11
+      },
+      {
+        "item" : 1137,
+        "qty" : 11
+      },
+      {
+        "item" : 1138,
+        "qty" : 11
+      },
+      {
+        "item" : 1139,
+        "qty" : 11
+      },
+      {
+        "item" : 1140,
+        "qty" : 11
+      },
+      {
+        "item" : 1149,
+        "qty" : 20
+      },
+      {
+        "item" : 1045,
+        "qty" : 30
+      },
+      {
+        "item" : 1081,
+        "qty" : 11
+      }
+    ],
+    "give" : [
+      11,
+      1014
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 16,
+    "nameKey" : "quest.16.title",
+    "descKey" : "quest.16.desc",
+    "require" : [
+      {
+        "item" : 1142,
+        "qty" : 20
+      }
+    ],
+    "give" : [
+      4,
+      1015
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 17,
+    "nameKey" : "quest.17.title",
+    "descKey" : "quest.17.desc",
+    "require" : [
+      {
+        "item" : 1046,
+        "qty" : 5
+      }
+    ],
+    "give" : [
+      1010
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 18,
+    "nameKey" : "quest.18.title",
+    "descKey" : "quest.18.desc",
+    "require" : [
+      {
+        "item" : 1008,
+        "qty" : 30
+      }
+    ],
+    "give" : [
+      1003
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 19,
+    "nameKey" : "quest.19.title",
+    "descKey" : "quest.19.desc",
+    "require" : [
+      {
+        "item" : 1001,
+        "qty" : 20
+      },
+      {
+        "item" : 1055,
+        "qty" : 20
+      },
+      {
+        "item" : 1056,
+        "qty" : 20
+      }
+    ],
+    "give" : [
+      1012
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 20,
+    "nameKey" : "quest.20.title",
+    "descKey" : "quest.20.desc",
+    "require" : [
+      {
+        "item" : 1009,
+        "qty" : 10
+      },
+      {
+        "item" : 1010,
+        "qty" : 5
+      },
+      {
+        "item" : 1011,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      10,
+      12
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 21,
+    "nameKey" : "quest.21.title",
+    "descKey" : "quest.21.desc",
+    "require" : [
+      {
+        "item" : 1001,
+        "qty" : 20
+      },
+      {
+        "item" : 1021,
+        "qty" : 10
+      },
+      {
+        "item" : 1025,
+        "qty" : 20
+      },
+      {
+        "item" : 1061,
+        "qty" : 1
+      },
+      {
+        "item" : 1162,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      1008
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 22,
+    "nameKey" : "quest.22.title",
+    "descKey" : "quest.22.desc",
+    "require" : [
+      {
+        "item" : 1020,
+        "qty" : 15
+      },
+      {
+        "item" : 1039,
+        "qty" : 1
+      },
+      {
+        "item" : 1060,
+        "qty" : 2
+      },
+      {
+        "item" : 1104,
+        "qty" : 5
+      },
+      {
+        "item" : 1103,
+        "qty" : 3
+      }
+    ],
+    "give" : [
+      1013
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 23,
+    "nameKey" : "quest.23.title",
+    "descKey" : "quest.23.desc",
+    "require" : [
+      {
+        "item" : 1091,
+        "qty" : 1
+      },
+      {
+        "item" : 1112,
+        "qty" : 1
+      },
+      {
+        "item" : 1126,
+        "qty" : 1
+      },
+      {
+        "item" : 1163,
+        "qty" : 1
+      },
+      {
+        "item" : 1109,
+        "qty" : 1
+      },
+      {
+        "item" : 1138,
+        "qty" : 1
+      },
+      {
+        "item" : 1142,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      1017
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 24,
+    "nameKey" : "quest.24.title",
+    "descKey" : "quest.24.desc",
+    "require" : [
+      {
+        "item" : 68,
+        "qty" : 1
+      },
+      {
+        "item" : 1004,
+        "qty" : 10
+      },
+      {
+        "item" : 1005,
+        "qty" : 10
+      },
+      {
+        "item" : 1007,
+        "qty" : 1
+      },
+      {
+        "item" : 1015,
+        "qty" : 1
+      },
+      {
+        "item" : 1016,
+        "qty" : 3
+      },
+      {
+        "item" : 1018,
+        "qty" : 5
+      },
+      {
+        "item" : 1019,
+        "qty" : 5
+      },
+      {
+        "item" : 1023,
+        "qty" : 10
+      },
+      {
+        "item" : 1070,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      1016
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 25,
+    "nameKey" : "quest.25.title",
+    "descKey" : "quest.25.desc",
+    "require" : [
+      {
+        "item" : 1069,
+        "qty" : 10
+      },
+      {
+        "item" : 1081,
+        "qty" : 10
+      },
+      {
+        "item" : 1094,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      1006
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 26,
+    "nameKey" : "quest.26.title",
+    "descKey" : "quest.26.desc",
+    "require" : [
+      {
+        "item" : 1031,
+        "qty" : 10
+      },
+      {
+        "item" : 1057,
+        "qty" : 10
+      },
+      {
+        "item" : 1137,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      1011
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 27,
+    "nameKey" : "quest.27.title",
+    "descKey" : "quest.27.desc",
+    "require" : [
+      {
+        "item" : 88,
+        "qty" : 1
+      },
+      {
+        "item" : 99,
+        "qty" : 1
+      },
+      {
+        "item" : 100,
+        "qty" : 1
+      },
+      {
+        "item" : 1044,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 28,
+    "nameKey" : "quest.28.title",
+    "descKey" : "quest.28.desc",
+    "require" : [
+      {
+        "item" : 1059,
+        "qty" : 2
+      },
+      {
+        "item" : 1084,
+        "qty" : 2
+      },
+      {
+        "item" : 1088,
+        "qty" : 2
+      },
+      {
+        "item" : 1144,
+        "qty" : 2
+      },
+      {
+        "item" : 1151,
+        "qty" : 2
+      },
+      {
+        "item" : 1152,
+        "qty" : 2
+      },
+      {
+        "item" : 1153,
+        "qty" : 2
+      },
+      {
+        "item" : 1154,
+        "qty" : 2
+      }
+    ],
+    "give" : [
+      1009
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 29,
+    "nameKey" : "quest.29.title",
+    "descKey" : "quest.29.desc",
+    "require" : [
+      {
+        "item" : 21,
+        "qty" : 10
+      },
+      {
+        "item" : 26,
+        "qty" : 10
+      },
+      {
+        "item" : 31,
+        "qty" : 10
+      },
+      {
+        "item" : 85,
+        "qty" : 10
+      },
+      {
+        "item" : 90,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      1018
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 30,
+    "nameKey" : "quest.30.title",
+    "descKey" : "quest.30.desc",
+    "require" : [
+      {
+        "item" : 68,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      14,
+      106
+    ],
+    "remove" : [
+      13
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 31,
+    "nameKey" : "quest.31.title",
+    "descKey" : "quest.31.desc",
+    "require" : [
+      {
+        "item" : 26,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      107
+    ],
+    "remove" : [
+      14
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 32,
+    "nameKey" : "quest.32.title",
+    "descKey" : "quest.32.desc",
+    "require" : [
+      {
+        "item" : 109,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      16
+    ],
+    "remove" : [
+      15
+    ],
+    "options" : [ ],
+    "modes" : [ ],
+    "tokens" : 5
+  },
+  {
+    "id" : 33,
+    "nameKey" : "quest.33.title",
+    "descKey" : "quest.33.desc",
+    "require" : [
+      {
+        "item" : 110,
+        "qty" : 2
+      }
+    ],
+    "give" : [
+      17
+    ],
+    "remove" : [
+      16
+    ],
+    "options" : [ ],
+    "modes" : [ ],
+    "tokens" : 10
+  },
+  {
+    "id" : 34,
+    "nameKey" : "quest.34.title",
+    "descKey" : "quest.34.desc",
+    "require" : [
+      {
+        "item" : 111,
+        "qty" : 2
+      }
+    ],
+    "give" : [ ],
+    "remove" : [
+      17
+    ],
+    "options" : [ ],
+    "modes" : [ ],
+    "tokens" : 20
+  },
+  {
+    "id" : 35,
+    "nameKey" : "quest.35.title",
+    "descKey" : "quest.35.desc",
+    "require" : [
+      {
+        "item" : 10,
+        "qty" : 5
+      }
+    ],
+    "give" : [ ],
+    "remove" : [
+      18
+    ],
+    "options" : [ ],
+    "modes" : [ ],
+    "bank" : 25
+  },
+  {
+    "id" : 36,
+    "nameKey" : "quest.36.title",
+    "descKey" : "quest.36.desc",
+    "require" : [
+      {
+        "item" : 1178,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 37,
+    "nameKey" : "quest.37.title",
+    "descKey" : "quest.37.desc",
+    "require" : [
+      {
+        "item" : 1179,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 38,
+    "nameKey" : "quest.38.title",
+    "descKey" : "quest.38.desc",
+    "require" : [
+      {
+        "item" : 1180,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 39,
+    "nameKey" : "quest.39.title",
+    "descKey" : "quest.39.desc",
+    "require" : [
+      {
+        "item" : 1181,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 40,
+    "nameKey" : "quest.40.title",
+    "descKey" : "quest.40.desc",
+    "require" : [
+      {
+        "item" : 1182,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 41,
+    "nameKey" : "quest.41.title",
+    "descKey" : "quest.41.desc",
+    "require" : [
+      {
+        "item" : 1183,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 42,
+    "nameKey" : "quest.42.title",
+    "descKey" : "quest.42.desc",
+    "require" : [
+      {
+        "item" : 1184,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 43,
+    "nameKey" : "quest.43.title",
+    "descKey" : "quest.43.desc",
+    "require" : [
+      {
+        "item" : 102,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      108
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 44,
+    "nameKey" : "quest.44.title",
+    "descKey" : "quest.44.desc",
+    "require" : [
+      {
+        "item" : 72,
+        "qty" : 5
+      },
+      {
+        "item" : 91,
+        "qty" : 5
+      },
+      {
+        "item" : 92,
+        "qty" : 10
+      }
+    ],
+    "give" : [
+      109
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 45,
+    "nameKey" : "quest.45.title",
+    "descKey" : "quest.45.desc",
+    "require" : [
+      {
+        "item" : 1053,
+        "qty" : 10
+      },
+      {
+        "item" : 1054,
+        "qty" : 10
+      },
+      {
+        "item" : 95,
+        "qty" : 3
+      }
+    ],
+    "give" : [
+      110
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 46,
+    "nameKey" : "quest.46.title",
+    "descKey" : "quest.46.desc",
+    "require" : [
+      {
+        "item" : 112,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      111
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 47,
+    "nameKey" : "quest.47.title",
+    "descKey" : "quest.47.desc",
+    "require" : [
+      {
+        "item" : 14,
+        "qty" : 1
+      },
+      {
+        "item" : 15,
+        "qty" : 1
+      },
+      {
+        "item" : 16,
+        "qty" : 1
+      },
+      {
+        "item" : 17,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      19,
+      112
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 48,
+    "nameKey" : "quest.48.title",
+    "descKey" : "quest.48.desc",
+    "require" : [
+      {
+        "item" : 113,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      113
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 49,
+    "nameKey" : "quest.49.title",
+    "descKey" : "quest.49.desc",
+    "require" : [
+      {
+        "item" : 1190,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5000,
+      1023,
+      1025,
+      1026
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 50,
+    "nameKey" : "quest.50.title",
+    "descKey" : "quest.50.desc",
+    "require" : [
+      {
+        "item" : 1191,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5001
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 51,
+    "nameKey" : "quest.51.title",
+    "descKey" : "quest.51.desc",
+    "require" : [
+      {
+        "item" : 1192,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5002
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 52,
+    "nameKey" : "quest.52.title",
+    "descKey" : "quest.52.desc",
+    "require" : [
+      {
+        "item" : 1193,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5003
+    ],
+    "remove" : [
+      1021
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 53,
+    "nameKey" : "quest.53.title",
+    "descKey" : "quest.53.desc",
+    "require" : [
+      {
+        "item" : 1194,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5004
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 54,
+    "nameKey" : "quest.54.title",
+    "descKey" : "quest.54.desc",
+    "require" : [
+      {
+        "item" : 1195,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5005
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 55,
+    "nameKey" : "quest.55.title",
+    "descKey" : "quest.55.desc",
+    "require" : [
+      {
+        "item" : 1196,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5006
+    ],
+    "remove" : [
+      1022
+    ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 56,
+    "nameKey" : "quest.56.title",
+    "descKey" : "quest.56.desc",
+    "require" : [
+      {
+        "item" : 1197,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5007
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 57,
+    "nameKey" : "quest.57.title",
+    "descKey" : "quest.57.desc",
+    "require" : [
+      {
+        "item" : 1198,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5008
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 58,
+    "nameKey" : "quest.58.title",
+    "descKey" : "quest.58.desc",
+    "require" : [
+      {
+        "item" : 1199,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5009
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 59,
+    "nameKey" : "quest.59.title",
+    "descKey" : "quest.59.desc",
+    "require" : [
+      {
+        "item" : 1200,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5010
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 60,
+    "nameKey" : "quest.60.title",
+    "descKey" : "quest.60.desc",
+    "require" : [
+      {
+        "item" : 1209,
+        "qty" : 20
+      },
+      {
+        "item" : 1210,
+        "qty" : 10
+      },
+      {
+        "item" : 1211,
+        "qty" : 5
+      },
+      {
+        "item" : 1212,
+        "qty" : 3
+      },
+      {
+        "item" : 1213,
+        "qty" : 2
+      }
+    ],
+    "give" : [
+      1021
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 61,
+    "nameKey" : "quest.61.title",
+    "descKey" : "quest.61.desc",
+    "require" : [
+      {
+        "item" : 1214,
+        "qty" : 10
+      },
+      {
+        "item" : 1215,
+        "qty" : 15
+      },
+      {
+        "item" : 1216,
+        "qty" : 3
+      },
+      {
+        "item" : 1217,
+        "qty" : 2
+      },
+      {
+        "item" : 1218,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      1022
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 62,
+    "nameKey" : "quest.62.title",
+    "descKey" : "quest.62.desc",
+    "require" : [
+      {
+        "item" : 1201,
+        "qty" : 1
+      },
+      {
+        "item" : 1202,
+        "qty" : 1
+      },
+      {
+        "item" : 1203,
+        "qty" : 1
+      },
+      {
+        "item" : 1204,
+        "qty" : 1
+      },
+      {
+        "item" : 1205,
+        "qty" : 1
+      },
+      {
+        "item" : 1206,
+        "qty" : 1
+      },
+      {
+        "item" : 1207,
+        "qty" : 1
+      },
+      {
+        "item" : 1208,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "boost"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 63,
+    "nameKey" : "quest.63.title",
+    "descKey" : "quest.63.desc",
+    "require" : [
+      {
+        "item" : 1219,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "mirror"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 64,
+    "nameKey" : "quest.64.title",
+    "descKey" : "quest.64.desc",
+    "require" : [
+      {
+        "item" : 1220,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "nightmare"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 65,
+    "nameKey" : "quest.65.title",
+    "descKey" : "quest.65.desc",
+    "require" : [
+      {
+        "item" : 117,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5012
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 66,
+    "nameKey" : "quest.66.title",
+    "descKey" : "quest.66.desc",
+    "require" : [
+      {
+        "item" : 116,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "kickcontrol"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 67,
+    "nameKey" : "quest.67.title",
+    "descKey" : "quest.67.desc",
+    "require" : [
+      {
+        "item" : 1221,
+        "qty" : 5
+      },
+      {
+        "item" : 1222,
+        "qty" : 10
+      },
+      {
+        "item" : 1223,
+        "qty" : 5
+      },
+      {
+        "item" : 1224,
+        "qty" : 3
+      }
+    ],
+    "give" : [ ],
+    "remove" : [
+      1028
+    ],
+    "options" : [ ],
+    "modes" : [
+      "multicoop"
+    ]
+  },
+  {
+    "id" : 68,
+    "nameKey" : "quest.68.title",
+    "descKey" : "quest.68.desc",
+    "require" : [
+      {
+        "item" : 1225,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "mirrormulti"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 69,
+    "nameKey" : "quest.69.title",
+    "descKey" : "quest.69.desc",
+    "require" : [
+      {
+        "item" : 1226,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "nightmaremulti"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 70,
+    "nameKey" : "quest.70.title",
+    "descKey" : "quest.70.desc",
+    "require" : [
+      {
+        "item" : 1227,
+        "qty" : 2
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "lifesharing"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 71,
+    "nameKey" : "quest.71.title",
+    "descKey" : "quest.71.desc",
+    "require" : [
+      {
+        "item" : 1228,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      1030
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 72,
+    "nameKey" : "quest.72.title",
+    "descKey" : "quest.72.desc",
+    "require" : [
+      {
+        "item" : 1229,
+        "qty" : 5
+      },
+      {
+        "item" : 1230,
+        "qty" : 2
+      },
+      {
+        "item" : 1231,
+        "qty" : 7
+      },
+      {
+        "item" : 1232,
+        "qty" : 7
+      },
+      {
+        "item" : 1233,
+        "qty" : 1
+      },
+      {
+        "item" : 1234,
+        "qty" : 1
+      },
+      {
+        "item" : 1235,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "ninja"
+    ],
+    "modes" : [ ]
+  },
+  {
+    "id" : 73,
+    "nameKey" : "quest.73.title",
+    "descKey" : "quest.73.desc",
+    "require" : [
+      {
+        "item" : 1236,
+        "qty" : 100
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "set_ta_0"
+    ],
+    "modes" : [
+      "timeattack"
+    ]
+  },
+  {
+    "id" : 74,
+    "nameKey" : "quest.74.title",
+    "descKey" : "quest.74.desc",
+    "require" : [
+      {
+        "item" : 1237,
+        "qty" : 1
+      }
+    ],
+    "give" : [ ],
+    "remove" : [ ],
+    "options" : [
+      "bombexpert"
+    ],
+    "modes" : [ ],
+    "log" : true
+  },
+  {
+    "id" : 75,
+    "nameKey" : "quest.75.title",
+    "descKey" : "quest.75.desc",
+    "require" : [
+      {
+        "item" : 1238,
+        "qty" : 1
+      }
+    ],
+    "give" : [
+      5014
+    ],
+    "remove" : [ ],
+    "options" : [ ],
+    "modes" : [ ]
+  }
+]

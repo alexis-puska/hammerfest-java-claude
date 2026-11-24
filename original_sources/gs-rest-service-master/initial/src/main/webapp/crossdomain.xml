@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<cross-domain-policy>
+        <allow-access-from domain="localhost" />
+		<allow-access-from domain="*.hammerfest.fr" />
+		<allow-access-from domain="*.hammerfest.es" />
+		<allow-access-from domain="*.hfest.fr" />
+</cross-domain-policy>

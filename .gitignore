@@ -1,0 +1,11 @@
+.gradle/
+build/
+*/build/
+out/
+.idea/
+*.iml
+assets/save.json
+assets/save.json.*
+dist/
+# Outils externes téléchargés localement (JPEXS FFDec…)
+.tools/

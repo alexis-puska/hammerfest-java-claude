@@ -1,0 +1,31 @@
+// Projet racine : configuration commune aux modules core, lwjgl3 et tools
+// (structure équivalente à un projet généré par gdx-liftoff).
+subprojects {
+  apply plugin: 'java-library'
+
+  group = 'hammerfest'
+  version = projectVersion
+
+  java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+  }
+
+  repositories {
+    mavenCentral()
+  }
+
+  tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+  }
+
+  dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  }
+
+  tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    workingDir = rootProject.file('assets')
+  }
+}

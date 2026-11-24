@@ -1,0 +1,48 @@
+=== 2026-11-23T23:09:48.031800500 ===
+com.badlogic.gdx.utils.GdxRuntimeException: java.lang.NoClassDefFoundError: hammerfest/sim/entity/bad/Fruits
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:159)
+	at hammerfest.lwjgl3.Lwjgl3Launcher.main(Lwjgl3Launcher.java:35)
+Caused by: java.lang.NoClassDefFoundError: hammerfest/sim/entity/bad/Fruits
+	at hammerfest.sim.Game.onLevelReady(Game.java:687)
+	at hammerfest.sim.Game.goTo(Game.java:646)
+	at hammerfest.sim.Game.nextLevel(Game.java:613)
+	at hammerfest.sim.entity.Player.onDeathLine(Player.java:460)
+	at hammerfest.sim.entity.Physics.update(Physics.java:429)
+	at hammerfest.sim.entity.Player.update(Player.java:621)
+	at hammerfest.sim.entity.Player.update(Player.java:657)
+	at hammerfest.sim.Game.tick(Game.java:271)
+	at hammerfest.screen.GameScreen.render(GameScreen.java:248)
+	at com.badlogic.gdx.Game.render(Game.java:48)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:435)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:181)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:153)
+	... 1 more
+Caused by: java.lang.ClassNotFoundException: hammerfest.sim.entity.bad.Fruits
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
+	... 14 more
+=== 2026-11-23T23:09:48.035968 ===
+com.badlogic.gdx.utils.GdxRuntimeException: java.lang.NoClassDefFoundError: hammerfest/sim/entity/bad/Fruits
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:159)
+	at hammerfest.lwjgl3.Lwjgl3Launcher.main(Lwjgl3Launcher.java:35)
+Caused by: java.lang.NoClassDefFoundError: hammerfest/sim/entity/bad/Fruits
+	at hammerfest.sim.Game.onLevelReady(Game.java:687)
+	at hammerfest.sim.Game.goTo(Game.java:646)
+	at hammerfest.sim.Game.nextLevel(Game.java:613)
+	at hammerfest.sim.entity.Player.onDeathLine(Player.java:460)
+	at hammerfest.sim.entity.Physics.update(Physics.java:429)
+	at hammerfest.sim.entity.Player.update(Player.java:621)
+	at hammerfest.sim.entity.Player.update(Player.java:657)
+	at hammerfest.sim.Game.tick(Game.java:271)
+	at hammerfest.screen.GameScreen.render(GameScreen.java:248)
+	at com.badlogic.gdx.Game.render(Game.java:48)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:435)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:181)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:153)
+	... 1 more
+Caused by: java.lang.ClassNotFoundException: hammerfest.sim.entity.bad.Fruits
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
+	... 14 more

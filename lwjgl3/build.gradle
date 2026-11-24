@@ -1,0 +1,86 @@
+apply plugin: 'application'
+
+application {
+  mainClass = 'hammerfest.lwjgl3.Lwjgl3Launcher'
+  applicationName = 'hammerfest'
+}
+
+dependencies {
+  implementation project(':core')
+  implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+  implementation "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$controllersVersion"
+  // Ouverture du port de jeu sur la box (UPnP) quand on héberge une partie en ligne
+  implementation "org.bitlet:weupnp:$weupnpVersion"
+}
+
+// save.json est écrit dans le dossier de travail (Gdx.files.local) ; depuis le jar, à côté du jar
+tasks.named('run') {
+  workingDir = rootProject.file('assets')
+}
+
+// Jar exécutable unique : ./gradlew lwjgl3:jar
+tasks.named('jar') {
+  archiveBaseName = 'hammerfest'
+  manifest { attributes 'Main-Class': application.mainClass }
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  dependsOn configurations.runtimeClasspath
+  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+  from rootProject.file('assets')
+  exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'save.json'
+}
+
+// Jeu à distribuer : ./gradlew lwjgl3:dist  ->  dist/Hammerfest.jar (double-clic : ouvre le jeu, Java 17+ requis)
+tasks.register('dist', Copy) {
+  group = 'hammerfest'
+  description = 'Copie le jar exécutable unique dans dist/Hammerfest.jar'
+  dependsOn 'jar'
+  from(tasks.named('jar').flatMap { it.archiveFile })
+  into rootProject.file('dist')
+  rename { 'Hammerfest.jar' }
+}
+
+// Application autonome Windows (sans Java installé) : ./gradlew lwjgl3:packageWindows
+//  -> dist/Hammerfest/Hammerfest.exe (+ mini-Java jlink réduit aux modules utiles) et dist/Hammerfest-windows.zip.
+// jpackage (JDK 14+) ne met pas Java « dans » le jar : il produit un dossier exe + runtime. Type app-image :
+// pas besoin de WiX (nécessaire seulement pour un installateur .exe/.msi).
+tasks.register('packageWindows') {
+  group = 'hammerfest'
+  description = 'Application Windows autonome (exe + Java embarqué) dans dist/Hammerfest et dist/Hammerfest-windows.zip'
+  dependsOn 'dist'
+  doLast {
+    def jdkBin = new File(javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(17) }.get().executablePath.asFile.parentFile.absolutePath)
+    def out = rootProject.file('dist')
+    def image = new File(out, 'Hammerfest')
+    // sauvegarde de l'exe conservée d'une reconstruction à l'autre (remise après le zip, qui reste sans sauvegarde)
+    def savedSave = new File(temporaryDir, 'save.json')
+    project.delete(savedSave)
+    def oldSave = new File(image, 'app/save.json')
+    if (oldSave.exists()) project.copy { from oldSave; into temporaryDir }
+    project.delete(image)
+    def staging = new File(buildDir, 'jpackage-input')
+    project.delete(staging)
+    staging.mkdirs()
+    project.copy { from new File(out, 'Hammerfest.jar'); into staging }
+    project.exec {
+      commandLine new File(jdkBin, 'jpackage').absolutePath,
+          '--type', 'app-image',
+          '--name', 'Hammerfest',
+          '--app-version', projectVersion,
+          '--vendor', 'Portage Hammerfest (jeu original Motion Twin, CC BY-NC-SA 4.0)',
+          '--input', staging.absolutePath,
+          '--main-jar', 'Hammerfest.jar',
+          '--main-class', 'hammerfest.lwjgl3.Lwjgl3Launcher',
+          '--icon', file('icons/hammerfest.ico').absolutePath, // Igor (icons/igor-256.png, généré depuis son sprite)
+          '--dest', out.absolutePath,
+          '--add-modules', 'java.base,java.desktop,java.logging,java.xml,java.sql,java.naming,jdk.unsupported,jdk.crypto.ec',
+          '--jlink-options', '--strip-debug --no-header-files --no-man-pages --compress=2',
+          '--java-options', '-Dfile.encoding=UTF-8'
+    }
+    def zip = new File(out, 'Hammerfest-windows.zip')
+    project.delete(zip)
+    ant.zip(destfile: zip.absolutePath) { fileset(dir: out.absolutePath, includes: 'Hammerfest/**') }
+    if (savedSave.exists()) project.copy { from savedSave; into new File(image, 'app') }
+  }
+}

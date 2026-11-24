@@ -1,0 +1,12 @@
+// Logique du jeu. Le paquet hammerfest.sim ne dépend pas de libGDX (prépare le multi).
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  // Police du jeu (Franklin Gothic Heavy exportée du SWF en TTF) rendue par FreeType
+  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  // JSON (données du jeu, save.json) : classes Java simples (POJO) lues/écrites par Jackson
+  api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  // Manettes de jeu (gdx-controllers) : lues par l'écran de jeu, converties en InputFrame comme le clavier
+  api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$controllersVersion"
+  // Jeu en ligne : TCP (lobby, demandes de connexion) et UDP (découverte, entrées) — paquet hammerfest.net
+  api "com.esotericsoftware:kryonet:$kryonetVersion"
+}

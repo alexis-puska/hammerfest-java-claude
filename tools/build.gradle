@@ -1,0 +1,187 @@
+// Outils one-shot : conversion des données XML d'origine en JSON, copie des assets.
+// Réutilise les classes de données de core (même schéma JSON pour l'écriture et la lecture).
+dependencies {
+  implementation project(':core')
+  implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+}
+
+def sourceDir = rootProject.file('original_sources/hammerfest-master')
+def assetsDir = rootProject.file('assets')
+
+// ./gradlew tools:convertData  ->  assets/data/**/*.json
+tasks.register('convertData', JavaExec) {
+  group = 'hammerfest'
+  description = 'Convertit original_sources/hammerfest-master/xml/** en assets/data/*.json'
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'hammerfest.tools.ConvertData'
+  args new File(sourceDir, 'xml').absolutePath, new File(assetsDir, 'data').absolutePath
+}
+
+// ./gradlew tools:copyAssets  ->  images et sons d'origine
+tasks.register('copyAssets', Copy) {
+  group = 'hammerfest'
+  description = "Copie les images et sons d'origine dans assets/"
+  into assetsDir
+  // dalles : PNG d'origine mal numérotés, écrites par tileSkins depuis le SWF
+  from(new File(sourceDir, 'images')) { into 'images'; exclude 'tiles/**' }
+  from(new File(sourceDir, 'sfx')) { into 'sfx' }
+}
+
+// Export FFDec attendu dans build/swf-export (cf. PLAN.md) :
+//   <lib>.xml (-swf2xml) et <lib>/ (PNG des sprites, -export sprite)
+def swfExport = rootProject.file('build/swf-export')
+// Variantes du joueur (voir PlayerVariants) : Sandy, Igor et Sandy en tenue de foot
+// -Plibs=ending : n'assembler que ces bibliothèques (sans les variantes du joueur), pour gagner du temps
+def onlyLibs = project.findProperty('libs')?.toString()?.split(',') as List
+def spriteLibs = onlyLibs ?: ['anims', 'gfx', 'ending']
+def playerVariants = ['igor', 'sandy', 'soccer1', 'soccer2', 'head2', 'head3', 'head4', 'head5', 'head6',
+    'igor-chourou', 'sandy-chourou', 'head2-chourou', 'head3-chourou', 'head4-chourou', 'head5-chourou', 'head6-chourou',
+    'igor-lock', 'sandy-lock', 'head2-lock', 'head3-lock', 'head4-lock', 'head5-lock', 'head6-lock',
+    'soccer1-crown', 'soccer1-lose', 'soccer2-crown', 'soccer2-lose']
+
+// ./gradlew tools:layoutSprites  ->  assets/sprites/<lib>.json (images, cadres, sous-clips)
+tasks.register('layoutSprites') {
+  group = 'hammerfest'
+  description = 'Analyse les exports FFDec (XML) et écrit assets/sprites/<lib>.json'
+  dependsOn sourceSets.main.runtimeClasspath
+  doLast {
+    spriteLibs.each { lib ->
+      def xml = new File(swfExport, "${lib}.xml")
+      if (!xml.exists()) {
+        logger.warn("${xml} absent : lancer l'export FFDec -swf2xml (voir PLAN.md)")
+        return
+      }
+      // Images exportées depuis le SWF figé (freezeNested) : la mise en page doit venir du même XML, sinon les
+      // cadres des clips imbriqués (12 têtes d'Igor…) sont plus grands que les PNG et les sprites sont décalés.
+      def frozen = new File(swfExport, "${lib}-frozen.xml")
+      if (frozen.exists() && new File(swfExport, "_${lib}-frozen.swf").exists()) xml = frozen
+      project.javaexec {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'hammerfest.tools.SwfLayout'
+        maxHeapSize = '1g'
+        systemProperty 'hammerfest.levels', new File(assetsDir, 'data/levels').absolutePath
+        args xml.absolutePath, new File(swfExport, lib).absolutePath, new File(assetsDir, "sprites/${lib}.json").absolutePath
+      }
+    }
+    // Variantes du joueur (Sandy, tenues de foot) : même mise en page que anims, images de build/swf-export/anims-<v>
+    (onlyLibs ? [] : playerVariants).each { v ->
+      def png = new File(swfExport, "anims-${v}")
+      def animsXml = new File(swfExport, "anims-${v}.xml") // XML de la variante : cadres conformes à ses images
+      if (!animsXml.exists() || !png.exists()) return
+      project.javaexec {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'hammerfest.tools.SwfLayout'
+        maxHeapSize = '1g'
+        args animsXml.absolutePath, png.absolutePath, new File(assetsDir, "sprites/${v}.json").absolutePath,
+            'hammer_player', "hammer_player_${v}"
+      }
+      // Ancrages recalés sur les images d'Igor (corps et pieds identiques) : voir VariantAlign
+      project.javaexec {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'hammerfest.tools.VariantAlign'
+        maxHeapSize = '1g'
+        args new File(assetsDir, "sprites/${v}.json").absolutePath, png.absolutePath,
+            new File(assetsDir, 'sprites/anims.json').absolutePath, new File(swfExport, 'anims').absolutePath
+      }
+    }
+  }
+}
+
+// ./gradlew tools:playerVariants  ->  build/swf-export/anims-<v>.xml (tête et costume de Sandy, tenues de foot)
+// et les commandes FFDec qui en exportent les images du joueur dans build/swf-export/anims-<v>/.
+tasks.register('playerVariants') {
+  group = 'hammerfest'
+  description = 'Prépare les variantes du joueur (Sandy, tenues de foot) et affiche les commandes FFDec'
+  dependsOn sourceSets.main.runtimeClasspath
+  doLast {
+    project.javaexec {
+      classpath = sourceSets.main.runtimeClasspath
+      mainClass = 'hammerfest.tools.PlayerVariants'
+      maxHeapSize = '2g'
+      args new File(swfExport, 'anims.xml').absolutePath, swfExport.absolutePath
+    }
+  }
+}
+
+// ./gradlew tools:freezeNested  ->  build/swf-export/<lib>-frozen.xml : clips imbriqués figés par script
+// (tête d'Igor, arme tenue) réduits à leur 1re image. Ensuite (FFDec) :
+//   -xml2swf build/swf-export/<lib>-frozen.xml build/swf-export/_<lib>-frozen.swf
+//   -format sprite:png -export sprite build/swf-export/<lib> build/swf-export/_<lib>-frozen.swf
+tasks.register('freezeNested') {
+  group = 'hammerfest'
+  description = "Fige les clips imbriqués pilotés par script (tête d'Igor…) dans l'XML des SWF"
+  dependsOn sourceSets.main.runtimeClasspath
+  doLast {
+    spriteLibs.each { lib ->
+      def xml = new File(swfExport, "${lib}.xml")
+      if (!xml.exists()) return
+      project.javaexec {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'hammerfest.tools.FreezeNested'
+        maxHeapSize = '2g'
+        args xml.absolutePath, new File(swfExport, "${lib}-frozen.xml").absolutePath
+      }
+    }
+  }
+}
+
+// ./gradlew tools:packSprites  ->  assets/sprites/<lib>.atlas + pages PNG
+tasks.register('packSprites') {
+  group = 'hammerfest'
+  description = 'Assemble les PNG exportés par FFDec en atlas libGDX'
+  dependsOn 'layoutSprites'
+  doLast {
+    spriteLibs.each { lib ->
+      def json = new File(assetsDir, "sprites/${lib}.json")
+      if (!json.exists()) return
+      project.javaexec {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'hammerfest.tools.PackSprites'
+        maxHeapSize = '2g'
+        args json.absolutePath, new File(swfExport, lib).absolutePath, new File(assetsDir, 'sprites').absolutePath, lib
+      }
+    }
+    (onlyLibs ? [] : playerVariants).each { v ->
+      def json = new File(assetsDir, "sprites/${v}.json")
+      if (!json.exists()) return
+      project.javaexec {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'hammerfest.tools.PackSprites'
+        maxHeapSize = '2g'
+        args json.absolutePath, new File(swfExport, "anims-${v}").absolutePath, new File(assetsDir, 'sprites').absolutePath, v
+      }
+    }
+  }
+}
+
+// ./gradlew tools:copySounds  ->  assets/sounds/<nom>.mp3|wav depuis l'export FFDec de _sounds.swf
+// (export : -format sound:mp3_wav -export sound build/swf-export/sounds original_sources/hammerfest-master/swf/_sounds.swf).
+// FFDec nomme les fichiers "<id>_<nom d'export>.<ext>" : on ne garde que le nom d'export.
+tasks.register('copySounds', Copy) {
+  group = 'hammerfest'
+  description = "Copie les bruitages exportés de _sounds.swf dans assets/sounds"
+  from(new File(swfExport, 'sounds')) {
+    include '**/*.mp3', '**/*.wav'
+  }
+  // Le flux audio global du SWF (sans nom d'export) est exporté en "-1.wav" : on l'ignore.
+  exclude { it.name.startsWith('-') }
+  into new File(assetsDir, 'sounds')
+  eachFile { f ->
+    f.path = f.name.replaceFirst(/^\d+_/, '').replaceFirst(/^\$/, '')
+  }
+  includeEmptyDirs = false
+}
+
+tasks.named('test') {
+  systemProperty 'hammerfest.xml', new File(sourceDir, 'xml').absolutePath
+}
+
+// ./gradlew tools:tileSkins  ->  assets/images/tiles/tile_NN.png / end_NN.png (1 à 63, habillage n = image n), tirés de
+// l'export FFDec de gfx (clips 573 « skin » et 699 « endTile » du symbole « tile »)
+tasks.register('tileSkins', JavaExec) {
+  group = 'hammerfest'
+  description = "Écrit les textures de dalles depuis l'export du SWF (habillage n = image n)"
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'hammerfest.tools.TileSkins'
+  args new File(swfExport, 'gfx').absolutePath, new File(assetsDir, 'images/tiles').absolutePath
+}

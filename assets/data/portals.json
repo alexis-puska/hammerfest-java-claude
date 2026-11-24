@@ -1,0 +1,786 @@
+{
+  "tags" : [
+    {
+      "name" : "village",
+      "did" : 0,
+      "lid" : 0
+    },
+    {
+      "name" : "main02",
+      "did" : 0,
+      "lid" : 2
+    },
+    {
+      "name" : "main03",
+      "did" : 0,
+      "lid" : 3
+    },
+    {
+      "name" : "main06",
+      "did" : 0,
+      "lid" : 6
+    },
+    {
+      "name" : "main11",
+      "did" : 0,
+      "lid" : 11
+    },
+    {
+      "name" : "main13",
+      "did" : 0,
+      "lid" : 13
+    },
+    {
+      "name" : "main15",
+      "did" : 0,
+      "lid" : 15
+    },
+    {
+      "name" : "main16",
+      "did" : 0,
+      "lid" : 16
+    },
+    {
+      "name" : "main23",
+      "did" : 0,
+      "lid" : 23
+    },
+    {
+      "name" : "main25",
+      "did" : 0,
+      "lid" : 25
+    },
+    {
+      "name" : "main26",
+      "did" : 0,
+      "lid" : 26
+    },
+    {
+      "name" : "main33",
+      "did" : 0,
+      "lid" : 33
+    },
+    {
+      "name" : "main42",
+      "did" : 0,
+      "lid" : 42
+    },
+    {
+      "name" : "main43",
+      "did" : 0,
+      "lid" : 43
+    },
+    {
+      "name" : "main46",
+      "did" : 0,
+      "lid" : 46
+    },
+    {
+      "name" : "main51",
+      "did" : 0,
+      "lid" : 51
+    },
+    {
+      "name" : "main54",
+      "did" : 0,
+      "lid" : 54
+    },
+    {
+      "name" : "main55",
+      "did" : 0,
+      "lid" : 55
+    },
+    {
+      "name" : "main62",
+      "did" : 0,
+      "lid" : 62
+    },
+    {
+      "name" : "main63",
+      "did" : 0,
+      "lid" : 63
+    },
+    {
+      "name" : "main64",
+      "did" : 0,
+      "lid" : 64
+    },
+    {
+      "name" : "main72",
+      "did" : 0,
+      "lid" : 72
+    },
+    {
+      "name" : "main74",
+      "did" : 0,
+      "lid" : 74
+    },
+    {
+      "name" : "main77",
+      "did" : 0,
+      "lid" : 77
+    },
+    {
+      "name" : "main82",
+      "did" : 0,
+      "lid" : 82
+    },
+    {
+      "name" : "main86",
+      "did" : 0,
+      "lid" : 86
+    },
+    {
+      "name" : "main92",
+      "did" : 0,
+      "lid" : 92
+    },
+    {
+      "name" : "main97",
+      "did" : 0,
+      "lid" : 97
+    },
+    {
+      "name" : "d_temple",
+      "did" : 1,
+      "lid" : 0
+    },
+    {
+      "name" : "d_mario",
+      "did" : 1,
+      "lid" : 12
+    },
+    {
+      "name" : "d_bubble",
+      "did" : 1,
+      "lid" : 14
+    },
+    {
+      "name" : "d_sonic",
+      "did" : 1,
+      "lid" : 24
+    },
+    {
+      "name" : "d_bonus",
+      "did" : 1,
+      "lid" : 33
+    },
+    {
+      "name" : "d_hard",
+      "did" : 1,
+      "lid" : 35
+    },
+    {
+      "name" : "d_bois",
+      "did" : 1,
+      "lid" : 41
+    },
+    {
+      "name" : "d_base",
+      "did" : 1,
+      "lid" : 55
+    },
+    {
+      "name" : "d_cavavin",
+      "did" : 1,
+      "lid" : 59
+    },
+    {
+      "name" : "d_room",
+      "did" : 1,
+      "lid" : 68
+    },
+    {
+      "name" : "d_ice",
+      "did" : 1,
+      "lid" : 70
+    },
+    {
+      "name" : "d_iceTrap",
+      "did" : 1,
+      "lid" : 76
+    },
+    {
+      "name" : "d_forest1",
+      "did" : 1,
+      "lid" : 78
+    },
+    {
+      "name" : "d_blob",
+      "did" : 1,
+      "lid" : 80
+    },
+    {
+      "name" : "d_protect",
+      "did" : 1,
+      "lid" : 86
+    },
+    {
+      "name" : "d_forest2",
+      "did" : 1,
+      "lid" : 88
+    },
+    {
+      "name" : "d_alt",
+      "did" : 1,
+      "lid" : 97
+    },
+    {
+      "name" : "d_spdbonus",
+      "did" : 1,
+      "lid" : 108
+    },
+    {
+      "name" : "d_firstZone",
+      "did" : 1,
+      "lid" : 110
+    },
+    {
+      "name" : "d_mirror",
+      "did" : 1,
+      "lid" : 119
+    },
+    {
+      "name" : "d_flipzone",
+      "did" : 1,
+      "lid" : 125
+    },
+    {
+      "name" : "d_beko",
+      "did" : 1,
+      "lid" : 127
+    },
+    {
+      "name" : "d_dojo",
+      "did" : 1,
+      "lid" : 134
+    },
+    {
+      "name" : "d_hell",
+      "did" : 1,
+      "lid" : 141
+    },
+    {
+      "name" : "d_hellboss",
+      "did" : 1,
+      "lid" : 154
+    },
+    {
+      "name" : "d_hellmetal",
+      "did" : 1,
+      "lid" : 157
+    },
+    {
+      "name" : "d_framzone",
+      "did" : 1,
+      "lid" : 168
+    },
+    {
+      "name" : "d_egypt",
+      "did" : 1,
+      "lid" : 188
+    },
+    {
+      "name" : "d_egyptgate",
+      "did" : 1,
+      "lid" : 206
+    },
+    {
+      "name" : "d_tomb",
+      "did" : 1,
+      "lid" : 211
+    },
+    {
+      "name" : "d_kingtomb",
+      "did" : 1,
+      "lid" : 217
+    },
+    {
+      "name" : "hiko",
+      "did" : 2,
+      "lid" : 0
+    },
+    {
+      "name" : "a_easy1",
+      "did" : 3,
+      "lid" : 0
+    },
+    {
+      "name" : "a_irish",
+      "did" : 3,
+      "lid" : 6
+    },
+    {
+      "name" : "a_cat",
+      "did" : 3,
+      "lid" : 12
+    },
+    {
+      "name" : "a_kanji",
+      "did" : 3,
+      "lid" : 18
+    },
+    {
+      "name" : "a_skull",
+      "did" : 3,
+      "lid" : 24
+    },
+    {
+      "name" : "a_temple",
+      "did" : 3,
+      "lid" : 30
+    },
+    {
+      "name" : "a_easy2",
+      "did" : 3,
+      "lid" : 36
+    },
+    {
+      "name" : "a_medium",
+      "did" : 3,
+      "lid" : 42
+    },
+    {
+      "name" : "a_indian",
+      "did" : 3,
+      "lid" : 48
+    }
+  ],
+  "ways" : [
+    {
+      "type" : "oneway",
+      "from" : "village",
+      "to" : "d_forest1(-1)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_forest1",
+      "to" : "d_forest2(0)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_forest2(1)",
+      "to" : "d_forest2+1(1)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_forest2+1(0)",
+      "to" : "d_forest2+2(0)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_forest2+7",
+      "to" : "village(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main02",
+      "to" : "d_alt(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_alt+9",
+      "to" : "main02+9(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main03",
+      "to" : "d_beko(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_beko+3",
+      "to" : "d_beko+5(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_beko",
+      "to" : "main03(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_beko+5",
+      "to" : "main03+2(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main06",
+      "to" : "d_bonus(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_bonus",
+      "to" : "main06+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main15",
+      "to" : "d_bois(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_bois+12",
+      "to" : "main15+5(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main16",
+      "to" : "d_mario(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_mario",
+      "to" : "main16+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main25",
+      "to" : "d_protect(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_protect",
+      "to" : "main25+2(-1)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "main33",
+      "to" : "d_cavavin+1 (0)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_cavavin+1 (1)",
+      "to" : "d_cavavin+2"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_cavavin+3",
+      "to" : "d_cavavin+5"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_cavavin+4 (0)",
+      "to" : "d_cavavin+6 (0)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_cavavin+4 (1)",
+      "to" : "d_cavavin+6 (2)"
+    },
+    {
+      "type" : "twoway",
+      "from" : "d_cavavin+6 (1)",
+      "to" : "d_cavavin"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_cavavin+7",
+      "to" : "d_cavavin+6 (-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main43",
+      "to" : "d_bubble(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_bubble+7",
+      "to" : "main43+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_bubble+8",
+      "to" : "main43+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main46",
+      "to" : "d_firstZone(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_firstZone+7",
+      "to" : "main46+4(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main51",
+      "to" : "d_temple"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_temple",
+      "to" : "main51(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_temple+10",
+      "to" : "main51+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main62",
+      "to" : "d_sonic(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_sonic+3",
+      "to" : "main62+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_sonic+7",
+      "to" : "main62+7(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main63",
+      "to" : "d_base(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_base+2",
+      "to" : "main63+2(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main64",
+      "to" : "d_ice(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_ice+4",
+      "to" : "main64+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main74",
+      "to" : "d_room(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_room",
+      "to" : "main74+2(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main77",
+      "to" : "d_blob(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_blob+4",
+      "to" : "main77+3(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main82",
+      "to" : "d_hard(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hard+4",
+      "to" : "main82+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main55",
+      "to" : "d_iceTrap(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_iceTrap",
+      "to" : "main55+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main86",
+      "to" : "d_mirror(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_mirror+4",
+      "to" : "main86(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main97",
+      "to" : "d_flipzone(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_flipzone",
+      "to" : "main97+2(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main92",
+      "to" : "d_spdbonus(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_spdbonus",
+      "to" : "main92+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main23",
+      "to" : "d_dojo(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_dojo+5",
+      "to" : "main23+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main54",
+      "to" : "d_hell(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hell",
+      "to" : "main54+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hell+10",
+      "to" : "main54+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hell+12",
+      "to" : "d_hellboss(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hellboss+1(0)",
+      "to" : "d_hellmetal(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hellboss+1(1)",
+      "to" : "d_framzone(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hellmetal+9(0)",
+      "to" : "d_egyptgate(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_hellmetal+9(1)",
+      "to" : "main54+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_framzone+17(0)",
+      "to" : "main54+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_framzone+18(0)",
+      "to" : "d_tomb(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_egyptgate+3(0)",
+      "to" : "d_egypt(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_egypt+10(0)",
+      "to" : "d_kingtomb(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_egypt+16(0)",
+      "to" : "main54+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_kingtomb+9(0)",
+      "to" : "d_egypt+11(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_tomb+4(0)",
+      "to" : "main54+1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "village",
+      "to" : "hiko(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main11",
+      "to" : "a_easy1(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_easy1+4",
+      "to" : "main11+3(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main13",
+      "to" : "a_irish(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_irish+4",
+      "to" : "main13+3(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main26",
+      "to" : "a_cat(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_cat+4",
+      "to" : "main26+3(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main42",
+      "to" : "a_medium(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_medium+4",
+      "to" : "main42+3(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "main72",
+      "to" : "a_kanji(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_kanji+1",
+      "to" : "a_easy2(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_kanji+4",
+      "to" : "main72+3(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_easy2+4",
+      "to" : "a_kanji+2(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "d_bois+11",
+      "to" : "a_indian(-1)"
+    },
+    {
+      "type" : "oneway",
+      "from" : "a_indian+9",
+      "to" : "d_bois+12(-1)"
+    }
+  ]
+}

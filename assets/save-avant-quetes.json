@@ -1,0 +1,53 @@
+{
+  "version" : 1,
+  "playerName" : "alexis-puska",
+  "playerId" : "aaee75c0-e27e-4885-8840-9a9ece623301",
+  "lang" : "fr",
+  "fridge" : {
+    "0" : 16,
+    "4" : 4,
+    "7" : 1,
+    "10" : 2,
+    "13" : 1,
+    "71" : 1,
+    "74" : 2,
+    "103" : 1,
+    "117" : 1,
+    "1000" : 58,
+    "1003" : 11,
+    "1027" : 2,
+    "1051" : 4,
+    "1221" : 1,
+    "1222" : 1,
+    "1224" : 1,
+    "5012" : 1
+  },
+  "completedQuests" : [
+    2,
+    10,
+    65
+  ],
+  "unlockedFamilies" : [
+    0,
+    1,
+    8,
+    13,
+    15,
+    18,
+    102,
+    1000,
+    1028,
+    5012
+  ],
+  "unlockedOptions" : [ ],
+  "unlockedModes" : [ ],
+  "stats" : {
+    "bestScore" : 154535,
+    "maxLevel" : 100,
+    "gamesPlayed" : 19,
+    "itemsCollected" : 108,
+    "bestTime" : 0
+  },
+  "lastMode" : "adventure",
+  "lastOptions" : [ ]
+}
