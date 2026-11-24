@@ -487,10 +487,12 @@ public final class GameView implements Disposable {
             if (shader != null) batch.setShader(shader);
             batch.setColor(1, 1, 1, f.alphas[i]);
             sprites.innerRotation = f.innerRotations != null ? f.innerRotations[i] : Float.NaN;
+            sprites.visiblePart = (f.extras[i] & RenderFrame.EXTRA_BALL) != 0 ? "balle" : null; // balle de la fraise
             boolean drawn = drawFireBall(f, i, link, x)
                     || sprites.draw(batch, link, f.anims[i], f.subs[i], x, f.ys[i],
                     f.xscales[i], f.scales[i], f.rotations[i], LevelRenderer.DOC_HEIGHT, f.subTransforms, i * 5);
             sprites.innerRotation = Float.NaN;
+            sprites.visiblePart = null;
             if (shader != null) batch.setShader(null);
             if (!drawn) { // sprites non exportés : silhouette provisoire
                 batch.setColor(0.95f, 0.95f, 1f, 1f);

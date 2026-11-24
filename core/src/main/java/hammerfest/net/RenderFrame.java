@@ -43,6 +43,8 @@ public class RenderFrame {
     public boolean multi, soccer, timeAttack, bossRush, tutorial, gameOver, victory;
 
     // ------------------------------------------------------------------ entités, dans l'ordre de dessin
+    /** Bit de {@link #extras} d'une fraise qui tient la balle (couche « balle » de son sprite affichée). */
+    public static final int EXTRA_BALL = 1 << 26;
     /** Nombre d'entités dessinées derrière les joueurs, en tête de liste (Tuberculoz vaincu : DP_SPRITE_BACK_LAYER). */
     public int backEntities;
     /** Nombre de joueurs dans la liste des entités, juste après les {@link #backEntities} (les joueurs visibles). */
@@ -280,6 +282,10 @@ public class RenderFrame {
                     ninja.add((float) b.x);
                     ninja.add((float) (b.y - Const.CASE_HEIGHT * 1.8));
                     ninja.add(b.fl_ninFoe ? 1f : 2f);
+                }
+                // fraise qui tient la balle (Fraise.mt : sub.balle._visible = fl_ball)
+                if (b instanceof hammerfest.sim.entity.bad.Fruits.Fraise && ((hammerfest.sim.entity.bad.Fruits.Fraise) b).fl_ball) {
+                    extra |= EXTRA_BALL;
                 }
             }
             f.extras[i] = extra;

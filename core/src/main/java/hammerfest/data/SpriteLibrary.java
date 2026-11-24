@@ -63,6 +63,11 @@ public class SpriteLibrary {
         public boolean loop;
         /** Couche animée dessinée sous l'image (sinon par-dessus). */
         public boolean under;
+        /**
+         * Couche affichée à la demande seulement (absente de l'image : balle de la fraise) : nom de la partie, que
+         * l'entité doit demander ({@code Sprites.visiblePart}) ; null = couche toujours dessinée.
+         */
+        public String part;
         public float a = 1;
         public float b;
         public float c;

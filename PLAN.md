@@ -53,8 +53,11 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
 2. `./gradlew tools:freezeNested` écrit `build/swf-export/<lib>-frozen.xml` :
    - clips imbriqués figés par script (tête `head`, costume `skin`, arme `currentWeapon`) réduits à une image ;
    - textes par défaut des champs vidés (« pouet », « blabla »… : le jeu dessine le vrai texte) ;
-   - enfants affichés à la demande retirés (`HIDDEN_CHILDREN` : lettres EXTEND du bandeau, jauge et pointeur de la carte).
-   Puis FFDec `-xml2swf` vers `_<lib>-frozen.swf` et réexport des PNG (`./export-gfx.sh` pour gfx, qui exporte aussi les
+   - enfants affichés à la demande retirés (`HIDDEN_CHILDREN` : lettres EXTEND du bandeau, jauge et pointeur de la carte ;
+     `HIDDEN_IN_SUBS`, dans les sous-clips « sub » : balle de la fraise, redessinée par `SwfLayout.toggleLayers` comme
+     couche `part` que seule la fraise qui tient la balle affiche, `RenderFrame.EXTRA_BALL`).
+   Puis FFDec `-xml2swf` vers `_<lib>-frozen.swf` et réexport des PNG (`./export-frozen.sh <lib> [ids…]` pour anims et
+   ending, `./export-gfx.sh` pour gfx, qui exporte aussi les
    polices `hammerfest.ttf` et `satans.ttf`).
 3. Variantes du joueur : `./gradlew tools:playerVariants` puis `./export-variants.sh [variantes…]` :
    `igor`, `sandy`, `soccer1`, `soccer2`, chapeaux `head2`…`head6`, avec collier `<v>-chourou`, sans arme `<v>-lock`.

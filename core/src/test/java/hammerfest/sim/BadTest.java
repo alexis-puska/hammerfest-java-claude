@@ -303,4 +303,20 @@ class BadTest {
             return 0;
         }
     }
+
+    @Test
+    void onlyTheStrawberryHoldingTheBallShowsIt() {
+        Game g = game(Const.BAD_FRAISE, 15, 5);
+        hammerfest.sim.entity.bad.Fruits.attach(g, Const.BAD_FRAISE, Entity2.xCtr(20), Entity2.yCtr(14));
+        hammerfest.sim.entity.bad.Fruits.attach(g, Const.BAD_FRAISE, Entity2.xCtr(10), Entity2.yCtr(14));
+        GameTest.run(g, 2, 0);
+        int holders = 0, shown = 0;
+        for (var e : g.getList(Const.BAD)) {
+            if (((hammerfest.sim.entity.bad.Fruits.Fraise) e).fl_ball) holders++;
+        }
+        hammerfest.net.RenderFrame f = hammerfest.net.RenderFrame.capture(g, java.util.List.of(), false);
+        for (int i = 0; i < f.extras.length; i++) if ((f.extras[i] & hammerfest.net.RenderFrame.EXTRA_BALL) != 0) shown++;
+        assertEquals(1, holders, "une seule balle pour trois fraises");
+        assertEquals(1, shown, "seule la fraise qui la tient la montre");
+    }
 }

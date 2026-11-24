@@ -613,6 +613,40 @@ public final class SwfLayout {
         int id;
         Matrix m;
         boolean under;
+        /** Enfant affiché à la demande (balle de la fraise) : nom de la partie, null = couche toujours dessinée. */
+        String part;
+    }
+
+    /**
+     * Couches « à la demande » : enfants des sous-clips retirés des images par FreezeNested.HIDDEN_IN_SUBS (balle de la
+     * fraise), placés image par image d'après l'XML d'origine ; le jeu ne les dessine que si l'entité le demande.
+     */
+    void toggleLayers(Map<Integer, Map<Integer, List<LayerSpec>>> out) {
+        SwfLayout src = partsSource != null ? partsSource : this;
+        for (Map.Entry<String, List<String>> e : FreezeNested.HIDDEN_IN_SUBS.entrySet()) {
+            Integer sid = src.exports.get(e.getKey());
+            if (sid == null || !src.sprites.containsKey(sid)) continue;
+            for (int subId : FreezeNested.subClips(src, sid)) {
+                List<TreeMap<Integer, Placed>> frames = src.sprites.get(subId).frames;
+                for (int f = 0; f < frames.size(); f++) {
+                    int minOther = Integer.MAX_VALUE;
+                    for (Map.Entry<Integer, Placed> d : frames.get(f).entrySet()) {
+                        String n = d.getValue().name;
+                        if (n == null || !e.getValue().contains(n)) minOther = Math.min(minOther, d.getKey());
+                    }
+                    for (Map.Entry<Integer, Placed> d : frames.get(f).entrySet()) {
+                        Placed p = d.getValue();
+                        if (p.name == null || !e.getValue().contains(p.name) || !sprites.containsKey(p.id)) continue;
+                        LayerSpec l = new LayerSpec();
+                        l.id = p.id;
+                        l.m = p.matrix;
+                        l.under = d.getKey() < minOther;
+                        l.part = p.name;
+                        out.computeIfAbsent(subId, k -> new TreeMap<>()).computeIfAbsent(f, k -> new ArrayList<>()).add(l);
+                    }
+                }
+            }
+        }
     }
 
     /** Clip animé qui joue seul (plusieurs images, pas de stop() d'entrée). */
@@ -760,6 +794,7 @@ public final class SwfLayout {
         // (pièce qui rebondit une fois puis tourne sur elle-même : 2905 s'arrête, son enfant 2904 continue)
         Set<Integer> loopTargets = new HashSet<>();
         Map<Integer, Map<Integer, List<LayerSpec>>> layers = onlySymbol == null ? enemyLayers() : Map.of();
+        if (onlySymbol == null) toggleLayers(layers);
         for (Map<Integer, List<LayerSpec>> m : layers.values()) for (List<LayerSpec> l : m.values()) for (LayerSpec s : l) todo.add(s.id);
         while (!todo.isEmpty()) {
             int id = todo.poll();
@@ -861,6 +896,7 @@ public final class SwfLayout {
                         p.ty = (float) (ly.m.ty / TWIPS);
                         p.loop = true;
                         p.under = ly.under;
+                        p.part = ly.part;
                         pl.add(p);
                     }
                     clip.layers.add(pl);

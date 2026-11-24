@@ -133,6 +133,9 @@ public class Sprites implements Disposable, FrameSource {
     /** Horloge (cycles de jeu) des clips qui jouent en boucle tout seuls ({@link SpriteLibrary.Placement#loop}). */
     public long animClock;
 
+    /** Couche affichée à la demande que l'entité dessinée montre ({@link SpriteLibrary.Placement#part}), null = aucune. */
+    public String visiblePart;
+
     /** Variante avec _rotation (degrés, sens horaire comme Flash). */
     public boolean draw(SpriteBatch batch, String linkage, int animId, int subFrame,
                         float x, float y, float scaleX, float scaleY, float rotationDeg, float worldHeight) {
@@ -231,6 +234,7 @@ public class Sprites implements Disposable, FrameSource {
                             float x, float y, float scaleX, float scaleY, float rotationDeg, float worldHeight) {
         for (SpriteLibrary.Placement p : layers) {
             if (p.under != under) continue;
+            if (p.part != null && !p.part.equals(visiblePart)) continue; // affichée à la demande seulement
             SpriteLibrary.Clip lc = l.clips.get(p.id);
             if (lc == null) continue;
             TextureAtlas.AtlasRegion r = region(lib, p.id, Math.min(Math.max(loopFrame(lc), 1), lc.frames) - 1);

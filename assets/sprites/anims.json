@@ -7531,7 +7531,247 @@
       "stopFrames" : [ ],
       "removeFrame" : 0,
       "loopLength" : 0,
-      "loopStart" : 0
+      "loopStart" : 0,
+      "layers" : [
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -10.15,
+            "ty" : 3.95
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.55,
+            "ty" : 5.8
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.15,
+            "ty" : 7.1
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.9,
+            "ty" : 7.9
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.8,
+            "ty" : 8.15
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.7,
+            "ty" : 5.85
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.6,
+            "ty" : 3.85
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.5,
+            "ty" : 2.2
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.45,
+            "ty" : 0.9
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.4,
+            "ty" : -0.1
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.7,
+            "ty" : 0.55
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.05,
+            "ty" : 1.45
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.55,
+            "ty" : 2.5
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -10.1,
+            "ty" : 3.8
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -10.75,
+            "ty" : 5.35
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -10.9,
+            "ty" : 4.65
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -11.05,
+            "ty" : 3.95
+          }
+        ]
+      ]
     },
     "1758" : {
       "frames" : 12,
@@ -7544,7 +7784,177 @@
       "stopFrames" : [ ],
       "removeFrame" : 0,
       "loopLength" : 0,
-      "loopStart" : 0
+      "loopStart" : 0,
+      "layers" : [
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -7.0,
+            "ty" : 5.4
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -11.05,
+            "ty" : 7.1
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -13.5,
+            "ty" : 8.1
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -14.3,
+            "ty" : 8.45
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -8.7,
+            "ty" : 5.65
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -4.5,
+            "ty" : 3.55
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -1.7,
+            "ty" : 2.15
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -0.65,
+            "ty" : 2.6
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.9,
+            "ty" : 3.25
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 2.95,
+            "ty" : 4.1
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -2.0,
+            "ty" : 4.75
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -7.0,
+            "ty" : 5.4
+          }
+        ]
+      ]
     },
     "1762" : {
       "frames" : 1,
@@ -7674,16 +8084,130 @@
     },
     "1792" : {
       "frames" : 8,
-      "x" : -17.87411,
+      "x" : -16.902796,
       "y" : -27.630913,
-      "w" : 37.0,
+      "w" : 36.0,
       "h" : 42.0,
       "subs" : [ ],
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
       "loopLength" : 0,
-      "loopStart" : 0
+      "loopStart" : 0,
+      "layers" : [
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ],
+        [
+          {
+            "id" : 1744,
+            "loop" : true,
+            "under" : false,
+            "part" : "balle",
+            "a" : 0.933197,
+            "b" : -0.3561554,
+            "c" : 0.3561554,
+            "d" : 0.933197,
+            "tx" : -6.85,
+            "ty" : 5.7
+          }
+        ]
+      ]
     },
     "1793" : {
       "frames" : 9,

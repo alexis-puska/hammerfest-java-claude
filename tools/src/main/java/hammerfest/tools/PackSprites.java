@@ -67,6 +67,10 @@ public final class PackSprites {
                     SpriteLibrary.Clip owner = lib.clips.get(id);
                     java.util.List<SpriteLibrary.Placement> layerList = owner != null && owner.layers != null
                             && frame - 1 < owner.layers.size() ? owner.layers.get(frame - 1) : null;
+                    if (layerList != null) { // couches à la demande (balle de la fraise) : déjà absentes de l'image
+                        layerList = layerList.stream().filter(p -> p.part == null).collect(java.util.stream.Collectors.toList());
+                        if (layerList.isEmpty()) layerList = null;
+                    }
                     if (layerList != null || cut != null) {
                         File src = f;
                         if (cut != null) { // lame de la scie, puis couches animées éventuelles

@@ -51,6 +51,19 @@ public final class FreezeNested {
                 }
             }
         }
+        // Même chose dans les sous-clips « sub » du symbole (balle de la fraise : sub.balle._visible)
+        for (Map.Entry<String, java.util.List<String>> e : HIDDEN_IN_SUBS.entrySet()) {
+            Integer sid = layout.exports.get(e.getKey());
+            if (sid == null || !layout.sprites.containsKey(sid)) continue;
+            for (int subId : subClips(layout, sid)) {
+                for (java.util.TreeMap<Integer, SwfLayout.Placed> frame : layout.sprites.get(subId).frames) {
+                    for (Map.Entry<Integer, SwfLayout.Placed> d : frame.entrySet()) {
+                        String n = d.getValue().name;
+                        if (n != null && e.getValue().contains(n)) depths.computeIfAbsent(subId, k -> new java.util.TreeSet<>()).add(d.getKey());
+                    }
+                }
+            }
+        }
         if (!depths.isEmpty()) {
             int removed = hideDepths(Path.of(args[1]), depths);
             System.out.println(removed + " placements d'enfants affichés par script retirés " + depths);
@@ -60,6 +73,21 @@ public final class FreezeNested {
     /** Symbole → préfixe du nom des enfants que le jeu n'affiche qu'à la demande (dessinés à part par le jeu). */
     static final Map<String, java.util.List<String>> HIDDEN_CHILDREN = Map.of("hammer_interf_game", java.util.List.of("letter"),
             "hammer_map", java.util.List.of("pit", "ptr"));
+
+    /**
+     * Symbole → nom exact des enfants de ses sous-clips « sub » que le jeu n'affiche qu'à la demande, dessinés à part
+     * (couche « part » de SwfLayout.TOGGLE_PARTS) : balle tenue par la fraise qui l'a (Fraise.mt : sub.balle._visible).
+     */
+    static final Map<String, java.util.List<String>> HIDDEN_IN_SUBS = Map.of("hammer_bad_fraise", java.util.List.of("balle"));
+
+    /** Sous-clips « sub » placés dans les images du symbole {@code sid}. */
+    static Set<Integer> subClips(SwfLayout layout, int sid) {
+        Set<Integer> out = new java.util.TreeSet<>();
+        for (java.util.TreeMap<Integer, SwfLayout.Placed> frame : layout.sprites.get(sid).frames) {
+            for (SwfLayout.Placed p : frame.values()) if ("sub".equals(p.name) && layout.sprites.containsKey(p.id)) out.add(p.id);
+        }
+        return out;
+    }
 
     /** Retire, dans les sprites donnés, les placements et retraits aux profondeurs données (réécrit le fichier). */
     static int hideDepths(Path file, Map<Integer, Set<Integer>> depths) throws Exception {

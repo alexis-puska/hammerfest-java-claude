@@ -208,12 +208,14 @@ image, textes par défaut des champs vidés, éléments affichés à la demande 
 ### 4. Images des sprites
 
 ```bash
-for lib in anims ending; do
-  $FFDEC -xml2swf build/swf-export/$lib-frozen.xml build/swf-export/_$lib-frozen.swf
-  $FFDEC -format sprite:png -export sprite build/swf-export/$lib build/swf-export/_$lib-frozen.swf
-done
+./export-frozen.sh anims
+./export-frozen.sh ending
 ./export-gfx.sh   # même chose pour gfx, plus les polices assets/fonts/hammerfest.ttf et satans.ttf
 ```
+
+Après une modification de `FreezeNested` qui ne touche que quelques sprites, inutile de tout réexporter :
+`./export-frozen.sh anims 1755 1758 1792` (identifiants des sprites, ici la fraise) ne remplace que ceux-là, puis
+`./gradlew tools:packSprites -Plibs=anims`.
 
 ### 5. Variantes du joueur (Sandy, chapeaux, tenues de foot, collier, sans arme)
 
