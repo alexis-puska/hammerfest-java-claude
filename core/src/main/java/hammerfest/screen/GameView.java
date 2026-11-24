@@ -468,12 +468,12 @@ public final class GameView implements Disposable {
 
     private void drawEntities(RenderFrame f) {
         if (f.ids == null) return;
-        int playerCount = f.playerEntities;
-        if (playerCount == 0) drawShields(f);
+        int firstPlayer = f.backEntities, endPlayers = firstPlayer + f.playerEntities; // joueurs : [first, end)
+        if (f.playerEntities == 0) drawShields(f);
         for (int i = 0; i < f.ids.length; i++) {
             String link = f.links[i];
             com.badlogic.gdx.graphics.glutils.ShaderProgram shader = null;
-            if (i < playerCount) {
+            if (i >= firstPlayer && i < endPlayers) {
                 link = playerLinkage(link, f.extras[i]);
                 int weapon = ((f.extras[i] >> 16) & 0xff) - 1;
                 if (weapon != 1) shader = scarf.forWeapon(weapon); // bombe classique : l'écharpe est déjà violette
@@ -497,7 +497,7 @@ public final class GameView implements Disposable {
                 batch.draw(white, x - 10, LevelRenderer.DOC_HEIGHT - f.ys[i], 20, 20);
             }
             batch.setColor(Color.WHITE);
-            if (i == playerCount - 1) drawShields(f); // bulles juste au-dessus des joueurs
+            if (i == endPlayers - 1 && f.playerEntities > 0) drawShields(f); // bulles juste au-dessus des joueurs
         }
         sprites.animClock = f.cycle;
         if (births.size() > 512) { // oubli des entités disparues

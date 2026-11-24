@@ -43,7 +43,9 @@ public class RenderFrame {
     public boolean multi, soccer, timeAttack, bossRush, tutorial, gameOver, victory;
 
     // ------------------------------------------------------------------ entités, dans l'ordre de dessin
-    /** Nombre de joueurs en tête de la liste des entités (les joueurs visibles). */
+    /** Nombre d'entités dessinées derrière les joueurs, en tête de liste (Tuberculoz vaincu : DP_SPRITE_BACK_LAYER). */
+    public int backEntities;
+    /** Nombre de joueurs dans la liste des entités, juste après les {@link #backEntities} (les joueurs visibles). */
     public int playerEntities;
     public int[] ids;
     public String[] links;
@@ -178,16 +180,29 @@ public class RenderFrame {
         }
         f.victory = g.fl_victory;
 
-        // entités : profondeurs Flash DP_PLAYER < DP_ITEMS < DP_SHOTS < DP_BADS < DP_BOMBS < DP_SUPA
-        List<Animator> order = new ArrayList<>();
+        // entités : profondeurs Flash DP_SPRITE_BACK_LAYER < DP_PLAYER < DP_ITEMS < DP_SHOTS < DP_BADS < DP_BOMBS
+        // < DP_SUPA. Tuberculoz n'est pas un Bad (liste BOSS seulement, contrairement à la chauve-souris) : dessiné
+        // avec les ennemis (DP_BADS), puis derrière tout une fois vaincu (openExit : DP_SPRITE_BACK_LAYER).
+        List<Animator> back = new ArrayList<>(), bosses = new ArrayList<>();
+        for (Entity e : g.getList(Const.BOSS)) {
+            if (e instanceof Bad || !(e instanceof Animator)) continue;
+            boolean defeated = e instanceof hammerfest.sim.entity.boss.Tuberculoz
+                    && ((hammerfest.sim.entity.boss.Tuberculoz) e).fl_defeated;
+            (defeated ? back : bosses).add((Animator) e);
+        }
+        List<Animator> order = new ArrayList<>(back);
         for (Player p : g.players()) order.add(p);
         for (int type : new int[]{Const.ITEM, Const.SHOOT, Const.BAD, Const.BOMB, Const.SUPA}) {
             for (Entity e : g.getList(type)) if (e instanceof Animator) order.add((Animator) e);
+            if (type == Const.BAD) order.addAll(bosses);
         }
         List<Animator> shown = new ArrayList<>();
         for (Animator a : order) if (a.visible) shown.add(a);
         int n = shown.size();
-        for (Animator a : shown) if (a instanceof Player) f.playerEntities++;
+        for (Animator a : shown) {
+            if (a instanceof Player) f.playerEntities++;
+            else if (back.contains(a)) f.backEntities++;
+        }
         f.ids = new int[n];
         f.links = new String[n];
         f.anims = new short[n];

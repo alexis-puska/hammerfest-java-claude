@@ -97,4 +97,35 @@ class BossTest {
         GameTest.run(g, Const.SECOND * 16, 0);
         assertEquals(0, g.countList(Const.SHOOT), "calmé après 15 s");
     }
+
+    /** Index de {@code link} dans les entités de l'instantané, -1 = absent. */
+    static int drawn(Game g, String link) {
+        hammerfest.net.RenderFrame f = hammerfest.net.RenderFrame.capture(g, java.util.List.of(), false);
+        for (int i = 0; i < f.links.length; i++) if (link.equals(f.links[i])) return i;
+        return -1;
+    }
+
+    @Test
+    void tuberculozIsDrawnWithEnemiesThenBehindPlayersOnceDefeated() {
+        Game g = tuberculozLevel();
+        var tub = (hammerfest.sim.entity.boss.Tuberculoz) g.getOne(Const.BOSS);
+        g.players().get(0).shield(Const.SECOND * 10000);
+        GameTest.run(g, Const.SECOND * 2, 0);
+        hammerfest.net.RenderFrame f = hammerfest.net.RenderFrame.capture(g, java.util.List.of(), false);
+        int i = drawn(g, "hammer_boss_human");
+        assertTrue(i >= f.backEntities + f.playerEntities, "dessiné (liste BOSS, pas BAD), après les joueurs");
+        assertEquals(0, f.backEntities);
+
+        for (int k = 0; k < 200 && !tub.fl_death; k++) {
+            GameTest.run(g, Const.SECOND * 3 + 1, 0);
+            g.players().get(0).shield(Const.SECOND * 10000);
+            g.onExplode(tub.x, tub.y - 28, 60);
+        }
+        for (int k = 0; k < Const.SECOND * 30 && !tub.fl_defeated; k++) GameTest.run(g, 1, 0);
+        assertTrue(tub.fl_defeated);
+        tub.visible = true; // clignotement éventuel
+        f = hammerfest.net.RenderFrame.capture(g, java.util.List.of(), false);
+        assertEquals(1, f.backEntities, "vaincu : derrière les joueurs");
+        assertEquals(0, drawn(g, "hammer_boss_human"));
+    }
 }
