@@ -73,10 +73,17 @@ public class OnlineClientScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if (finished) return; // session fermée, écran suivant affiché à la prochaine image (HammerfestGame.show)
         for (NetEvent e = client.poll(); e != null; e = client.poll()) {
             if (e.type == NetEvent.Type.MESSAGE && e.message instanceof RenderFrame) {
                 receive((RenderFrame) e.message);
             } else if (e.type == NetEvent.Type.DISCONNECTED) {
+                // l'hôte a quitté juste après son dernier instantané (Échap : fin de partie) : on termine
+                // normalement (récapitulatif, objets rangés au frigo) au lieu de revenir au menu sans rien garder
+                if (current != null && current.gameOver && !finished) {
+                    finishGame();
+                    return;
+                }
                 leave((e.name != null ? e.name : "L'hôte") + " a quitté la partie (" + e.text + ")");
                 return;
             }

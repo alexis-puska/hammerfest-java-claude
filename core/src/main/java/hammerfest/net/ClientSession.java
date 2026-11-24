@@ -109,17 +109,44 @@ public final class ClientSession implements Closeable {
 
     private void closeQuietly() {
         closing = true;
-        new Thread(client::stop, "hammerfest-client-stop").start(); // pas depuis le thread réseau lui-même
+        new Thread(this::stopOnce, "hammerfest-client-stop").start(); // pas depuis le thread réseau lui-même
+    }
+
+    private final Object stopLock = new Object();
+    private boolean stopped;
+
+    /**
+     * Arrête le client une seule fois. KryoNet ne supporte pas deux arrêts simultanés : départ de l'hôte reçu
+     * ({@link #closeQuietly()}, autre thread) pendant que l'écran ferme la session ({@link #close()}) →
+     * NullPointerException dans UdpConnection.close (champ relu entre son test et son usage), qui faisait planter
+     * le jeu quand l'hôte quittait la partie.
+     */
+    private void stopOnce() {
+        synchronized (stopLock) {
+            if (stopped) return;
+            stopped = true;
+            try {
+                client.stop();
+            } catch (RuntimeException e) {
+                // connexion déjà fermée par le thread réseau de KryoNet : rien à faire
+            }
+        }
     }
 
     @Override
     public void close() {
         closing = true;
-        if (accepted && client.isConnected()) {
-            Net.Leave l = new Net.Leave();
-            l.reason = "Le joueur a quitté la partie";
-            client.sendTCP(l);
+        synchronized (stopLock) {
+            if (!stopped && accepted && client.isConnected()) {
+                Net.Leave l = new Net.Leave();
+                l.reason = "Le joueur a quitté la partie";
+                try {
+                    client.sendTCP(l);
+                } catch (RuntimeException e) {
+                    // connexion coupée entre-temps
+                }
+            }
         }
-        client.stop();
+        stopOnce();
     }
 }

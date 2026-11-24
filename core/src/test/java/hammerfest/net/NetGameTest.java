@@ -63,4 +63,23 @@ class NetGameTest {
             client.close();
         }
     }
+
+    /** L'hôte quitte (Leave + fermeture) pendant que le client ferme aussi sa session : aucune exception. */
+    @Test
+    void hostAndClientClosingTogetherIsSafe() throws Exception {
+        for (int round = 0; round < 10; round++) {
+            HostSession host = new HostSession("Alexis");
+            host.start(TCP + 10, UDP + 10, DISC + 10);
+            ClientSession client = new ClientSession();
+            client.connect(InetAddress.getLoopbackAddress(), TCP + 10, UDP + 10, "Bob", "id-bob");
+            NetEvent ask = LobbyTest.await(host::poll, 3000);
+            host.accept(ask.name);
+            assertEquals(NetEvent.Type.ACCEPTED, LobbyTest.await(client::poll, 3000).type);
+            host.close();
+            NetEvent left = LobbyTest.await(client::poll, 3000); // départ reçu : arrêt dans un autre thread
+            assertEquals(NetEvent.Type.DISCONNECTED, left.type);
+            assertDoesNotThrow(client::close);
+            assertDoesNotThrow(client::close, "fermer deux fois ne pose pas de problème");
+        }
+    }
 }
