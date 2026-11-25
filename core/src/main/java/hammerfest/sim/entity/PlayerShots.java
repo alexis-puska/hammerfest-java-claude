@@ -53,6 +53,7 @@ public final class PlayerShots {
     public static class Arrow extends Shoot {
         public Arrow() {
             super("hammer_shoot_arrow");
+            yOffset = -15;
             shootSpeed = 4;
             coolDown = SECOND * 2;
             fl_hitWall = true;
@@ -101,6 +102,7 @@ public final class PlayerShots {
 
         public Pearl() {
             super("hammer_shoot_player_pearl");
+            yOffset = -16;
             shootSpeed = 8.5;
             coolDown = SECOND * 2;
         }

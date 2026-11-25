@@ -21,6 +21,7 @@ public class FramBall extends Shoot {
 
     public FramBall() {
         super("hammer_shoot_framBall2");
+        yOffset = -2;
         fl_checkBounds = false;
         fl_blink = false;
     }

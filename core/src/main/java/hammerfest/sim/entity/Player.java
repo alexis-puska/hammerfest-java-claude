@@ -100,7 +100,7 @@ public class Player extends Physics {
 
         moveTo(x, y);
         if (g.fl_nightmare) speedFactor = 1.3;
-        if (g.hasOption("boost")) speedFactor = g.fl_nightmare ? 1.6 : 1.3;
+        if (boosted(g)) speedFactor = g.fl_nightmare ? 1.6 : 1.3;
         endUpdate();
     }
 
@@ -402,8 +402,16 @@ public class Player extends Physics {
         fl_stickyAnim = true;
         fl_lockControls = true;
         if (game.fl_nightmare) speedFactor = 1.3;
-        if (game.hasOption("boost")) speedFactor = game.fl_nightmare ? 1.6 : 1.3;
+        if (boosted(game)) speedFactor = game.fl_nightmare ? 1.6 : 1.3;
         game.upgradePlayer(this); // BossRush.onResurrect
+    }
+
+    /**
+     * Tornade (option « boost », cadeau de la quête des manettes) : Player.initPlayer / resurrect d'origine, sauf en
+     * Time Attack solo (game._name != "$time" ; le Time Attack à deux, « $timeMulti », l'a bien).
+     */
+    static boolean boosted(Game g) {
+        return g.hasOption("boost") && !(g.fl_timeAttack && g.set != null && "timeAttack".equals(g.set.name));
     }
 
     @Override

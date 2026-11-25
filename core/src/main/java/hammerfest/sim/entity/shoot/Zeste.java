@@ -12,6 +12,7 @@ public class Zeste extends Shoot {
 
     public Zeste() {
         super("hammer_shoot_zest");
+        yOffset = -CASE_HEIGHT;
         shootSpeed = 6;
     }
 

@@ -280,6 +280,15 @@ public class Game {
         checkLevelClear();
         // GameMode.main : fausse indication de sortie (ennemis revenus), pas de flèche en apprentissage ni au SoccerFest
         if (exitArrow && (countList(BAD_CLEAR) > 0 || fl_tutorial || fl_soccer)) detachExit();
+        // GameMode.main, « Enervement minimum » : en Cauchemar, tout ennemi à éliminer est au moins énervé d'un cran,
+        // dès son apparition et à nouveau après chaque calmDown (VITE !, mort d'un joueur, niveau suivant…)
+        if (fl_nightmare) {
+            for (Entity e : getList(BAD)) {
+                if (e instanceof hammerfest.sim.entity.Bad && e.isType(BAD_CLEAR) && ((hammerfest.sim.entity.Bad) e).anger == 0) {
+                    ((hammerfest.sim.entity.Bad) e).angerMore();
+                }
+            }
+        }
         if (shakeTimer > 0) {
             shakeTimer -= tmod;
             if (shakeTimer <= 0) {

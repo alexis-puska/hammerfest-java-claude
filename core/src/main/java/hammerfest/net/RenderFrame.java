@@ -224,7 +224,7 @@ public class RenderFrame {
             f.anims[i] = (short) a.animId;
             f.subs[i] = (short) a.subFrame;
             f.xs[i] = (float) (a.x + a.drawDx);
-            f.ys[i] = (float) (a.y + a.drawDy);
+            f.ys[i] = (float) (a.y + a.yOffset + a.drawDy);
             if (a.hasSubTransform()) {
                 if (f.subTransforms == null) {
                     f.subTransforms = new float[n * 5];
@@ -341,6 +341,10 @@ public class RenderFrame {
             f.predict[o + 5] = p.dir;
             // états où le déplacement n'obéit plus aux touches : pas de prédiction
             f.predict[o + 6] = !p.fl_kill && !p.fl_knock && !p.fl_lockControls && !p.fl_entering && p.visible ? 1 : 0;
+            f.predict[o + 7] = (float) p.speedFactor; // Cauchemar, Tornade, objets de vitesse
+            f.predict[o + 8] = (float) p.fallFactor;
+            f.predict[o + 9] = (float) p.gravityFactor;
+            f.predict[o + 10] = p.specialMan.active(88) ? 1 : 0; // rétréci : saut divisé par deux
         }
         f.chronoMs = g.chronoMs();
         f.lastLevelTime = g.times.isEmpty() ? -1 : g.times.get(g.times.size() - 1);

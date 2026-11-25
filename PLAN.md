@@ -131,6 +131,9 @@ Verdana du système (menus, parchemins), Satans (en-tête du tutoriel).
   `RenderFrame`.
 - Découverte LAN (`LanDiscovery`, UDP 54556) ; par Internet, saisie de l'adresse de l'hôte. Demande de connexion avec
   nom : l'hôte accepte ou refuse ; refus automatique si la partie est pleine ou la version différente.
+- Salon de l'hôte, une fois le joueur accepté : mode à deux (multi coopératif, SoccerFest, Time Attack à deux) et
+  mêmes options que l'écran Jouer (`ModeOptionsTable` partagé : partage de vies, miroir, cauchemar, terrain et
+  contrôle du ballon de SoccerFest), selon les déblocages de l'hôte.
 - UPnP (`UpnpPortService`, weupnp) : redirection TCP + UDP avec bail d'1 h renouvelé, supprimée à la fermeture ; l'IP
   externe s'affiche chez l'hôte. Sans UPnP : réseau local, ou port ouvert à la main.
 - Hôte qui fait foi : le client envoie ses touches à chaque cycle, l'hôte un instantané tous les 2 cycles (TCP).

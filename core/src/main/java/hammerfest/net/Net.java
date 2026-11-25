@@ -12,12 +12,12 @@ public final class Net {
     public static final int TCP_PORT = 54555, UDP_PORT = 54557, DISCOVERY_PORT = 54556;
     /**
      * Version du protocole : deux versions différentes ne peuvent pas jouer ensemble (refus à la connexion). À
-     * augmenter à chaque changement des messages, RenderFrame compris (2 : RenderFrame.backEntities, Tuberculoz).
+     * augmenter à chaque changement des messages, RenderFrame compris (2 : RenderFrame.backEntities, Tuberculoz ; 3 : état de prédiction à 11 valeurs).
      * Volontairement pas une constante de compilation (Integer.valueOf) : javac recopie les constantes dans les
      * classes qui les lisent, et la compilation incrémentale de Gradle avait laissé l'ancienne valeur dans
      * LanDiscovery (annonce « version 1 », liste « version différente » entre deux exe identiques).
      */
-    public static final int PROTOCOL_VERSION = Integer.valueOf(2);
+    public static final int PROTOCOL_VERSION = Integer.valueOf(3);
     /** Délai de réponse de l'hôte à une demande de connexion (ms). */
     public static final long JOIN_TIMEOUT_MS = 30_000;
     /** Tampons KryoNet : un instantané de dessin pèse quelques ko (le défaut, 2 ko, ne suffit pas). */

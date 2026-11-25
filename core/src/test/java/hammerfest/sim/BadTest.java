@@ -319,4 +319,26 @@ class BadTest {
         assertEquals(1, holders, "une seule balle pour trois fraises");
         assertEquals(1, shown, "seule la fraise qui la tient la montre");
     }
+
+    @Test
+    void nightmareKeepsEnemiesAngryFromTheStart() {
+        LevelData l = GameTest.level(15, 5, 14);
+        l.badList.add(new LevelData.Bad(Const.BAD_CERISE, 15, 14));
+        LevelSet set = new LevelSet("test");
+        set.levels.add(l);
+        set.levels.add(GameTest.level(15, 5, 5));
+        Game g = new Game(set, FrameSource.DEFAULT, 3L, Set.of(), Set.of("nightmare"));
+        g.start(0, 1);
+        GameTest.run(g, 2, 0);
+        Bad b = bad(g);
+        assertEquals(1, b.anger, "Cauchemar : énervé dès le début (GameMode.main, Enervement minimum)");
+        b.calmDown();
+        GameTest.run(g, 1, 0);
+        assertEquals(1, b.anger, "jamais calme en Cauchemar");
+        assertEquals(1.3, g.players().get(0).speedFactor, 1e-9, "Igor plus rapide");
+
+        Game normal = game(Const.BAD_CERISE, 15, 5);
+        GameTest.run(normal, 2, 0);
+        assertEquals(0, bad(normal).anger, "sans Cauchemar : calme au début");
+    }
 }

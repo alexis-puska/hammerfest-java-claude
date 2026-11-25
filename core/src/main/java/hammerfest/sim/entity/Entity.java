@@ -36,6 +36,11 @@ public abstract class Entity {
     public double subXscale = 100, subYscale = 100, subRotation;
     /** Décalage du clip entier à l'affichage (_x = x + …, vibrations). */
     public double drawDx, drawDy;
+    /**
+     * Décalage vertical d'affichage propre au type (Entity._yOffset d'origine : _y = y + _yOffset) : la flèche et la
+     * perle sont dessinées à hauteur du buste du joueur qui les tire (-15, -16), le zeste une case plus haut.
+     */
+    public double yOffset;
     /** Rotation (degrés) du sous-clip « sub » du sous-clip (sub.sub._rotation : lame de la scie) ; NaN = aucune. */
     public double innerRotation = Double.NaN;
     /** Filtre de couleur (setColorHex) : intensité 0..100 et couleur 0xRRGGBB. */

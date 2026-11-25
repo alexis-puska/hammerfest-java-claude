@@ -21,8 +21,12 @@ import static hammerfest.sim.Const.*;
  */
 public final class MovePredictor {
 
-    /** État d'un joueur envoyé par l'hôte (RenderFrame.predict) : x, y, dx, dy, appui, direction, prédictible. */
-    public static final int STATE_SIZE = 7;
+    /**
+     * État d'un joueur envoyé par l'hôte (RenderFrame.predict) : x, y, dx, dy, appui, direction, prédictible, puis ce
+     * qui change le déplacement et que le fantôme (partie sans options ni objets) ne connaît pas : vitesse (Cauchemar,
+     * Tornade, objets), chute, gravité, rétrécissement (objet 88 : saut divisé par deux).
+     */
+    public static final int STATE_SIZE = Integer.valueOf(11); // lue à l'exécution : voir Net.PROTOCOL_VERSION
     /** Touches rejouées au plus (≈ 2 s de latence). */
     static final int MAX_PENDING = 64;
 
@@ -104,6 +108,10 @@ public final class MovePredictor {
         player.dy = state[offset + 3];
         player.fl_stable = state[offset + 4] != 0;
         player.dir = (int) state[offset + 5];
+        player.speedFactor = state[offset + 7];
+        player.fallFactor = state[offset + 8];
+        player.gravityFactor = state[offset + 9];
+        player.specialMan.actives[88] = state[offset + 10] != 0;
         player.fl_entering = false; // prédictible = ni en entrée de niveau, ni bloqué, ni assommé (état de l'hôte)
         player.fl_lockControls = false;
         player.fl_knock = false;

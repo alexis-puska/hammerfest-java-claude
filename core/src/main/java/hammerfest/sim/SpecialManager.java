@@ -230,6 +230,7 @@ public class SpecialManager {
                     s.moveToTarget(b, s.shootSpeed);
                     s.fl_borderBounce = true;
                     s.setLifeTimer(SECOND * 3 + game.random(400) / 10.0);
+                    s.yOffset = 0; // lancées depuis la tête du joueur : pas de décalage (s._yOffset = 0)
                 }
                 break;
             case 25: // boules de feu : 4 descendent, 4 montent

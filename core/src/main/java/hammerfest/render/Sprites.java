@@ -54,9 +54,22 @@ public class Sprites implements Disposable, FrameSource {
         return !atlases.isEmpty();
     }
 
+    /**
+     * Ordre de recherche d'un nom exporté par plusieurs bibliothèques. Le jeu d'origine est un seul game.swf (swfmake :
+     * _gfx, _editor, _anims, _sounds, _ending fusionnés) et, pour un nom exporté deux fois, le lecteur Flash garde le
+     * dernier ExportAssets. Seul cas qui diffère : « statue », grande statue banane ninja dans anims (export n° 132
+     * de game.swf) et petite statue de gfx (export n° 161, celle qui s'affiche) : décor des niveaux du temple et de
+     * l'enfer (dimension du niveau 54). « partExplosion » est le même clip dans anims et ending.
+     */
+    static final String[] LOOKUP_ORDER = {"gfx", "ending", "anims"};
+
     /** Bibliothèque contenant le symbole, ou null. */
     private String libOf(String linkage) {
-        for (Map.Entry<String, SpriteLibrary> e : libs.entrySet()) {
+        for (String name : LOOKUP_ORDER) {
+            SpriteLibrary l = libs.get(name);
+            if (l != null && l.symbols.containsKey(linkage)) return name;
+        }
+        for (Map.Entry<String, SpriteLibrary> e : libs.entrySet()) { // variantes du joueur…
             if (e.getValue().symbols.containsKey(linkage)) return e.getKey();
         }
         return null;

@@ -60,4 +60,25 @@ class MovePredictorTest {
         }
         assertEquals(host.players().get(0).x, predictor.player().x, 0.5, "même glissade que l'hôte");
     }
+
+    /** Cauchemar et Tornade (Igor plus rapide) : le fantôme, partie sans options, reprend la vitesse de l'hôte. */
+    @Test
+    void predictionUsesHostSpeedFactor() {
+        LevelData level = GameTest.level(15, 5, 12);
+        hammerfest.data.LevelSet set = new hammerfest.data.LevelSet("test");
+        set.levels.add(level);
+        Game host = new Game(set, FrameSource.DEFAULT, 1L, java.util.Set.of(), java.util.Set.of("nightmare", "boost"));
+        host.start(0, 1);
+        GameTest.run(host, 40, 0);
+        assertEquals(1.6, host.players().get(0).speedFactor, 1e-9, "Cauchemar + Tornade");
+        MovePredictor predictor = new MovePredictor(FrameSource.DEFAULT);
+        RenderFrame f = RenderFrame.capture(host, List.of(), true);
+        predictor.setLevel("test/0/0", level, f.grid, f.gridVersion);
+        predictor.reconcile(-1, f.predict, 0);
+        for (int t = 0; t < 16; t++) {
+            predictor.step(t, InputFrame.RIGHT);
+            host.tick(new InputFrame(host.cycle, InputFrame.RIGHT));
+        }
+        assertEquals(host.players().get(0).x, predictor.player().x, 0.5, "même vitesse que le joueur de l'hôte");
+    }
 }

@@ -12,6 +12,7 @@ public class Pepin extends Shoot {
 
     public Pepin() {
         super("hammer_shoot_pepin");
+        yOffset = -2;
         shootSpeed = 5;
     }
 

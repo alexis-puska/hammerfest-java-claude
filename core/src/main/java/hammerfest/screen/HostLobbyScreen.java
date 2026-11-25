@@ -133,21 +133,62 @@ public class HostLobbyScreen extends MenuScreen {
     /** Modes à deux joueurs proposés en ligne. */
     private static final String[] ONLINE_MODES = {"multicoop", "soccer", "timeattackmulti"};
 
+    /** Mode choisi pour la partie en ligne, options et terrain comme dans l'écran Jouer (déblocages de l'hôte). */
+    private hammerfest.data.GameModes.Mode onlineMode;
+    private ModeOptionsTable onlineOptions;
+
     private void showLaunch() {
         launch.clearChildren();
-        launch.add(label("Lancer :", "heading")).padRight(10);
+        onlineOptions = new ModeOptionsTable(game, skin, game.save.lastOptions);
+        launch.add(label("Mode de jeu", "heading")).left().padBottom(6).row();
+        com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup<TextButton> group = new com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup<>();
+        group.setMinCheckCount(1);
+        onlineMode = null;
         for (String id : ONLINE_MODES) {
             hammerfest.data.GameModes.Mode m = hammerfest.data.GameModes.mode(id);
-            launch.add(button(m.label.replace(" (2 joueurs, même PC)", "").replace(" (même PC)", ""), "small",
-                    () -> start(m))).height(30).padRight(6);
+            boolean unlocked = PlayScreen.isUnlocked(game, m);
+            String name = m.label.replace(" (2 joueurs, même PC)", "").replace(" (même PC)", "");
+            TextButton b = new TextButton(name + (unlocked ? "" : "  - " + ModeOptionsTable.lockText(game, m.unlockMode)),
+                    skin, "small");
+            b.getLabel().setAlignment(com.badlogic.gdx.utils.Align.left);
+            b.getLabelCell().padLeft(10);
+            b.setDisabled(!unlocked);
+            group.add(b);
+            if (unlocked && (onlineMode == null || m.id.equals(game.save.lastMode))) {
+                onlineMode = m;
+                b.setChecked(true);
+            }
+            b.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
+                    if (b.isChecked() && onlineMode != m) {
+                        onlineMode = m;
+                        onlineOptions.setMode(m);
+                    }
+                }
+            });
+            launch.add(b).width(560).height(28).padBottom(4).row();
         }
+        if (onlineMode == null) {
+            launch.add(label("Aucun mode à deux débloqué.", "error")).left().row();
+            launch.setVisible(true);
+            return;
+        }
+        launch.add(label("Options", "heading")).left().padTop(8).padBottom(6).row();
+        onlineOptions.setMode(onlineMode);
+        launch.add(onlineOptions).left().row();
+        launch.add(button("Lancer la partie", this::start)).width(240).padTop(10).row();
         launch.setVisible(true);
     }
 
-    private void start(hammerfest.data.GameModes.Mode m) {
-        if (!host.hasPeer()) return;
+    private void start() {
+        if (!host.hasPeer() || onlineMode == null) return;
+        // options mémorisées : seules celles de ce mode sont remplacées (l'écran Jouer garde les siennes)
+        game.save.lastOptions.removeIf(o -> onlineMode.options.stream().anyMatch(opt -> opt.id.equals(o)));
+        game.save.lastOptions.addAll(onlineOptions.checked());
+        game.persist();
         handedOff = true;
-        game.show(new GameScreen(game, m, new java.util.LinkedHashSet<>(), System.nanoTime(), host));
+        game.show(new GameScreen(game, onlineMode, onlineOptions.chosen(), System.nanoTime(), host));
     }
 
     @Override
