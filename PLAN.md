@@ -84,6 +84,9 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
    - audits des animations (original contre portage) : `node tools/audit/items-audit.js` (objets) et `node tools/audit/decors-audit.js` (décors), arguments dans l'en-tête des scripts.
    - audit des effets visuels (chaque appel `fxMan.*` de l'original contre `game.fx`/`particles`/`explosion`/`shine`/`dust`… du portage) : `node tools/audit/fx-audit.js original_sources/hammerfest-master/class/hammer core/src/main/java/hammerfest/sim build/check/audit-fx.md` (0 absent ; écarts justifiés listés dans le script).
 6. Images de l'écran Commandes : `./tools/ui/pad-images.sh` (ImageMagick) → `assets/ui`.
+7. Barre de vie de Tuberculoz : `./gradlew tools:bossBar` → `assets/images/bossbar/` (socle, tube, liquide, reflets du
+   clip `hammer_interf_boss_bar`, dessinés depuis les formes de `gfx.xml` par `ShapeRaster` : FFDec n'exporte que le
+   clip assemblé, barre pleine ; aperçu à comparer à l'export dans `build/check/bossbar-preview.png`).
 
 ## Menus
 
@@ -116,14 +119,18 @@ Verdana du système (menus, parchemins), Satans (en-tête du tutoriel).
 
 ## Fonctionnalités portées
 
-- **Niveaux et données** : 17 sets décodés (`tools/PersistCodec`), rendu des niveaux (fond `hammer_bg`, dalles, colonnes,
+- **Niveaux et données** : 17 sets décodés (`tools/PersistCodec`), rendu des niveaux (fond `hammer_bg`, dalles, colonnes, ombres sous les dalles (sauf Apprentissage),
+  défilement entre deux niveaux (`Game.scrollCpt`, 40 cycles, partie verrouillée, script du
+  nouveau niveau lu une 1re fois avant : dalles masquées, décors ; seulement à la sortie par le bas de
+  l'écran, pas aux téléporteurs, portes, parapluies ni changements de dimension),
   champs/rayons, téléporteurs allumés près du joueur : `Player.showTeleporters`, `RenderFrame.teleportersOn`), scripts de niveau (`sim/ScriptEngine` : tous les déclencheurs, actions et codes 0-15),
   décors animés, obscurité et halos (joueur, bougie, torches), inversion de l'écran, miroir, niveaux visités.
 - **Joueur** : déplacement, sauts, bombes et armes (classique, noire, bleue, verte, rouge, répulsive, tirs), coup de
   pied, bouclier, vies, lettres EXTEND, objets spéciaux (118 effets, `SpecialManager`) et à score, super-objets,
   déguisements (D), collier de Poils de Chourou, écharpe aux couleurs de l'arme (cadenas sans arme), Sandy.
 - **Ennemis** : tous ceux de l'Aventure et des dimensions (fruits, lance, volants, framboise, wallwalkers : blob et
-  scie), hurry up (colère puis boule de feu par joueur), boss Chauve-souris et Tuberculoz, fin du jeu (prison, ascenseur).
+  scie), hurry up (colère puis boule de feu par joueur), boss Chauve-souris et Tuberculoz (barre de vie
+  d'origine à gauche, éclair du tube à chaque coup), fin du jeu (prison, ascenseur).
 - **Portails et dimensions** : adventure, deepnight, hiko, ayame, hk ; portails flottants, vortex animés.
 - **Modes** : Aventure, Apprentissage, Time Attack (seul et à deux), multi coopératif, SoccerFest, Tubercourse ; options
   (miroir, cauchemar, ninjutsu, explosifs instables, partage de vies, contrôle du ballon, tornade).

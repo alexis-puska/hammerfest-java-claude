@@ -248,6 +248,14 @@ public class Game {
         this.inputs = inputs;
         if (fl_gameOver) return;
         cycle++;
+        if (scrollCpt >= 0) {
+            // ViewManager.update : défilement vers le niveau suivant, partie verrouillée (GameMode.lock : ni
+            // entités, ni scripts, ni chrono) ; onScrollDone → onLevelReady puis le cycle continue normalement
+            scrollCpt += SCROLL_SPEED * tmod;
+            if (scrollCpt < Math.PI / 2) return;
+            scrollCpt = -1;
+            onLevelReady();
+        }
         levelCycle++;
         fl_ice = getDynamicVar("ICE") != null;
         fl_aqua = getDynamicVar("AQUA") != null;
@@ -576,6 +584,7 @@ public class Game {
      * (objet 11, warpZone(1)). À supprimer une fois le portage terminé.
      */
     public void debugSkipLevel() {
+        if (scrolling()) return;
         // comme le parapluie rouge (warpZone(1)) : jamais au-delà de la fin d'une dimension
         if (warpArrival(1) == levelId) {
             alert("static.34", ""); // « Téléportation impossible »
@@ -599,10 +608,18 @@ public class Game {
         return arrival;
     }
 
-    /** Saut direct à un niveau (warp) : joueurs replacés au départ, protégés par un bouclier. */
+    /**
+     * Saut direct à un niveau (warp : parapluie, porte, script e_goto) : joueurs replacés au départ, protégés par un
+     * bouclier ; le niveau s'affiche aussitôt, sans défilement.
+     */
     public void forcedGoto(int id) {
+        forcedGoto(id, false);
+    }
+
+    private void forcedGoto(int id, boolean scroll) {
+        if (scrolling()) return;
         if (fakeLevelId != null) fakeLevelId += id - levelId; // GameMode.forcedGoto : numéro affiché dans une contrée
-        goTo(id);
+        goTo(id, scroll);
         for (Player p : players) {
             p.moveTo(Entity.xCtr(world.data.playerX), Entity.yCtr(world.data.playerY - 1));
             p.shield(SHIELD_DURATION * 1.3);
@@ -663,18 +680,43 @@ public class Game {
     /** Adventure.fl_warpStart : le seau du village a été détruit, la chute mène directement au niveau 10. */
     public boolean fl_warpStart;
 
+    /** Sortie par le bas de l'écran (Player.onDeathLine) : seul passage de niveau avec défilement. */
     public void nextLevel() {
-        if (fl_warpStart && isMainWorld()) { // Adventure.nextLevel : raccourci du seau
-            forcedGoto(10);
+        if (fl_warpStart && isMainWorld()) { // Adventure.nextLevel : raccourci du seau (chute par le bas du niveau 0)
+            forcedGoto(10, true);
             return;
         }
         if (fakeLevelId != null) fakeLevelId++; // GameMode.nextLevel : numéro affiché dans une contrée
-        goTo(levelId + 1);
+        goTo(levelId + 1, true);
     }
 
-    /** GameMode.goto : change de niveau, le premier joueur arrivé en bas entre en premier. */
+    /**
+     * Défilement entre deux niveaux (ViewManager.onDataReady : vue clonée, nouveau niveau qui monte du bas) :
+     * angle 0 à π/2 pendant le défilement, -1 sinon. Le rendu garde la vue du niveau quitté.
+     */
+    public double scrollCpt = -1;
+    /**
+     * Défilement à la sortie par le bas (écran de jeu). Désactivé par défaut : les tests et la prédiction du
+     * client enchaînent les niveaux sans attendre.
+     */
+    public boolean scrollTransitions;
+
+    /** Défilement vers le niveau suivant en cours (partie verrouillée). */
+    public boolean scrolling() {
+        return scrollCpt >= 0;
+    }
+
+    /** GameMode.goto : change de niveau sans défilement (téléporteur, portail, dimension, tests). */
     public void goTo(int id) {
-        if (fl_gameOver) return;
+        goTo(id, false);
+    }
+
+    /**
+     * GameMode.goto : change de niveau, le premier joueur arrivé en bas entre en premier ; {@code scrolled} : sortie
+     * par le bas de l'écran, avec défilement si {@link #scrollTransitions}.
+     */
+    private void goTo(int id, boolean scrolled) {
+        if (fl_gameOver || scrolling()) return; // GameMode.goto : rien pendant le verrou (fl_lock)
         if (id >= set.levels.size()) {
             onGameOver();
             return;
@@ -692,6 +734,8 @@ public class Game {
         detachExit(); // FxManager.onNextLevel
         pointer = null;
         clearLevel();
+        clearExtraHoles(); // GameMode.goto : halos du niveau quitté retirés avant le défilement
+        boolean scroll = scrolled && scrollTransitions && world != null;
         world = new World(levelData(id));
         mirrorPortals();
         for (Entity e : getList(ENTITY)) e.world = world;
@@ -705,10 +749,29 @@ public class Game {
         }
         if (best != null) best.moveTo(best.x, -200);
         sound("sound_level_clear");
+        if (scroll) { // ViewManager : défilement, onLevelReady à la fin (onScrollDone)
+            // GameMechanics.onDataReady : le script du nouveau niveau est compilé et lu une 1re fois avant le
+            // défilement (attach, do : dalles masquées, décors e_mc), puis figé jusqu'à la fin (verrou)
+            prepareLevel();
+            script.compile();
+            levelPrepared = true;
+            scrollCpt = 0;
+            return;
+        }
         onLevelReady();
     }
 
+    /** Niveau déjà préparé (script compilé) avant le défilement : onLevelReady ne refait pas cette partie. */
+    private boolean levelPrepared;
+
     void onLevelReady() {
+        if (!levelPrepared) prepareLevel();
+        levelPrepared = false;
+        startLevel();
+    }
+
+    /** GameMode.initLevel : remise à zéro du niveau et script du niveau (sans le lancer). */
+    private void prepareLevel() {
         levelStartMs = chronoMs();
         fl_badsCallback = false;
         clearBg(); // fxMan.clear
@@ -731,6 +794,10 @@ public class Game {
         clearExtraHoles();
         String saved = savedScripts.get(currentKey);
         script = new ScriptEngine(this, saved != null ? saved : world.data.script);
+    }
+
+    /** onLevelReady après le défilement (GameMode.onLevelReady / startLevel) : joueurs, ennemis, objets, alertes. */
+    private void startLevel() {
         if (fl_warpStart) { // Adventure.onLevelReady : porte secrète à l'arrivée du raccourci
             if (isMainWorld()) {
                 // (le y d'origine utilise x_ctr sur playerY : reproduit tel quel)

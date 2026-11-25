@@ -34,6 +34,8 @@ public class RenderFrame {
     public float darkness;
     /** Flèche « niveau suivant » affichée (FxManager.attachExit). */
     public boolean exitArrow;
+    /** Défilement vers le niveau suivant (Game.scrollCpt) : angle 0 à π/2, -1 sans défilement. */
+    public float scroll = -1;
     /** Pointeur du tutoriel : x, y, rotation ; null = aucun. */
     public float[] pointer;
     /** Objet dont le nom est affiché en haut au centre (Game.itemNameId), -1 = aucun. */
@@ -55,6 +57,11 @@ public class RenderFrame {
     public int backEntities;
     /** Nombre de joueurs dans la liste des entités, juste après les {@link #backEntities} (les joueurs visibles). */
     public int playerEntities;
+    /**
+     * Indice de la première entité de la couche DP_BOMBS (bombes puis supers) : les blocs de glace et icônes ninja
+     * (Bad.freeze, DP_BADS) sont dessinés juste avant, au-dessus des ennemis mais sous les bombes.
+     */
+    public int bombEntities;
     public int[] ids;
     public String[] links;
     public short[] anims, subs;
@@ -153,6 +160,7 @@ public class RenderFrame {
         }
         f.darkness = (float) g.darkness;
         f.exitArrow = g.exitArrow;
+        f.scroll = (float) g.scrollCpt;
         f.itemName = g.itemNameId;
         if (g.world != null) {
             List<Integer> on = new ArrayList<>();
@@ -210,12 +218,18 @@ public class RenderFrame {
         }
         List<Animator> order = new ArrayList<>(back);
         for (Player p : g.players()) order.add(p);
+        int bombLayer = 0; // premier élément de DP_BOMBS dans order
         for (int type : new int[]{Const.ITEM, Const.SHOOT, Const.BAD, Const.BOMB, Const.SUPA}) {
+            if (type == Const.BOMB) bombLayer = order.size();
             for (Entity e : g.getList(type)) if (e instanceof Animator) order.add((Animator) e);
             if (type == Const.BAD) order.addAll(bosses);
         }
         List<Animator> shown = new ArrayList<>();
-        for (Animator a : order) if (a.visible) shown.add(a);
+        for (int k = 0; k < order.size(); k++) {
+            if (k == bombLayer) f.bombEntities = shown.size();
+            if (order.get(k).visible) shown.add(order.get(k));
+        }
+        if (bombLayer >= order.size()) f.bombEntities = shown.size();
         int n = shown.size();
         for (Animator a : shown) {
             if (a instanceof Player) f.playerEntities++;
@@ -315,7 +329,8 @@ public class RenderFrame {
         f.ice = floats(ice);
         f.ninja = floats(ninja);
 
-        // décors des scripts et portails flottants
+        // décors des scripts et portails flottants (pendant le défilement : ceux du nouveau niveau, posés par la
+        // 1re lecture de son script ; ceux du niveau quitté sont gardés par le rendu)
         List<ScriptEngine.Decor> decors = g.script == null ? List.of() : g.script.decors;
         int m = decors.size();
         f.decorLinks = new String[m];

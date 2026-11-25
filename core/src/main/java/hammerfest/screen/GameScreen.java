@@ -67,6 +67,7 @@ public class GameScreen extends ScreenAdapter {
         if (app.save.unlockedOptions.contains(GameModes.PASSIVE_BOOST)) opts.add(GameModes.PASSIVE_BOOST);
         this.game = new Game(app.data.levels(mode.levelSet), view.sprites(), seed, app.save.unlockedFamilies, opts);
         game.setItemFamilies(app.data.families);
+        game.scrollTransitions = true; // défilement entre deux niveaux (ViewManager)
         if ("adventure".equals(mode.levelSet)) {
             game.setDimensions(hammerfest.data.GameData.ADVENTURE_DIMENSIONS, app.data::levels, app.data.portals);
         }

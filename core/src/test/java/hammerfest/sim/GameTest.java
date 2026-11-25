@@ -56,6 +56,48 @@ class GameTest {
         assertTrue(g.exitArrow, "niveau vidé (GameMode.onLevelClear)");
     }
 
+    /** ViewManager : défilement de 40 cycles (0,04 par cycle jusqu'à π/2), partie verrouillée, puis onLevelReady. */
+    @Test
+    void levelChangeScrollsThenStartsNextLevel() {
+        LevelData withBad = level(15, 5, 14);
+        withBad.badList.add(new LevelData.Bad(Const.BAD_CERISE, 15, 14));
+        withBad.script = "<do><e_hide tiles=\"1\" borders=\"0\"/><e_mc n=\"hammer_level2_front\" xr=\"0\" yr=\"0\"/></do>";
+        Game g = game(level(15, 5, 14), withBad);
+        g.scrollTransitions = true;
+        run(g, 2, 0);
+        g.nextLevel(); // sortie par le bas de l'écran
+        assertTrue(g.scrolling());
+        assertEquals(1, g.levelId);
+        // GameMechanics.onDataReady : script lu une 1re fois avant le défilement (dalles masquées, décor posé)
+        assertTrue(g.world.hideTiles, "e_hide du nouveau niveau appliqué pendant le défilement");
+        assertEquals(1, g.script.decors.size(), "décor du nouveau niveau posé pendant le défilement");
+        assertTrue(g.getList(Const.BAD).isEmpty(), "ennemis insérés à la fin du défilement");
+        Player p = g.players().get(0);
+        double y = p.y;
+        g.goTo(0);
+        assertEquals(1, g.levelId, "pas de changement de niveau pendant le verrou");
+        run(g, 39, InputFrame.LEFT);
+        assertTrue(g.scrolling());
+        assertEquals(y, p.y, "joueur figé pendant le défilement");
+        run(g, 1, 0);
+        assertFalse(g.scrolling());
+        assertEquals(1, g.getList(Const.BAD).size(), "niveau lancé (startLevel)");
+    }
+
+    /** Téléporteur, porte, parapluie, dimension : le niveau s'affiche aussitôt, sans défilement. */
+    @Test
+    void warpsShowLevelImmediately() {
+        Game g = game(level(15, 5, 14), level(15, 5, 14), level(15, 5, 14));
+        g.scrollTransitions = true;
+        run(g, 2, 0);
+        g.forcedGoto(2);
+        assertFalse(g.scrolling(), "parapluie, porte, e_goto");
+        assertEquals(2, g.levelId);
+        g.goTo(1);
+        assertFalse(g.scrolling(), "portail, changement de dimension");
+        assertEquals(1, g.levelId);
+    }
+
     @Test
     void playerFallsAndLandsOnGround() {
         Game g = game(level(15, 5, 5));

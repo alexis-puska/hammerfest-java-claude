@@ -40,12 +40,21 @@ public class Hammer extends Shoot {
         super.destroy();
     }
 
+    /**
+     * Hammer.endUpdate : tourné du côté où regarde le joueur, APRÈS Shoot.endUpdate (qui l'orienterait selon dx,
+     * nul pour le marteau : toujours à droite).
+     */
+    @Override
+    public void endUpdate() {
+        super.endUpdate();
+        if (player != null) xscale = player.dir < 0 ? -Math.abs(xscale) : Math.abs(xscale);
+    }
+
     @Override
     public void update() {
         double hx = Math.max(1, Math.min(GAME_WIDTH - 1, player.x + player.dir * CASE_WIDTH * 0.7));
         double hy = Math.max(20, Math.min(GAME_HEIGHT - 1, player.y - CASE_HEIGHT * 0.7));
         moveTo(hx, hy);
-        xscale = player.dir < 0 ? -Math.abs(xscale) : Math.abs(xscale);
         super.update();
         for (Entity e : game.getClose(BAD, x, y, CASE_WIDTH * 2, false)) {
             ((Bad) e).killHit(player.dir * 9);

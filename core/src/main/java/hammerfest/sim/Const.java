@@ -130,6 +130,8 @@ public final class Const {
     public static final double PLAYER_VKICK = 18;
     public static final double FREEZE_DURATION = SECOND * 5;
     public static final double SHIELD_DURATION = SECOND * 5;
+    /** Data.SCROLL_SPEED : incrément par cycle de l'angle du défilement entre deux niveaux (0 à π/2, sinus). */
+    public static final double SCROLL_SPEED = 0.04;
     public static final double WEAPON_DURATION = SECOND * 30;
     public static final double SUPA_DURATION = SECOND * 30;
     public static final int BAT_LEVEL = 100;

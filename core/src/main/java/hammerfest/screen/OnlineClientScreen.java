@@ -170,6 +170,9 @@ public class OnlineClientScreen extends ScreenAdapter {
         RenderFrame f = shallowCopy(current);
         f.xs = xs;
         f.ys = ys;
+        if (previous.scroll >= 0 && current.scroll > previous.scroll) { // défilement entre deux niveaux
+            f.scroll = previous.scroll + (current.scroll - previous.scroll) * a;
+        }
         applyPrediction(f);
         f.grid = null;
         f.eventNames = null; // événements déjà traités à la réception

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import hammerfest.HammerfestGame;
@@ -39,7 +40,14 @@ public final class GameView implements Disposable {
     public static final int BAND_HEIGHT = 24;
     /** Vue : document 420 × 520 d'origine, prolongé de BAND_HEIGHT vers le bas (y monde de -BAND_HEIGHT à 520). */
     final FitViewport viewport = new FitViewport(LevelRenderer.DOC_WIDTH, LevelRenderer.DOC_HEIGHT + BAND_HEIGHT);
-    private final LevelRenderer levelRenderer = new LevelRenderer();
+    private LevelRenderer levelRenderer = new LevelRenderer();
+    /**
+     * Niveau quitté pendant le défilement (ViewManager.cloneView : vue clonée « fake » qui monte) ; échangé avec
+     * {@link #levelRenderer} au changement de niveau, ce qui garde ses textures chargées.
+     */
+    private LevelRenderer prevRenderer = new LevelRenderer();
+    /** Décors du niveau quitté (dernier instantané avant le défilement) : seuls les champs decor* servent. */
+    private RenderFrame prevDecors, lastDecors;
     final Sprites sprites;
     private final hammerfest.render.FxPlayer fx;
     private final hammerfest.render.ParticleSystem particles;
@@ -90,6 +98,7 @@ public final class GameView implements Disposable {
         particles.onRainDrop = (x, y) -> fx.attach("hammer_fx_water_drop", x, y, rng.nextBoolean() ? 1 : -1, 1, 0,
                 (rng.nextInt(50) + 10) / 100f);
         levelRenderer.setSprites(sprites);
+        prevRenderer.setSprites(sprites);
         Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         p.setColor(Color.WHITE);
         p.fill();
@@ -122,6 +131,14 @@ public final class GameView implements Disposable {
         if (f.grid != null) grid = f.grid;
         if (!key.equals(shownKey) || f.gridVersion != shownGridVersion) {
             if (grid != null) {
+                if (shownKey != null && !key.equals(shownKey) && f.scroll >= 0) { // défilement : l'ancien niveau reste affiché
+                    LevelRenderer old = levelRenderer;
+                    levelRenderer = prevRenderer;
+                    prevRenderer = old;
+                    prevRenderer.specialBg = null;
+                    prevRenderer.teleportersOn = null;
+                    prevDecors = lastDecors;
+                }
                 LevelData data = app.data.levels(f.setName).level(f.levelId);
                 int[][] g2 = new int[Const.LEVEL_WIDTH][Const.LEVEL_HEIGHT];
                 for (int x = 0; x < Const.LEVEL_WIDTH; x++)
@@ -135,8 +152,13 @@ public final class GameView implements Disposable {
         levelRenderer.hideTiles = f.hideTiles;
         levelRenderer.hideBorders = f.hideBorders;
         levelRenderer.teleportersOn = f.teleportersOn;
+        levelRenderer.shadows = !f.tutorial;
+        if (f.scroll < 0) {
+            lastDecors = f;
+            prevDecors = null;
+        }
         for (int i = 0; i < cycles; i++) {
-            portalStars(f);
+            if (f.scroll < 0) portalStars(f); // GameMechanics : pas d'étoiles pendant le verrou
             exitAge = f.exitArrow ? exitAge + 1 : -1;
             pointerAge = f.pointer != null ? pointerAge + 1 : -1;
             tickKeyMessage();
@@ -392,18 +414,23 @@ public final class GameView implements Disposable {
         } else {
             levelRenderer.specialBg = null;
         }
-        levelRenderer.render(batch);
-        drawDecors(f, true); // _sprite_back
-        drawFloatingPortals(f);
-        drawEntities(f);
-        drawGuuClouds(f);
-        particles.render(batch, LevelRenderer.X_OFFSET, LevelRenderer.DOC_HEIGHT);
-        fx.render(batch, LevelRenderer.X_OFFSET, LevelRenderer.DOC_HEIGHT);
-        // colonnes (View._top, DP_TOP_LAYER) puis décors du dessus (_sprite_top, DP_SPRITE_TOP_LAYER) : les rochers
-        // du niveau 1 recouvrent le haut des colonnes
-        levelRenderer.renderFront(batch);
-        drawDecors(f, false);
-        drawExitAndPointer(f);
+        if (f.scroll >= 0) {
+            drawScroll(f, worldMatrix);
+        } else {
+            levelRenderer.render(batch);
+            drawDecors(f, true); // _sprite_back
+            drawFloatingPortals(f);
+            drawEntities(f);
+            drawGuuClouds(f);
+            particles.render(batch, LevelRenderer.X_OFFSET, LevelRenderer.DOC_HEIGHT);
+            fx.render(batch, LevelRenderer.X_OFFSET, LevelRenderer.DOC_HEIGHT);
+            // colonnes (View._top, DP_TOP_LAYER) puis décors du dessus (_sprite_top, DP_SPRITE_TOP_LAYER) : les
+            // rochers du niveau 1 recouvrent le haut des colonnes
+            levelRenderer.renderSides(batch);
+            drawDecors(f, false);
+            drawExitAndPointer(f);
+        }
+        levelRenderer.renderBottomBar(batch);
         batch.end();
 
         List<float[]> holes = new ArrayList<>();
@@ -421,6 +448,36 @@ public final class GameView implements Disposable {
         batch.end();
         viewport.getCamera().position.add(shakeX, -shakeY, 0);
         viewport.getCamera().update();
+    }
+
+    private final com.badlogic.gdx.math.Rectangle scissor = new com.badlogic.gdx.math.Rectangle();
+    private final com.badlogic.gdx.math.Rectangle docArea =
+            new com.badlogic.gdx.math.Rectangle(0, 0, LevelRenderer.DOC_WIDTH, LevelRenderer.DOC_HEIGHT);
+
+    /**
+     * ViewManager.update (fl_scrolling) : le nouveau niveau monte du bas (y = 500 x (1 - sin a)) et la vue clonée
+     * du niveau quitté (fond, dalles, décors, colonnes ; pas les champs) le précède (y = -500 x sin a), par-dessus.
+     * Partie verrouillée : ni entités ni effets. Dessin limité au document (le second bandeau reste net).
+     */
+    private void drawScroll(RenderFrame f, com.badlogic.gdx.math.Matrix4 worldMatrix) {
+        float s = (float) Math.sin(f.scroll);
+        batch.flush();
+        ScissorStack.calculateScissors(viewport.getCamera(), viewport.getScreenX(), viewport.getScreenY(),
+                viewport.getScreenWidth(), viewport.getScreenHeight(), batch.getTransformMatrix(), docArea, scissor);
+        boolean clipped = ScissorStack.pushScissors(scissor);
+        batch.setProjectionMatrix(worldMatrix.cpy().translate(0, -Const.GAME_HEIGHT * (1 - s), 0));
+        levelRenderer.render(batch);
+        drawDecors(f, true);
+        levelRenderer.renderSides(batch);
+        drawDecors(f, false);
+        batch.setProjectionMatrix(worldMatrix.cpy().translate(0, Const.GAME_HEIGHT * s, 0));
+        prevRenderer.renderSnapshot(batch);
+        if (prevDecors != null) drawDecors(prevDecors, true);
+        prevRenderer.renderSides(batch);
+        if (prevDecors != null) drawDecors(prevDecors, false);
+        batch.flush();
+        if (clipped) ScissorStack.popScissors();
+        batch.setProjectionMatrix(worldMatrix);
     }
 
     /** Costume du joueur (skin) → variante exportée du clip (PlayerVariants), si ses images sont présentes. */
@@ -516,6 +573,7 @@ public final class GameView implements Disposable {
         int firstPlayer = f.backEntities, endPlayers = firstPlayer + f.playerEntities; // joueurs : [first, end)
         if (f.playerEntities == 0) drawShields(f);
         for (int i = 0; i < f.ids.length; i++) {
+            if (i == f.bombEntities) drawIceAndNinja(f); // DP_BADS, sous les bombes (DP_BOMBS)
             String link = f.links[i];
             com.badlogic.gdx.graphics.glutils.ShaderProgram shader = null;
             if (i >= firstPlayer && i < endPlayers) {
@@ -554,7 +612,12 @@ public final class GameView implements Disposable {
             for (int id : f.ids) alive.add(id);
             births.keySet().retainAll(alive);
         }
-        // blocs de glace et icônes ninja par-dessus les ennemis
+        if (f.bombEntities >= f.ids.length) drawIceAndNinja(f);
+    }
+
+    /** Blocs de glace et icônes ninja (Bad.freeze / Bad.mt, DP_BADS) : par-dessus les ennemis, sous les bombes. */
+    private void drawIceAndNinja(RenderFrame f) {
+        sprites.animClock = f.cycle;
         for (int i = 0; f.ice != null && i + 3 < f.ice.length; i += 4) {
             batch.setColor(1, 1, 1, 0.85f);
             sprites.draw(batch, "hammer_bad_ice", -1, 1, LevelRenderer.X_OFFSET + f.ice[i], f.ice[i + 1],
@@ -684,14 +747,74 @@ public final class GameView implements Disposable {
     }
 
     /** Barre de vie de Tuberculoz (verticale à gauche). */
+    /**
+     * Couches du clip hammer_interf_boss_bar (tools:bossBar) : socle, intérieur du tube en blanc (masque de barFade),
+     * liquide rouge, bulbe et reflets ; cadrées dans le repère du clip à partir de (BAR_OX, BAR_OY), BAR_W × BAR_H px.
+     */
+    private final Texture[] bossBar = loadBossBar();
+    private static final float BAR_OX = -143, BAR_OY = -9, BAR_W = 276, BAR_H = 27;
+    /** Masque « bar » (forme 346 à x = -108,3) : de 1 à 228,7 px, mis à l'échelle bar._xscale = vies / LIVES. */
+    private static final float BAR_X = -108.3f, BAR_MIN = 1, BAR_MAX = 228.7f;
+    /** barFade : niveau de la barre avant le coup, et cycle du coup (éclair blanc qui s'efface en 6 images). */
+    private float barShown = -1, barFadeFrom;
+    private int barFadeCycle = Integer.MIN_VALUE;
+
+    private static Texture[] loadBossBar() {
+        String[] names = {"back", "tube", "red", "front"};
+        Texture[] t = new Texture[names.length];
+        for (int i = 0; i < names.length; i++) {
+            com.badlogic.gdx.files.FileHandle fh = Gdx.files.internal("images/bossbar/" + names[i] + ".png");
+            if (!fh.exists()) return null;
+            t[i] = new Texture(fh);
+            t[i].setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        return t;
+    }
+
+    /**
+     * Barre de vie de Tuberculoz (Tuberculoz.initBoss / updateBar) : clip tourné de -90° à (0, GAME_HEIGHT / 2), bulbe
+     * en bas ; le liquide descend à chaque coup, le tube perdu flashe en blanc (barFade, son _xscale = l'ancien niveau).
+     */
     private void drawBossBar(RenderFrame f) {
-        if (f.bossRatio < 0) return;
-        float h = 300, bx = 2, by = LevelRenderer.DOC_HEIGHT / 2f - h / 2;
-        batch.setColor(0, 0, 0, 0.6f);
-        batch.draw(white, bx, by, 8, h);
-        batch.setColor(1f, 0.35f, 0.1f, 1f);
-        batch.draw(white, bx + 1, by + 1, 6, (h - 2) * f.bossRatio);
-        batch.setColor(Color.WHITE);
+        if (f.bossRatio < 0) {
+            barShown = -1;
+            return;
+        }
+        if (barShown >= 0 && f.bossRatio < barShown) { // updateBar
+            barFadeFrom = barShown;
+            barFadeCycle = f.cycle;
+        }
+        barShown = f.bossRatio;
+        if (bossBar == null) {
+            float h = 300, bx = 2, by = LevelRenderer.DOC_HEIGHT / 2f - h / 2;
+            batch.setColor(0, 0, 0, 0.6f);
+            batch.draw(white, bx, by, 8, h);
+            batch.setColor(1f, 0.35f, 0.1f, 1f);
+            batch.draw(white, bx + 1, by + 1, 6, (h - 2) * f.bossRatio);
+            batch.setColor(Color.WHITE);
+            return;
+        }
+        com.badlogic.gdx.math.Matrix4 old = batch.getTransformMatrix().cpy();
+        batch.setTransformMatrix(new com.badlogic.gdx.math.Matrix4()
+                .translate(0, LevelRenderer.DOC_HEIGHT - Const.GAME_HEIGHT * 0.5f, 0).rotate(0, 0, 1, 90));
+        barSlice(bossBar[0], BAR_OX, BAR_OX + BAR_W);
+        long frame = Const.clipAge(f.cycle - (long) barFadeCycle) + 1; // image de barFade (gotoAndPlay("1"))
+        if (frame >= 1 && frame <= 6) {
+            batch.setColor(1, 1, 1, (7 - frame) / 6f);
+            barSlice(bossBar[1], BAR_X + BAR_MIN, BAR_X + BAR_MAX * barFadeFrom);
+            batch.setColor(Color.WHITE);
+        }
+        barSlice(bossBar[2], BAR_X + BAR_MIN * f.bossRatio, BAR_X + BAR_MAX * f.bossRatio);
+        barSlice(bossBar[3], BAR_OX, BAR_OX + BAR_W);
+        batch.setTransformMatrix(old);
+    }
+
+    /** Bande verticale du clip de la barre, de x0 à x1 (repère du clip, y Flash vers le bas → y local vers le haut). */
+    private void barSlice(Texture t, float x0, float x1) {
+        x0 = Math.max(x0, BAR_OX);
+        x1 = Math.min(x1, BAR_OX + BAR_W);
+        if (x1 <= x0) return;
+        batch.draw(t, x0, -BAR_OY - BAR_H, x1 - x0, BAR_H, (x0 - BAR_OX) / BAR_W, 1, (x1 - BAR_OX) / BAR_W, 0);
     }
 
     /** Texte en bas à droite : « Echap : quitter » en solo, message de l'appelant en ligne. */
@@ -1151,12 +1274,14 @@ public final class GameView implements Disposable {
         headerFont.dispose();
         smallFont.dispose();
         levelRenderer.dispose();
+        prevRenderer.dispose();
         sprites.dispose();
         audio.dispose();
         darknessRenderer.dispose();
         scarf.dispose();
         tint.dispose();
         torchGlow.dispose();
+        if (bossBar != null) for (Texture t : bossBar) t.dispose();
         font.dispose();
         white.dispose();
     }

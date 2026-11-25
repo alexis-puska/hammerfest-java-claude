@@ -165,6 +165,15 @@ public class ScriptEngine {
         firstTorch = false;
     }
 
+    /**
+     * ScriptEngine.compile : 1re lecture du script, au cycle 0, dès que le niveau est chargé (avant le défilement
+     * depuis le niveau précédent) : déclencheurs attach et do (dalles masquées, décors posés…).
+     */
+    public void compile() {
+        runScript();
+        firstTorch = false;
+    }
+
     /** ScriptEngine.VERBOSE_TRIGGERS : déclencheurs qui annoncent la clé manquante. */
     static final java.util.List<String> VERBOSE_TRIGGERS = java.util.List.of("t_pos", "exp", "enter");
 

@@ -176,6 +176,17 @@ tasks.named('test') {
   systemProperty 'hammerfest.xml', new File(sourceDir, 'xml').absolutePath
 }
 
+// ./gradlew tools:bossBar  ->  assets/images/bossbar/{back,tube,red,front}.png : couches de la barre de vie de
+// Tuberculoz (clip hammer_interf_boss_bar), dessinées depuis les formes de gfx.xml (voir BossBar)
+tasks.register('bossBar', JavaExec) {
+  group = 'hammerfest'
+  description = "Écrit les couches de la barre de vie de Tuberculoz depuis les formes de gfx.xml"
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'hammerfest.tools.BossBar'
+  args new File(swfExport, 'gfx.xml').absolutePath, new File(assetsDir, 'images/bossbar').absolutePath,
+      rootProject.file('build/check/bossbar-preview.png').absolutePath
+}
+
 // ./gradlew tools:tileSkins  ->  assets/images/tiles/tile_NN.png / end_NN.png (1 à 63, habillage n = image n), tirés de
 // l'export FFDec de gfx (clips 573 « skin » et 699 « endTile » du symbole « tile »)
 tasks.register('tileSkins', JavaExec) {

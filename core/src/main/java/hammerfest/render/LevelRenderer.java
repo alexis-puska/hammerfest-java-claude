@@ -53,6 +53,16 @@ public class LevelRenderer implements Disposable {
     /** Masquage demandé par le script du niveau (e_hide). */
     public boolean hideTiles, hideBorders;
 
+    /** Ombres sous les dalles (View.fl_shadow) ; retirées en Apprentissage (Tutorial : world.fl_shadow = false). */
+    public boolean shadows = true;
+
+    /**
+     * Ombre « ombre » du clip tile (forme 439 : noir à 77/255) : sous la dalle, masquée comme elle par maskTile,
+     * de x = 6,3 à la fin de l'embout + 3 (ombre de l'embout endTile, 8 px à x = -5) et de y = 4 à 24.
+     */
+    static final Color SHADOW = new Color(0, 0, 0, 77 / 255f);
+    static final float SHADOW_DX = 6, SHADOW_DY = 4, SHADOW_END = 3;
+
     public void setLevel(LevelData level) {
         setLevel(level, level.grid());
     }
@@ -84,10 +94,30 @@ public class LevelRenderer implements Disposable {
         drawFields(batch);
     }
 
-    /** Colonnes latérales et barre du bas, dessinées au-dessus des décors et entités. */
-    public void renderFront(SpriteBatch batch) {
+    /** Colonnes de pierre latérales (View._leftBorder / _rightBorder : font partie de la vue, défilent avec elle). */
+    public void renderSides(SpriteBatch batch) {
         if (level == null) return;
-        drawBorders(batch);
+        Texture side = texture("images/colonnes", ".png");
+        if (side != null && !hideBorders) {
+            batch.draw(side, 5 - side.getWidth() / 2f, flipY(0, side.getHeight()));
+            batch.draw(side, GAME_WIDTH + 15 - side.getWidth() / 2f, flipY(0, side.getHeight()));
+        }
+    }
+
+    /** Barre du bas (interface, fixe pendant le défilement). */
+    public void renderBottomBar(SpriteBatch batch) {
+        Texture bar = texture("images/bottomBar", ".png");
+        if (bar != null) batch.draw(bar, 0, flipY(GAME_HEIGHT, bar.getHeight()));
+    }
+
+    /**
+     * Vue clonée du niveau quitté pendant le défilement (View.getSnapShot : fond et dalles, sans les champs) ;
+     * colonnes et décors sont dessinés à part par l'appelant.
+     */
+    public void renderSnapshot(SpriteBatch batch) {
+        if (level == null) return;
+        drawBackground(batch);
+        if (!hideTiles) drawTiles(batch);
     }
 
     /** Clips Flash (fond d'origine « hammer_bg ») ; null = images de secours. */
@@ -132,6 +162,11 @@ public class LevelRenderer implements Disposable {
             float x = X_OFFSET + b.x * CASE;
             float y = b.y * CASE;
             float len = b.length * CASE;
+            // ombre sous la dalle (profondeur 3 du clip, sous le skin) ; colonne : clip transposé
+            if (shadows) {
+                if (!b.vertical) fill(batch, x + SHADOW_DX, y + SHADOW_DY, len + SHADOW_END - SHADOW_DX, CASE, SHADOW);
+                else fill(batch, x + SHADOW_DY, y + SHADOW_DX, CASE, len + SHADOW_END - SHADOW_DX, SHADOW);
+            }
             // L'embout (endTile, placé à x = longueur) a son dessin décalé de -5 px dans son clip
             // (export SWF : forme à translateX=-100 twips) : il recouvre les 5 derniers pixels.
             if (!b.vertical) {
@@ -196,16 +231,6 @@ public class LevelRenderer implements Disposable {
             if (f.vertical) fill(batch, x + CASE * 0.35f, y, CASE * 0.3f, h, c);
             else fill(batch, x, y + CASE * 0.35f, w, CASE * 0.3f, c);
         }
-    }
-
-    private void drawBorders(SpriteBatch batch) {
-        Texture side = texture("images/colonnes", ".png");
-        if (side != null && !hideBorders) {
-            batch.draw(side, 5 - side.getWidth() / 2f, flipY(0, side.getHeight()));
-            batch.draw(side, GAME_WIDTH + 15 - side.getWidth() / 2f, flipY(0, side.getHeight()));
-        }
-        Texture bar = texture("images/bottomBar", ".png");
-        if (bar != null) batch.draw(bar, 0, flipY(GAME_HEIGHT, bar.getHeight()));
     }
 
     /** Embouts des téléporteurs (hammer_pod) aux deux extrémités (View.attachField) ; image 2 = allumé (showField). */

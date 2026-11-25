@@ -32,6 +32,25 @@ class SpecialManagerTest {
         it.execute(p);
     }
 
+    /** Bâton tonnerre (objet 85) : le marteau passe du côté où regarde le joueur et se retourne (Hammer.endUpdate). */
+    @Test
+    void thunderHammerFollowsPlayerDirection() {
+        Game g = game(1, true);
+        Player p = g.players().get(0);
+        p.shield(Const.SECOND * 100);
+        pick(g, 85, -1);
+        hammerfest.sim.entity.shoot.Hammer h = null;
+        for (hammerfest.sim.entity.Entity e : g.getList(Const.SHOOT)) {
+            if (e instanceof hammerfest.sim.entity.shoot.Hammer) h = (hammerfest.sim.entity.shoot.Hammer) e;
+        }
+        assertNotNull(h);
+        GameTest.run(g, 3, InputFrame.RIGHT);
+        assertTrue(h.x > p.x && h.xscale > 0, "à droite, tourné vers la droite");
+        GameTest.run(g, 3, InputFrame.LEFT);
+        assertTrue(h.x < p.x, "passé à gauche du joueur");
+        assertTrue(h.xscale < 0, "retourné vers la gauche");
+    }
+
     @Test
     void shieldProtectsFromBads() {
         Game g = game(1, true);
