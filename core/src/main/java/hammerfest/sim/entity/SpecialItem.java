@@ -25,6 +25,7 @@ public class SpecialItem extends Item {
         game.pickUp(id);
         p.specialMan.execute(this);
         game.sound("sound_item_special");
+        if (id > 0) game.attachItemName(id); // SpecialItem.execute
         super.execute(p);
     }
 

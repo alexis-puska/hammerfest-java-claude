@@ -82,4 +82,27 @@ class NetGameTest {
             assertDoesNotThrow(client::close, "fermer deux fois ne pose pas de problème");
         }
     }
+
+    /** Pause en ligne : l'hôte annonce l'état, le client demande une bascule. */
+    @Test
+    void pauseMessagesTravelBothWays() throws Exception {
+        try (HostSession host = new HostSession("Alexis")) {
+            host.start(TCP + 20, UDP + 20, DISC + 20);
+            ClientSession client = new ClientSession();
+            client.connect(InetAddress.getLoopbackAddress(), TCP + 20, UDP + 20, "Bob", "id-bob");
+            host.accept(LobbyTest.await(host::poll, 3000).name);
+            assertEquals(NetEvent.Type.ACCEPTED, LobbyTest.await(client::poll, 3000).type);
+            Net.PauseMsg on = new Net.PauseMsg();
+            on.paused = true;
+            host.send(on);
+            NetEvent got = LobbyTest.await(client::poll, 3000);
+            assertTrue(got.message instanceof Net.PauseMsg && ((Net.PauseMsg) got.message).paused, "pause reçue");
+            Net.PauseMsg ask = new Net.PauseMsg();
+            ask.map = true;
+            client.send(ask);
+            NetEvent req = LobbyTest.await(host::poll, 3000);
+            assertTrue(req.message instanceof Net.PauseMsg && ((Net.PauseMsg) req.message).map, "demande de carte du client reçue");
+            client.close();
+        }
+    }
 }

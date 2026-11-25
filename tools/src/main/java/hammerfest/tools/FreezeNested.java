@@ -72,13 +72,17 @@ public final class FreezeNested {
 
     /** Symbole → préfixe du nom des enfants que le jeu n'affiche qu'à la demande (dessinés à part par le jeu). */
     static final Map<String, java.util.List<String>> HIDDEN_CHILDREN = Map.of("hammer_interf_game", java.util.List.of("letter"),
+            // ballon géant : ballon « b » dessiné à part et tourné (b._rotation += 3), le reflet reste dans l'image
+            "hammer_supa_ball", java.util.List.of("b"),
             "hammer_map", java.util.List.of("pit", "ptr"));
 
     /**
      * Symbole → nom exact des enfants de ses sous-clips « sub » que le jeu n'affiche qu'à la demande, dessinés à part
      * (couche « part » de SwfLayout.TOGGLE_PARTS) : balle tenue par la fraise qui l'a (Fraise.mt : sub.balle._visible).
      */
-    static final Map<String, java.util.List<String>> HIDDEN_IN_SUBS = Map.of("hammer_bad_fraise", java.util.List.of("balle"));
+    static final Map<String, java.util.List<String>> HIDDEN_IN_SUBS = Map.of("hammer_bad_fraise", java.util.List.of("balle"),
+            // tas de la framboise (image 15) : morceaux révélés par les fragments 5 et 6 (Framboise.onArrived)
+            "hammer_bad_framboise", java.util.List.of("o1", "o2"));
 
     /** Sous-clips « sub » placés dans les images du symbole {@code sid}. */
     static Set<Integer> subClips(SwfLayout layout, int sid) {

@@ -22,9 +22,11 @@ Portage hors ligne du jeu Flash « Les cavernes de Hammerfest » (Motion Twin, 2
 - `./gradlew tools:convertData` : régénérer `assets/data/**.json` depuis les XML ; `./gradlew tools:copyAssets` : copier images et sons.
 - `./gradlew tools:packSprites` : atlas de sprites depuis l'export FFDec de `build/swf-export/` (voir PLAN.md, « Commandes sprites »).
 - JSON : classes de données POJO lues/écrites par Jackson (`hammerfest.json.Jsons`), jamais de JsonValue manuel.
+- Textes du portage : `Tr.t("texte français")` (`hammerfest.ui.Tr`), traductions en/es dans `assets/data/lang/ui.json` (vérifié par `TrTest`).
 
 ## Contournements temporaires (à supprimer en fin de portage)
 - Touche **1** en partie : saut au niveau suivant (`Game.debugSkipLevel`, `GameScreen`), pour les tests manuels.
+- Touche **2** en partie : une vie de plus pour chaque joueur (`Game.debugAddLife`, `GameScreen`), pour les tests manuels.
 
 ## Sources de référence
 Dans `original_sources/` (sources d'origine, lecture seule) :

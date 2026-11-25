@@ -128,4 +128,17 @@ class BossTest {
         assertEquals(1, f.backEntities, "vaincu : derrière les joueurs");
         assertEquals(0, drawn(g, "hammer_boss_human"));
     }
+
+    /** Adventure.isBossLevel + GameMode.startLevel : « DANGER BOSS ! » aux niveaux 30, 40… 90, 100, 101. */
+    @Test
+    void bossLevelsShowTheDangerWarning() {
+        Game g = batLevel();
+        for (int id : new int[]{30, 31, 50, 99}) {
+            g.drainEvents();
+            g.forcedGoto(id);
+            boolean warned = g.drainEvents().stream().anyMatch(e -> e.name.startsWith("alert:static.12"));
+            assertEquals(id % 10 == 0, warned, "niveau " + id);
+        }
+        assertTrue(g.isBossLevel(100) && g.isBossLevel(101) && !g.isBossLevel(20), "pas de boss avant 30");
+    }
 }

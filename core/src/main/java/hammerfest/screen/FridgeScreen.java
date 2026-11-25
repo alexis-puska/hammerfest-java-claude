@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -33,10 +35,10 @@ public class FridgeScreen extends MenuScreen {
     public FridgeScreen(HammerfestGame game) {
         super(game);
         sprites = loadSprites();
-        Table panel = panel("Frigo");
+        Table panel = panel(Tr.t("Frigo"));
 
         Array<String> famNames = new Array<>();
-        famNames.add("Toutes les familles");
+        famNames.add(Tr.t("Toutes les familles"));
         for (ItemFamily f : game.data.families) {
             familyChoices.add(f);
             famNames.add(game.data.lang.get(f.nameKey) + " (" + f.id + ")");
@@ -45,8 +47,8 @@ public class FridgeScreen extends MenuScreen {
         familyBox.setItems(famNames);
         familyBox.setMaxListCount(14);
         sortBox = new SelectBox<>(skin);
-        sortBox.setItems("Tri par id", "Tri par quantité");
-        showMissing = new CheckBox(" Objets non trouvés", skin);
+        sortBox.setItems(Tr.t("Tri par id"), Tr.t("Tri par quantité"));
+        showMissing = new CheckBox(Tr.t(" Objets non trouvés"), skin);
         showMissing.getImageCell().padRight(6);
 
         Table filters = new Table();
@@ -115,8 +117,8 @@ public class FridgeScreen extends MenuScreen {
             grid.add(label(name, qty > 0 ? "default" : "dim")).width(330).left();
             grid.add(label(qty > 0 ? "x" + qty : "", "accent")).width(70).right().row();
         }
-        if (shown == 0) grid.add(label("Le frigo est vide pour l'instant : ramassez des objets en jeu !", "dim")).colspan(4).left();
-        summary.setText(found + " objet(s) différent(s) trouvé(s) sur " + items.size());
+        if (shown == 0) grid.add(label(Tr.t("Le frigo est vide pour l'instant : ramassez des objets en jeu !"), "dim")).colspan(4).left();
+        summary.setText(found + Tr.t(" objet(s) différent(s) trouvé(s) sur ") + items.size());
     }
 
     @Override

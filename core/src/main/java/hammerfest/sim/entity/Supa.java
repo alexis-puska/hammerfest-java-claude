@@ -166,6 +166,9 @@ public abstract class Supa extends Mover {
                 game.shake(SECOND * 0.5, 3);
             }
             if (x >= GAME_WIDTH + 50) destroy();
+            // script du clip (image 1 : b._rotation += 3, image 2 : retour à 1) : le ballon tourne sur lui-même,
+            // son reflet reste fixe ; angle porté par subRotation (jamais 0, sinon il ne serait pas transmis)
+            subRotation = subRotation % 360 + 3 * CLIP_FRAMES_PER_CYCLE * game.tmod; // 3° par image Flash (40/s)
         }
     }
 

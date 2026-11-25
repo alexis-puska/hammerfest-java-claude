@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -26,7 +28,7 @@ public class HostLobbyScreen extends MenuScreen {
     private final Label status = label("", "dim");
     private final Label upnp = label("", "dim");
     private final Table request = new Table();
-    private final Label player2 = label("Joueur 2 : en attente d'un joueur…", "default");
+    private final Label player2 = label(Tr.t("Joueur 2 : en attente d'un joueur…"), "default");
     private String askedName;
     private boolean leaving;
     /** Session confiée à l'écran de partie (ne pas la fermer en quittant le lobby). */
@@ -36,13 +38,13 @@ public class HostLobbyScreen extends MenuScreen {
     public HostLobbyScreen(HammerfestGame game) {
         super(game);
         host = new HostSession(game.save.playerName);
-        Table panel = panel("Partie de " + game.save.playerName);
+        Table panel = panel(Tr.t("Partie de ") + game.save.playerName);
 
-        panel.add(label("Adresses de cette machine (réseau local) :", "heading")).padBottom(4).row();
+        panel.add(label(Tr.t("Adresses de cette machine (réseau local) :"), "heading")).padBottom(4).row();
         panel.add(label(String.join("   ", localAddresses()), "default")).padBottom(10).row();
         upnp.setWrap(true);
         panel.add(upnp).width(560).padBottom(10).row();
-        panel.add(label("Joueur 1 : " + game.save.playerName + " (vous)", "default")).padBottom(4).row();
+        panel.add(label(Tr.t("Joueur 1 : ") + game.save.playerName + Tr.t(" (vous)"), "default")).padBottom(4).row();
         panel.add(player2).padBottom(12).row();
 
         request.setVisible(false);
@@ -57,10 +59,10 @@ public class HostLobbyScreen extends MenuScreen {
 
         try {
             host.start(Net.TCP_PORT, Net.UDP_PORT, Net.DISCOVERY_PORT);
-            status.setText("Partie annoncée sur le réseau local. Les autres joueurs la voient dans « Rejoindre une partie ».");
+            status.setText(Tr.t("Partie annoncée sur le réseau local. Les autres joueurs la voient dans « Rejoindre une partie »."));
             game.ports.open(Net.TCP_PORT, Net.UDP_PORT, s -> Gdx.app.postRunnable(() -> upnp.setText(s)));
         } catch (Exception e) {
-            status.setText("Impossible d'ouvrir la partie (port " + Net.TCP_PORT + " déjà utilisé ?) : " + e.getMessage());
+            status.setText(Tr.t("Impossible d'ouvrir la partie (port ") + Net.TCP_PORT + Tr.t(" déjà utilisé ?) : ") + e.getMessage());
             status.setStyle(skin.get("error", Label.LabelStyle.class));
         }
     }
@@ -91,18 +93,18 @@ public class HostLobbyScreen extends MenuScreen {
         request.clearChildren();
         request.setBackground(skin.getDrawable("panel"));
         request.pad(10);
-        request.add(label(name + " veut rejoindre la partie", "heading")).colspan(2).padBottom(8).row();
-        TextButton yes = button("Accepter", () -> {
+        request.add(label(name + Tr.t(" veut rejoindre la partie"), "heading")).colspan(2).padBottom(8).row();
+        TextButton yes = button(Tr.t("Accepter"), () -> {
             host.accept(askedName);
-            player2.setText("Joueur 2 : " + askedName);
+            player2.setText(Tr.t("Joueur 2 : ") + askedName);
             player2.setStyle(skin.get("ok", Label.LabelStyle.class));
-            status.setText(askedName + " a rejoint la partie. Choisissez le mode de jeu.");
+            status.setText(askedName + Tr.t(" a rejoint la partie. Choisissez le mode de jeu."));
             request.setVisible(false);
             showLaunch();
         });
-        TextButton no = button("Refuser", () -> {
-            host.reject("Refusé par l'hôte");
-            status.setText("Demande de " + askedName + " refusée.");
+        TextButton no = button(Tr.t("Refuser"), () -> {
+            host.reject(Tr.t("Refusé par l'hôte"));
+            status.setText(Tr.t("Demande de ") + askedName + Tr.t(" refusée."));
             request.setVisible(false);
         });
         request.add(yes).width(200).padRight(12);
@@ -119,9 +121,9 @@ public class HostLobbyScreen extends MenuScreen {
                     break;
                 case DISCONNECTED:
                     launch.setVisible(false);
-                    player2.setText("Joueur 2 : en attente d'un joueur…");
+                    player2.setText(Tr.t("Joueur 2 : en attente d'un joueur…"));
                     player2.setStyle(skin.get("default", Label.LabelStyle.class));
-                    status.setText((e.name != null ? e.name : "Le joueur") + " est parti (" + e.text + ").");
+                    status.setText((e.name != null ? e.name : Tr.t("Le joueur")) + Tr.t(" est parti (") + e.text + ").");
                     break;
                 default:
                     break;
@@ -140,14 +142,14 @@ public class HostLobbyScreen extends MenuScreen {
     private void showLaunch() {
         launch.clearChildren();
         onlineOptions = new ModeOptionsTable(game, skin, game.save.lastOptions);
-        launch.add(label("Mode de jeu", "heading")).left().padBottom(6).row();
+        launch.add(label(Tr.t("Mode de jeu"), "heading")).left().padBottom(6).row();
         com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup<TextButton> group = new com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup<>();
         group.setMinCheckCount(1);
         onlineMode = null;
         for (String id : ONLINE_MODES) {
             hammerfest.data.GameModes.Mode m = hammerfest.data.GameModes.mode(id);
             boolean unlocked = PlayScreen.isUnlocked(game, m);
-            String name = m.label.replace(" (2 joueurs, même PC)", "").replace(" (même PC)", "");
+            String name = Tr.t(m.label.replace(" (2 joueurs, même PC)", "").replace(" (même PC)", ""));
             TextButton b = new TextButton(name + (unlocked ? "" : "  - " + ModeOptionsTable.lockText(game, m.unlockMode)),
                     skin, "small");
             b.getLabel().setAlignment(com.badlogic.gdx.utils.Align.left);
@@ -170,14 +172,14 @@ public class HostLobbyScreen extends MenuScreen {
             launch.add(b).width(560).height(28).padBottom(4).row();
         }
         if (onlineMode == null) {
-            launch.add(label("Aucun mode à deux débloqué.", "error")).left().row();
+            launch.add(label(Tr.t("Aucun mode à deux débloqué."), "error")).left().row();
             launch.setVisible(true);
             return;
         }
-        launch.add(label("Options", "heading")).left().padTop(8).padBottom(6).row();
+        launch.add(label(Tr.t("Options"), "heading")).left().padTop(8).padBottom(6).row();
         onlineOptions.setMode(onlineMode);
         launch.add(onlineOptions).left().row();
-        launch.add(button("Lancer la partie", this::start)).width(240).padTop(10).row();
+        launch.add(button(Tr.t("Lancer la partie"), this::start)).width(240).padTop(10).row();
         launch.setVisible(true);
     }
 

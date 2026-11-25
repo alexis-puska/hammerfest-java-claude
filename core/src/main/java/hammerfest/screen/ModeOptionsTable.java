@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -41,12 +43,12 @@ public class ModeOptionsTable extends Table {
         options.removeIf(o -> mode.options.stream().noneMatch(opt -> opt.id.equals(o)));
         if ("soccer".equals(mode.id)) addSoccerMaps();
         if (mode.options.isEmpty()) {
-            add(new Label("Aucune option pour ce mode.", skin, "dim")).left();
+            add(new Label(Tr.t("Aucune option pour ce mode."), skin, "dim")).left();
             return;
         }
         for (GameModes.Option opt : mode.options) {
             boolean unlocked = game.save.unlockedOptions.contains(opt.id);
-            CheckBox cb = new CheckBox(" " + opt.label + (unlocked ? "" : "  - " + lockText(game, opt.id)), skin);
+            CheckBox cb = new CheckBox(" " + Tr.t(opt.label) + (unlocked ? "" : "  - " + lockText(game, opt.id)), skin);
             cb.getImageCell().padRight(6);
             cb.setChecked(unlocked && options.contains(opt.id));
             cb.setDisabled(!unlocked);
@@ -63,12 +65,12 @@ public class ModeOptionsTable extends Table {
     /** Choix du terrain de SoccerFest (options set_soc_0..3 de l'original) : 4 terrains ou au hasard. */
     private void addSoccerMaps() {
         Table row = new Table();
-        row.add(new Label("Terrain :", skin)).padRight(8);
+        row.add(new Label(Tr.t("Terrain :"), skin)).padRight(8);
         ButtonGroup<TextButton> maps = new ButtonGroup<>();
         maps.setMinCheckCount(1);
         for (int i = -1; i < 4; i++) {
             final int map = i;
-            TextButton b = new TextButton(i < 0 ? "Au hasard" : String.valueOf(i + 1), skin, "small");
+            TextButton b = new TextButton(i < 0 ? Tr.t("Au hasard") : String.valueOf(i + 1), skin, "small");
             maps.add(b);
             if (map == soccerMap) b.setChecked(true);
             b.addListener(new ChangeListener() {
@@ -97,6 +99,6 @@ public class ModeOptionsTable extends Table {
     /** « quête "…" » qui débloque le mode ou l'option, sinon « verrouillé ». */
     static String lockText(HammerfestGame game, String optionOrMode) {
         QuestDef q = game.quests.unlockingQuest(optionOrMode);
-        return q == null ? "verrouillé" : "quête \"" + game.data.lang.get(q.nameKey) + "\"";
+        return q == null ? Tr.t("verrouillé") : Tr.t("quête \"") + game.data.lang.get(q.nameKey) + "\"";
     }
 }

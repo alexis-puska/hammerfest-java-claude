@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -132,6 +134,7 @@ public final class GameView implements Disposable {
         levelRenderer.mirror = f.mirror;
         levelRenderer.hideTiles = f.hideTiles;
         levelRenderer.hideBorders = f.hideBorders;
+        levelRenderer.teleportersOn = f.teleportersOn;
         for (int i = 0; i < cycles; i++) {
             portalStars(f);
             exitAge = f.exitArrow ? exitAge + 1 : -1;
@@ -273,6 +276,34 @@ public final class GameView implements Disposable {
     }
 
     /** Libellé (12 px, gris 219) puis nom de la clé (14 px, blanc), contour noir (addGlow 0x0, 2). */
+    /**
+     * Numéro de niveau affiché (Player.onStartLevel, GameInterface.setLevel / hideLevel) : dans le puits, le niveau réel ;
+     * dans une contrée, le compteur GameMode.fakeLevelId (0 en entrant, +1 par niveau, fixé par script) ou « ? ».
+     */
+    static String shownLevel(RenderFrame f) {
+        if (f.mainWorld) return String.valueOf(f.levelId);
+        return f.fakeLevelId >= 0 ? String.valueOf(f.fakeLevelId) : "?";
+    }
+
+    /** Nom de l'objet ramassé (Verdana 10, blanc, centré ; « hammer_interf_item_name » de GameMode.attachItemName). */
+    private final BitmapFont itemNameFont = loadFont(hammerfest.render.Fonts.verdana(), 10, false);
+
+    /**
+     * Nom de l'objet ramassé en haut au centre (_x = GAME_WIDTH / 2 + 20, _y = 15), précédé de son icône à 75 %
+     * (_x = -(largeur du texte / 2 + 20), _y = 10, sous-clip arrêté) ; jusqu'au prochain objet ou niveau.
+     */
+    private void drawItemName(RenderFrame f) {
+        if (f.itemName < 0) return;
+        String name = app.data.itemName(f.itemName);
+        if (name == null || name.isEmpty()) return;
+        float cx = LevelRenderer.X_OFFSET + Const.GAME_WIDTH * 0.5f + 20;
+        GlyphLayout l = new GlyphLayout(itemNameFont, name);
+        boolean special = f.itemName < 1000;
+        sprites.draw(batch, special ? "hammer_item_special" : "hammer_item_score", special ? f.itemName : f.itemName - 1000,
+                0, cx - (l.width * 0.5f + 20), 15 + 10, 0.75f, 0.75f, 0, LevelRenderer.DOC_HEIGHT);
+        fieldText(itemNameFont, name, cx - 201, cx + 202, 15 - 6, 2, Color.WHITE, 1, false);
+    }
+
     private void drawKeyMessage() {
         if (keyMsgLabel == null) return;
         float x = LevelRenderer.X_OFFSET;
@@ -385,6 +416,7 @@ public final class GameView implements Disposable {
         batch.begin();
         drawMessage(f);
         drawKeyMessage();
+        drawItemName(f);
         drawHud(f);
         batch.end();
         viewport.getCamera().position.add(shakeX, -shakeY, 0);
@@ -410,11 +442,24 @@ public final class GameView implements Disposable {
         if (bodyFrames == 0 || eyeFrames == 0) return false;
         float ang = f.subTransforms != null ? f.subTransforms[i * 5 + 4] % 360 : 270;
         float sx = f.xscales[i] * f.scales[i], sy = f.scales[i];
-        sprites.drawPart(batch, link, "body", (int) (sprites.animClock % bodyFrames) + 1, x, f.ys[i], sx, sy, ang,
+        sprites.drawPart(batch, link, "body", (int) (Const.clipAge(sprites.animClock) % bodyFrames) + 1, x, f.ys[i], sx, sy, ang,
                 LevelRenderer.DOC_HEIGHT);
         sprites.drawPart(batch, link, "eyes", Math.round(ang / 360f * eyeFrames) + 1, x, f.ys[i], sx, sy, Float.NaN,
                 LevelRenderer.DOC_HEIGHT);
         return true;
+    }
+
+    /**
+     * Ballon géant de l'objet 3 (hammer_supa_ball) : script du clip b._rotation += 3 à chaque image, le ballon « b »
+     * (retiré de l'image, FreezeNested.HIDDEN_CHILDREN) tourne sur lui-même (angle de la simulation, subRotation) ;
+     * renvoie false pour que l'image du clip, son reflet fixe, soit dessinée par-dessus.
+     */
+    private boolean drawSupaBall(RenderFrame f, int i, String link, float x) {
+        if (!"hammer_supa_ball".equals(link) || sprites.partFrames(link, "b") == 0) return false;
+        float ang = f.subTransforms != null ? f.subTransforms[i * 5 + 4] % 360 : 0;
+        float sx = f.xscales[i], sy = f.scales[i]; // xscale porte déjà scale(220) (Entity.scale)
+        sprites.drawPart(batch, link, "b", 1, x, f.ys[i], sx, sy, ang, LevelRenderer.DOC_HEIGHT);
+        return false;
     }
 
     private final float[] clipBox = new float[4];
@@ -476,23 +521,25 @@ public final class GameView implements Disposable {
             if (i >= firstPlayer && i < endPlayers) {
                 link = playerLinkage(link, f.extras[i]);
                 int weapon = ((f.extras[i] >> 16) & 0xff) - 1;
-                if (weapon != 1) shader = scarf.forWeapon(weapon); // bombe classique : l'écharpe est déjà violette
+                if (weapon != 1) shader = scarf.forWeapon(batch, weapon); // bombe classique : l'écharpe est déjà violette
             }
             float x = LevelRenderer.X_OFFSET + f.xs[i];
             // clips qui jouent tout seuls : depuis l'apparition de l'entité (pièce qui rebondit puis tourne)
             Long born = births.get(f.ids[i]);
             if (born == null) births.put(f.ids[i], born = (long) f.cycle);
             sprites.animClock = Math.max(0, f.cycle - born);
-            if (shader == null && f.tints != null && f.tints[i] != 0) shader = tint.forTint(f.tints[i]);
-            if (shader != null) batch.setShader(shader);
+            if (shader == null && f.tints != null && f.tints[i] != 0) shader = tint.forTint(batch, f.tints[i]); // posé par forTint
             batch.setColor(1, 1, 1, f.alphas[i]);
             sprites.innerRotation = f.innerRotations != null ? f.innerRotations[i] : Float.NaN;
-            sprites.visiblePart = (f.extras[i] & RenderFrame.EXTRA_BALL) != 0 ? "balle" : null; // balle de la fraise
-            boolean drawn = drawFireBall(f, i, link, x)
+            sprites.visibleParts.clear(); // couches à la demande : balle de la fraise, morceaux du tas de la framboise
+            if ((f.extras[i] & RenderFrame.EXTRA_BALL) != 0) sprites.visibleParts.add("balle");
+            if ((f.extras[i] & RenderFrame.EXTRA_O1) != 0) sprites.visibleParts.add("o1");
+            if ((f.extras[i] & RenderFrame.EXTRA_O2) != 0) sprites.visibleParts.add("o2");
+            boolean drawn = drawFireBall(f, i, link, x) || drawSupaBall(f, i, link, x)
                     || sprites.draw(batch, link, f.anims[i], f.subs[i], x, f.ys[i],
                     f.xscales[i], f.scales[i], f.rotations[i], LevelRenderer.DOC_HEIGHT, f.subTransforms, i * 5);
             sprites.innerRotation = Float.NaN;
-            sprites.visiblePart = null;
+            sprites.visibleParts.clear();
             if (shader != null) batch.setShader(null);
             if (!drawn) { // sprites non exportés : silhouette provisoire
                 batch.setColor(0.95f, 0.95f, 1f, 1f);
@@ -630,7 +677,7 @@ public final class GameView implements Disposable {
                 continue;
             }
             font.setColor(1, 1, 0.6f, 1 - p[2] / 1.2f);
-            String s = p.length > 4 && p[4] == 1 ? "-" + (int) p[3] + " sec" : String.valueOf((int) p[3]);
+            String s = p.length > 4 && p[4] == 1 ? "-" + (int) p[3] + Tr.t(" sec") : String.valueOf((int) p[3]);
             font.draw(batch, s, LevelRenderer.X_OFFSET + p[0] - s.length() * 3.5f, LevelRenderer.DOC_HEIGHT - p[1] + 30 + p[2] * 25);
         }
         font.setColor(Color.WHITE);
@@ -648,7 +695,7 @@ public final class GameView implements Disposable {
     }
 
     /** Texte en bas à droite : « Echap : quitter » en solo, message de l'appelant en ligne. */
-    public String footer = "Echap : quitter";
+    public String footer = Tr.t("Echap : quitter");
     /** Partie en ligne : nom du joueur connecté (affiché à gauche du second bandeau), null hors ligne. */
     public String onlineWith;
 
@@ -724,7 +771,7 @@ public final class GameView implements Disposable {
         // textes aux champs du clip : score (et niveau en solo), temps en Time Attack
         if (frame == 1) {
             hudText(scoreText(f.scores[0]), 324.7f, 418.9f, base - 19.45f, 1, 1.15f, Color.WHITE);
-            String lvl = f.fakeLevelId >= 0 ? String.valueOf(f.fakeLevelId) : String.valueOf(f.levelId);
+            String lvl = shownLevel(f);
             hudText(lvl, 274.8f, 317.3f, base - 19.2f, 2, 1.15f, LEVEL_COLOR);
         } else if (frame == 2) {
             hudText(scoreText(f.scores[0]), 0.1f, 94.3f, base - 21.7f, 0, 0.95f, Color.WHITE);
@@ -768,15 +815,14 @@ public final class GameView implements Disposable {
         float y = -BAND_HEIGHT / 2f + 5;
         if (onlineWith != null) { // en ligne : joueur connecté à gauche, comment quitter à droite
             font.setColor(LEVEL_COLOR);
-            font.draw(batch, "En ligne avec " + onlineWith, 6, y);
+            font.draw(batch, Tr.t("En ligne avec ") + onlineWith, 6, y);
             GlyphLayout q = new GlyphLayout(font, footer);
             font.setColor(0.7f, 0.7f, 0.75f, 1);
             font.draw(batch, footer, LevelRenderer.DOC_WIDTH - 6 - q.width, y);
             font.setColor(Color.WHITE);
             return;
         }
-        String level = f.mainWorld ? "Niveau " + (f.fakeLevelId >= 0 ? f.fakeLevelId : f.levelId)
-                : sectorName(f.currentDim, f.levelId) + " " + f.levelId;
+        String level = f.mainWorld ? Tr.t("Niveau ") + shownLevel(f) : sectorName(f.currentDim, f.levelId) + " " + shownLevel(f);
         if (f.bossRush || f.timeAttack) level += "   " + Game.formatTime(f.chronoMs);
         font.setColor(LEVEL_COLOR);
         font.draw(batch, level, 6, y);
@@ -819,50 +865,99 @@ public final class GameView implements Disposable {
         font.draw(batch, text, (LevelRenderer.DOC_WIDTH - l.width) / 2f, LevelRenderer.DOC_HEIGHT - yTop);
     }
 
-    /** Aide de la pause (hammer_interf_instructions) : touches, zone en cours et un conseil. */
+    /** Polices des champs de hammer_interf_instructions (Franklin Gothic Heavy, Satans, Verdana, tailles d'origine). */
+    private final BitmapFont pauseTitleFont = loadFont(Gdx.files.internal("fonts/satans.ttf"), 24, false);
+    private final BitmapFont pauseKeyFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 18, false);
+    private final BitmapFont pauseSpaceFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 14, false);
+    private final BitmapFont pauseSectorFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 15, false);
+    private final BitmapFont pauseSmallFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 11, false);
+    private final BitmapFont pauseTimeFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 70, false);
+    private final BitmapFont pauseAvgFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 40, false);
+    private final BitmapFont pauseLabelFont = loadFont(Gdx.files.internal("fonts/hammerfest.ttf"), 16, false);
+    private final BitmapFont pauseTipFont = loadFont(hammerfest.render.Fonts.verdana(), 10, false);
+
+    /**
+     * Aide de la pause : clip hammer_interf_instructions au centre du jeu, champs remplis comme GameMode.onPause et
+     * ses variantes (image 1 : Aventure, Time Attack, Apprentissage ; 2 : SoccerFest ; 3 : multi coopératif ;
+     * 4 : Tubercourse). Champs : position (_x, _y), cadre, police, taille, alignement et couleur d'origine.
+     */
     private void drawPauseHelp(RenderFrame f) {
-        fillRect(0, 0, LevelRenderer.DOC_WIDTH, LevelRenderer.DOC_HEIGHT, 0, 0, 0, 0.45f);
-        float x = 60, w = LevelRenderer.DOC_WIDTH - 120, top = 120;
-        fillRect(x, top, w, 260, 0.36f, 0.25f, 0.16f, 0.95f);
-        fillRect(x + 4, top + 4, w - 8, 252, 0.55f, 0.40f, 0.26f, 0.95f);
-        font.getData().setScale(1.4f);
-        font.setColor(0.98f, 0.9f, 0.7f, 1f);
-        centered(app.data.lang.plain("static.5"), top + 18);
-        font.getData().setScale(1f);
-        String[][] rows = {
-                {"Flèches", app.data.lang.plain("static.7")},
-                {app.data.lang.plain("static.10"), app.data.lang.plain("static.8")},
-                {"P", app.data.lang.plain("static.9")},
-                {"C", "Carte"},
-        };
-        float y = top + 60;
-        for (String[] r : rows) {
-            if (r[0].equals("C") && !hasMap()) continue;
-            fillRect(x + 20, y - 5, 110, 21, 0.85f, 0.82f, 0.75f, 1f);
-            font.setColor(0.2f, 0.15f, 0.1f, 1f);
-            font.draw(batch, r[0], x + 28, LevelRenderer.DOC_HEIGHT - y + 2);
-            font.setColor(0.98f, 0.92f, 0.75f, 1f);
-            font.draw(batch, r[1], x + 145, LevelRenderer.DOC_HEIGHT - y + 2);
-            y += 30;
+        int frame = f.bossRush ? 4 : f.soccer ? 2 : f.multi && !f.timeAttack ? 3 : 1;
+        float cx = LevelRenderer.X_OFFSET + Const.GAME_WIDTH * 0.5f, cy = Const.GAME_HEIGHT * 0.5f;
+        if (!sprites.draw(batch, "hammer_interf_instructions", -1, frame, cx, cy, 1, 1, LevelRenderer.DOC_HEIGHT)) {
+            fillRect(cx - 200, cy - 240, 400, 480, 0.45f, 0.30f, 0.18f, 0.95f); // sprites absents
         }
-        if (f.multi && !f.soccer) {
-            font.draw(batch, "Sandy : R F D G + A", x + 20, LevelRenderer.DOC_HEIGHT - y + 2);
+        Color key = new Color(230 / 255f, 197 / 255f, 146 / 255f, 1);
+        String tip = pauseTip();
+        switch (frame) {
+            case 1: {
+                pauseField(pauseTitleFont, app.data.lang.plain("static.5"), cx, cy, -137, -111.4f, -2, 276.05f, -2, 2, new Color(95 / 255f, 69 / 255f, 44 / 255f, 1));
+                pauseField(pauseKeyFont, app.data.lang.plain("static.7"), cx, cy, -23.2f, -69.75f, 28.95f, 154.2f, -2, 0, key);
+                pauseField(pauseKeyFont, app.data.lang.plain("static.8"), cx, cy, -3, -29.85f, 8.75f, 120, -2, 0, key);
+                pauseField(pauseSpaceFont, app.data.lang.plain("static.10"), cx, cy, -120.2f, -23.75f, -2, 107.95f, -2, 2, new Color(0.4f, 0.4f, 0.4f, 1));
+                pauseField(pauseKeyFont, app.data.lang.plain("static.9"), cx, cy, -44.2f, 30.05f, 49.95f, 176.2f, -2, 0, key);
+                String sector = f.tutorial ? app.data.lang.plain("static.16") : sectorName(f.currentDim, f.levelId);
+                pauseField(pauseSectorFont, app.data.lang.plain("static.14") + "«" + sector + "»", cx, cy, -201.95f, 230.65f, -4.4f, 407.9f, -2, 2, Color.WHITE);
+                pauseTipField(tip, cx - 130, cy + 62.9f, 265.95f);
+                break;
+            }
+            case 2: { // Soccer.onPause : touches et règle du jeu à la place du conseil
+                Color brown = new Color(88 / 255f, 62 / 255f, 39 / 255f, 1);
+                pauseField(pauseSmallFont, app.data.lang.plain("static.29"), cx, cy, -124.9f, -109.25f, -2, 90, -2, 2, brown);
+                pauseField(pauseSmallFont, app.data.lang.plain("static.30"), cx, cy, -30.5f, -109.25f, -2, 65.7f, -2, 2, brown);
+                pauseField(pauseSmallFont, app.data.lang.plain("static.31"), cx, cy, 31, -109.4f, -2, 65.7f, -2, 2, brown);
+                pauseTipField(app.data.lang.plain("static.32"), cx - 124.9f, cy + 27.55f, 257.85f);
+                break;
+            }
+            case 3: { // MultiCoop.onPause : touches des deux joueurs
+                Color brown = new Color(88 / 255f, 62 / 255f, 39 / 255f, 1);
+                pauseField(pauseSmallFont, app.data.lang.plain("static.29"), cx, cy, -124.9f, -109.25f, -2, 90, -2, 2, brown);
+                pauseField(pauseSmallFont, app.data.lang.plain("static.42"), cx, cy, -30.5f, -109.25f, -2, 65.7f, -2, 2, brown);
+                pauseTipField(tip, cx - 124.9f, cy + 27.55f, 257.85f);
+                break;
+            }
+            default: { // BossRush.onPause : chrono et moyenne par niveau
+                Color brown = new Color(95 / 255f, 69 / 255f, 44 / 255f, 1);
+                pauseField(pauseTitleFont, app.data.lang.plain("static.36"), cx, cy, -138.55f, -110.8f, -2, 276.05f, -2, 2, brown);
+                pauseField(pauseLabelFont, app.data.lang.plain("static.37"), cx, cy, -135.55f, -66.9f, -2, 271.1f, -2, 2, key);
+                pauseField(pauseTimeFont, formatTimeShort(f.chronoMs), cx, cy, -135.55f, -55.9f, -2, 271.1f, -2, 2, Color.WHITE);
+                pauseField(pauseLabelFont, app.data.lang.plain("static.38"), cx, cy, -135.55f, 28.45f, -2, 271.1f, -2, 2, key);
+                pauseField(pauseAvgFont, f.levelAvg > 0 ? formatTimeShort(Math.round(f.levelAvg)) : "--", cx, cy, -135.55f, 39.45f, -2, 271.1f, -2, 2, Color.WHITE);
+            }
         }
+    }
+
+    /** Champ texte du clip de pause : placé en (tx, ty) dans le clip centré en (cx, cy), cadre x0..x1, haut y0. */
+    private void pauseField(BitmapFont font, String text, float cx, float cy, float tx, float ty, float x0, float x1,
+                            float y0, int align, Color color) {
+        fieldText(font, text, cx + tx + x0, cx + tx + x1, cy + ty + y0, align, color, 1, false);
+    }
+
+    /** Conseil (Verdana 10, #e6be86, renvoyé à la ligne dans le cadre du champ « tip »). */
+    private void pauseTipField(String text, float x, float top, float width) {
+        if (text == null || text.isEmpty()) return;
+        pauseTipFont.setColor(230 / 255f, 190 / 255f, 134 / 255f, 1);
+        pauseTipFont.draw(batch, text, x + 2, LevelRenderer.DOC_HEIGHT - top - 2, width - 4, com.badlogic.gdx.utils.Align.left, true);
+        pauseTipFont.setColor(Color.WHITE);
+    }
+
+    /**
+     * Conseil « Conseil : … » (Lang 300 + 301…) tournant à chaque pause. Le conseil 311 cite CONTROL + SHIFT + K, le
+     * raccourci du site d'origine pour abandonner : ici c'est Échap.
+     */
+    private String pauseTip() {
         int n = 0;
         while (app.data.lang.has("static." + (301 + n))) n++;
-        if (n > 0) {
-            String tip = app.data.lang.plain("static.300") + app.data.lang.plain("static." + (301 + Math.floorMod(tipIndex, n)));
-            font.setColor(1f, 0.95f, 0.85f, 1f);
-            font.draw(batch, tip, x + 16, LevelRenderer.DOC_HEIGHT - (top + 200), w - 32, com.badlogic.gdx.utils.Align.left, true);
-        }
-        font.setColor(Color.WHITE);
-        String sector = f.tutorial ? app.data.lang.plain("static.16") : sectorName(f.currentDim, f.mainWorld ? f.levelId : 0);
-        if (!sector.isEmpty()) centered(app.data.lang.plain("static.14") + "\"" + sector + "\"", top + 290);
-        if (f.bossRush) {
-            centered(app.data.lang.plain("static.37") + " " + Game.formatTime(f.chronoMs) + "   "
-                    + app.data.lang.plain("static.38") + " " + (f.levelAvg > 0 ? Game.formatTime((long) f.levelAvg) : "--"), top + 270);
-        }
-        centered("P : reprendre", top + 312);
+        if (n == 0) return "";
+        String tip = app.data.lang.plain("static." + (301 + Math.floorMod(tipIndex, n)));
+        tip = tip.replace("CONTROL + SHIFT + K", "fr".equals(app.save.lang) ? "Échap" : "Esc");
+        return app.data.lang.plain("static.300") + tip;
+    }
+
+    /** Chrono.formatTimeShort : minutes et secondes arrondies, « 03" 07 ». */
+    static String formatTimeShort(long ms) {
+        long s = Math.round(ms / 1000.0);
+        return String.format("%02d\" %02d", s / 60, s % 60);
     }
 
     /** GameMode.getMapY : hauteur d'un niveau du puits sur la carte. */
@@ -882,6 +977,9 @@ public final class GameView implements Disposable {
         m.appendTail(out);
         return out.toString();
     }
+
+    /** Noms et temps des icônes de la carte (hammer_interf_mapIcon.field : Verdana 9 px blanc). */
+    private final BitmapFont mapIconFont = loadFont(hammerfest.render.Fonts.verdana(), 9, false);
 
     /** Carte du puits (hammer_map) : profondeur atteinte, portails empruntés, morts et mots EXTEND. */
     /**
@@ -930,11 +1028,13 @@ public final class GameView implements Disposable {
             // champ « field » des images 1 (sortie droite), 3 (sortie gauche, aligné à droite) et 7 (temps)
             if (eid == Const.EVENT_EXIT_RIGHT || eid == Const.EVENT_EXIT_LEFT || eid == Const.EVENT_TIME) {
                 String t = eid == Const.EVENT_TIME ? (f.mapMiscs[k] == null ? "?" : f.mapMiscs[k]) : mapText(f.mapMiscs[k]);
-                font.getData().setScale(9f / 16f); // champs des icônes : 9 px
-                GlyphLayout l = new GlyphLayout(font, t);
+                // champ « field » : Verdana 9 px blanc, à droite de l'icône (x + 32.7, temps x + 34.4) ou, sortie à
+                // gauche, aligné à droite sur x - 31.4 ; haut du champ à y - 6 (temps : y - 7)
+                GlyphLayout l = new GlyphLayout(mapIconFont, t);
                 float tx = eid == Const.EVENT_EXIT_LEFT ? x - 31.4f - l.width : x + (eid == Const.EVENT_TIME ? 34.4f : 32.7f);
-                font.draw(batch, t, tx, LevelRenderer.DOC_HEIGHT - y + 4);
-                font.getData().setScale(1f);
+                float top = y + (eid == Const.EVENT_TIME ? -7 : -6);
+                mapIconFont.setColor(Color.WHITE);
+                mapIconFont.draw(batch, t, tx, LevelRenderer.DOC_HEIGHT - top - 2);
             }
         }
         if (sprites.partFrames("hammer_map", "ptr") > 0) {
@@ -978,6 +1078,12 @@ public final class GameView implements Disposable {
     /** Message d'alerte au centre de l'écran (FxManager.attachAlert), 2,5 s. */
     private String alertText;
     private float alertTime;
+
+    /** Touche M : coupe ou rétablit la musique (réglage enregistré par l'écran appelant). */
+    public void toggleMusic() {
+        hammerfest.render.Audio.settings.musicMuted = !hammerfest.render.Audio.settings.musicMuted;
+        audio.applySettings(); // sans message à l'écran
+    }
 
     /** Affiche une alerte (aussi utilisé pour les messages réseau). */
     public void alert(String text) {

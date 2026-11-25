@@ -1,5 +1,7 @@
 package hammerfest.net;
 
+import hammerfest.ui.Tr;
+
 import java.io.Closeable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -40,7 +42,7 @@ public final class LanDiscovery {
 
         @Override
         public String toString() {
-            return "Partie de " + hostName + " (" + address.getHostAddress() + ")";
+            return Tr.t("Partie de ") + hostName + " (" + address.getHostAddress() + ")";
         }
     }
 

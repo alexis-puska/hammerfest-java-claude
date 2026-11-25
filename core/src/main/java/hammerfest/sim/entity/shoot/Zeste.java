@@ -12,7 +12,6 @@ public class Zeste extends Shoot {
 
     public Zeste() {
         super("hammer_shoot_zest");
-        yOffset = -CASE_HEIGHT;
         shootSpeed = 6;
     }
 
@@ -20,6 +19,19 @@ public class Zeste extends Shoot {
         Zeste s = new Zeste();
         s.initShoot(g, x, y);
         return s;
+    }
+
+    /**
+     * Zeste.moveDown : tiré vers le bas, le clip est retourné verticalement (_yscale = -_yscale) et dessiné une case
+     * plus haut (_yOffset = -CASE_HEIGHT). Retournement vertical = rotation de 180° + retournement horizontal (même
+     * point d'ancrage). Tiré vers le haut, le zeste garde son sens et son décalage nul.
+     */
+    @Override
+    public void moveDown(double speed) {
+        super.moveDown(speed);
+        rotation = 180;
+        xscale = -xscale;
+        yOffset = -CASE_HEIGHT;
     }
 
     @Override

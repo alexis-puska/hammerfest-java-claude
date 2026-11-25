@@ -32,6 +32,9 @@ public class SaveData {
     public String lastMode = "adventure";
     public Set<String> lastOptions = new LinkedHashSet<>();
 
+    /** Volumes et musique coupée (écran Options, touche M en jeu). */
+    public AudioSettings audio = new AudioSettings();
+
     /** Réglages des manettes (écran Commandes). */
     public ControlSettings controls = new ControlSettings();
 
@@ -59,6 +62,9 @@ public class SaveData {
         if (stats == null) stats = new Stats();
         if (lastMode == null) lastMode = "adventure";
         if (lastOptions == null) lastOptions = new LinkedHashSet<>();
+        if (audio == null) audio = new AudioSettings();
+        audio.sanitize();
+        if (lang == null || !java.util.List.of("fr", "en", "es").contains(lang)) lang = "fr";
         if (controls == null) controls = new ControlSettings();
         controls.sanitize();
         version = CURRENT_VERSION;

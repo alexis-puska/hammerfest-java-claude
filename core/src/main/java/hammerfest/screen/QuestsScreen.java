@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,18 +17,18 @@ public class QuestsScreen extends MenuScreen {
 
     public QuestsScreen(HammerfestGame game) {
         super(game);
-        Table panel = panel("Quêtes");
+        Table panel = panel(Tr.t("Quêtes"));
         Lang lang = game.data.lang;
 
         int done = game.save.completedQuests.size();
-        panel.add(label(done + " / " + game.data.quests.size() + " quêtes terminées", "dim")).padBottom(8).row();
+        panel.add(label(done + " / " + game.data.quests.size() + Tr.t(" quêtes terminées"), "dim")).padBottom(8).row();
 
         Table list = new Table();
         list.top().left();
         list.defaults().left();
         for (QuestDef q : game.data.quests) {
             QuestBook.Status st = game.quests.status(q, game.save);
-            String stText = st == QuestBook.Status.COMPLETED ? "terminée" : st == QuestBook.Status.IN_PROGRESS ? "en cours" : "verrouillée";
+            String stText = st == QuestBook.Status.COMPLETED ? Tr.t("terminée") : st == QuestBook.Status.IN_PROGRESS ? Tr.t("en cours") : Tr.t("verrouillée");
             String stStyle = st == QuestBook.Status.COMPLETED ? "ok" : st == QuestBook.Status.IN_PROGRESS ? "accent" : "dim";
 
             Table head = new Table();
@@ -68,18 +70,18 @@ public class QuestsScreen extends MenuScreen {
         StringBuilder sb = new StringBuilder();
         for (int f : q.give) {
             String key = "family." + f;
-            append(sb, "Débloque : " + (lang.has(key) ? lang.get(key) : familyLabel(f)));
+            append(sb, Tr.t("Débloque : ") + (lang.has(key) ? lang.get(key) : familyLabel(f)));
         }
-        for (String o : q.options) append(sb, "Option débloquée : " + o);
-        for (String m : q.modes) append(sb, "Mode débloqué : " + m);
+        for (String o : q.options) append(sb, Tr.t("Option débloquée : ") + o);
+        for (String m : q.modes) append(sb, Tr.t("Mode débloqué : ") + m);
         for (int f : q.remove) append(sb, "Retire : " + lang.get("family." + f));
         return sb.toString();
     }
 
     private static String familyLabel(int f) {
-        if (f >= 5000) return "clé " + (f - 5000);
-        if (f >= 100 && f < 1000) return "bonus permanent " + f;
-        return "famille " + f;
+        if (f >= 5000) return Tr.t("clé ") + (f - 5000);
+        if (f >= 100 && f < 1000) return Tr.t("bonus permanent ") + f;
+        return Tr.t("famille ") + f;
     }
 
     private static void append(StringBuilder sb, String s) {

@@ -36,6 +36,10 @@ public class RenderFrame {
     public boolean exitArrow;
     /** Pointeur du tutoriel : x, y, rotation ; null = aucun. */
     public float[] pointer;
+    /** Objet dont le nom est affiché en haut au centre (Game.itemNameId), -1 = aucun. */
+    public int itemName = -1;
+    /** Téléporteurs allumés (World.Teleporter.on) : case de départ cx, cy de chacun ; null = aucun. */
+    public int[] teleportersOn;
     /** Halos de lumière : x, y, rayon (coordonnées du jeu, sans le décalage de 10 px). */
     public float[] holes;
     public float shakeTimer, shakeTotal, shakePower;
@@ -45,6 +49,8 @@ public class RenderFrame {
     // ------------------------------------------------------------------ entités, dans l'ordre de dessin
     /** Bit de {@link #extras} d'une fraise qui tient la balle (couche « balle » de son sprite affichée). */
     public static final int EXTRA_BALL = 1 << 26;
+    /** Bits de {@link #extras} d'une framboise en tas : morceaux o1 / o2 révélés (couches « o1 », « o2 »). */
+    public static final int EXTRA_O1 = 1 << 27, EXTRA_O2 = 1 << 28;
     /** Nombre d'entités dessinées derrière les joueurs, en tête de liste (Tuberculoz vaincu : DP_SPRITE_BACK_LAYER). */
     public int backEntities;
     /** Nombre de joueurs dans la liste des entités, juste après les {@link #backEntities} (les joueurs visibles). */
@@ -147,6 +153,16 @@ public class RenderFrame {
         }
         f.darkness = (float) g.darkness;
         f.exitArrow = g.exitArrow;
+        f.itemName = g.itemNameId;
+        if (g.world != null) {
+            List<Integer> on = new ArrayList<>();
+            for (hammerfest.sim.World.Teleporter t : g.world.teleporterList) {
+                if (!t.on) continue;
+                on.add(t.cx);
+                on.add(t.cy);
+            }
+            if (!on.isEmpty()) f.teleportersOn = on.stream().mapToInt(Integer::intValue).toArray();
+        }
         if (g.pointer != null) f.pointer = new float[]{(float) g.pointer[0], (float) g.pointer[1], (float) g.pointer[2]};
         List<Float> holes = new ArrayList<>();
         double d = 150 * g.holeScale;
@@ -286,6 +302,11 @@ public class RenderFrame {
                 // fraise qui tient la balle (Fraise.mt : sub.balle._visible = fl_ball)
                 if (b instanceof hammerfest.sim.entity.bad.Fruits.Fraise && ((hammerfest.sim.entity.bad.Fruits.Fraise) b).fl_ball) {
                     extra |= EXTRA_BALL;
+                }
+                if (b instanceof hammerfest.sim.entity.bad.Fruits.Framboise) { // tas : sub.o1 / sub.o2
+                    hammerfest.sim.entity.bad.Fruits.Framboise fr = (hammerfest.sim.entity.bad.Fruits.Framboise) b;
+                    if (fr.heapO1) extra |= EXTRA_O1;
+                    if (fr.heapO2) extra |= EXTRA_O2;
                 }
             }
             f.extras[i] = extra;

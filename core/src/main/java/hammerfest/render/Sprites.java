@@ -79,6 +79,13 @@ public class Sprites implements Disposable, FrameSource {
      * {images, image du removeMovieClip() (0 = absent), images portant un stop()...} du clip,
      * pour les décors animés.
      */
+    @Override
+    public boolean playsOnAttach(String linkage) {
+        String lib = libOf(linkage);
+        SpriteLibrary.Clip clip = lib == null ? null : libs.get(lib).symbol(linkage);
+        return clip != null && clip.playOnAttach;
+    }
+
     public int[] playInfo(String linkage) {
         String lib = libOf(linkage);
         if (lib == null) return new int[]{1, 0};
@@ -122,7 +129,7 @@ public class Sprites implements Disposable, FrameSource {
 
     /** Image d'un clip qui joue tout seul depuis {@link #animClock} : en boucle, ou figé sur son premier stop(). */
     int loopFrame(SpriteLibrary.Clip c) {
-        return clipFrame(c, animClock);
+        return clipFrame(c, hammerfest.sim.Const.clipAge(animClock)); // 40 images/s, comme le SWF d'origine
     }
 
     /** Image d'un clip joué depuis {@code age} cycles : figé sur son premier stop(), ou en boucle (reprise à loopStart). */
@@ -143,11 +150,17 @@ public class Sprites implements Disposable, FrameSource {
     /** Retourne horizontalement le clip en boucle emboîté (View.attachField : skin.sub._xscale *= -1). */
     public boolean flipInnerLoop;
 
+    /** Boucle emboîtée sur son 2e état quand il existe (rayon de téléporteur allumé, {@link SpriteLibrary.Placement#alt}). */
+    public boolean altInnerLoop;
+
+    /** Teinte des couches en aplat (rayons d'arme), créée à la première utilisation (contexte GL). */
+    private TintShader tintShader;
+
     /** Horloge (cycles de jeu) des clips qui jouent en boucle tout seuls ({@link SpriteLibrary.Placement#loop}). */
     public long animClock;
 
-    /** Couche affichée à la demande que l'entité dessinée montre ({@link SpriteLibrary.Placement#part}), null = aucune. */
-    public String visiblePart;
+    /** Couches affichées à la demande que l'entité dessinée montre ({@link SpriteLibrary.Placement#part}). */
+    public final java.util.Set<String> visibleParts = new java.util.HashSet<>();
 
     /** Variante avec _rotation (degrés, sens horaire comme Flash). */
     public boolean draw(SpriteBatch batch, String linkage, int animId, int subFrame,
@@ -203,6 +216,7 @@ public class Sprites implements Disposable, FrameSource {
         // Image dont le sous-clip joue tout seul en boucle (tourbillon des portails…) : on descend dans ce clip
         int fi = Math.min(Math.max(frame, 1), image.frames) - 1;
         SpriteLibrary.Placement inner = image.subs != null && fi < image.subs.size() ? image.subs.get(fi) : null;
+        if (altInnerLoop && inner != null && inner.alt != null && l.clips.containsKey(inner.alt.id)) inner = inner.alt;
         if (inner != null && inner.loop && l.clips.containsKey(inner.id)) {
             SpriteLibrary.Clip in = l.clips.get(inner.id);
             float na = a * inner.a + c * inner.b, nb = b * inner.a + d * inner.b;
@@ -235,7 +249,12 @@ public class Sprites implements Disposable, FrameSource {
         java.util.List<SpriteLibrary.Placement> layers = image.layers != null && li < image.layers.size() ? image.layers.get(li) : null;
         if (layers != null) drawLayers(batch, lib, l, layers, true, a, b, c, d, tx, ty, x, y, scaleX, scaleY, rotationDeg, worldHeight);
         TextureAtlas.AtlasRegion region = region(lib, imageId, li);
-        if (region == null) return false;
+        if (region == null) {
+            // image vidée à l'assemblage (Clip.blankFrames) : seules ses couches teintées la dessinent (rayons d'arme)
+            if (layers == null) return false;
+            drawLayers(batch, lib, l, layers, false, a, b, c, d, tx, ty, x, y, scaleX, scaleY, rotationDeg, worldHeight);
+            return true;
+        }
         emit(batch, region, image, a, b, c, d, tx, ty, x, y, scaleX, scaleY, rotationDeg, worldHeight);
         if (layers != null) drawLayers(batch, lib, l, layers, false, a, b, c, d, tx, ty, x, y, scaleX, scaleY, rotationDeg, worldHeight);
         return true;
@@ -247,13 +266,26 @@ public class Sprites implements Disposable, FrameSource {
                             float x, float y, float scaleX, float scaleY, float rotationDeg, float worldHeight) {
         for (SpriteLibrary.Placement p : layers) {
             if (p.under != under) continue;
-            if (p.part != null && !p.part.equals(visiblePart)) continue; // affichée à la demande seulement
+            if (p.part != null && !visibleParts.contains(p.part)) continue; // affichée à la demande seulement
             SpriteLibrary.Clip lc = l.clips.get(p.id);
             if (lc == null) continue;
             TextureAtlas.AtlasRegion r = region(lib, p.id, Math.min(Math.max(loopFrame(lc), 1), lc.frames) - 1);
             if (r == null) continue;
+            com.badlogic.gdx.graphics.glutils.ShaderProgram before = null;
+            com.badlogic.gdx.graphics.Color color = null;
+            if (p.tintRgb != null) { // aplat de couleur (CXFORM d'origine : multiplicateurs 0, couleur ajoutée)
+                if (tintShader == null) tintShader = new TintShader();
+                before = batch.getShader();
+                color = batch.getColor().cpy();
+                if (tintShader.forTint(batch, (100 << 24) | p.tintRgb) == null) before = null;
+                batch.setColor(color.r, color.g, color.b, color.a * (p.tintAlpha == null ? 1 : p.tintAlpha));
+            }
             emit(batch, r, lc, a * p.a + c * p.b, b * p.a + d * p.b, a * p.c + c * p.d, b * p.c + d * p.d,
                     a * p.tx + c * p.ty + tx, b * p.tx + d * p.ty + ty, x, y, scaleX, scaleY, rotationDeg, worldHeight);
+            if (color != null) {
+                if (before != null) batch.setShader(before);
+                batch.setColor(color);
+            }
         }
     }
 
@@ -422,5 +454,6 @@ public class Sprites implements Disposable, FrameSource {
     public void dispose() {
         for (TextureAtlas a : atlases.values()) a.dispose();
         atlases.clear();
+        if (tintShader != null) tintShader.dispose();
     }
 }

@@ -580,6 +580,8 @@ public final class Fruits {
         public double tx, ty;
         public boolean fl_phased;
         int arrived;
+        /** Morceaux o1 / o2 du tas (sub.o1._visible, sub.o2._visible), révélés par les fragments 5 et 6. */
+        public boolean heapO1, heapO2;
 
         public Framboise() {
             super(BAD_LINKAGES[20]);
@@ -634,6 +636,14 @@ public final class Fruits {
             show();
             moveTo(tx, ty);
             fb.destroy();
+            // Framboise.onArrived : le tas grossit d'une image par fragment (sub.nextFrame), les morceaux 5 et 6
+            // apparaissent par-dessus (sub.o1, sub.o2)
+            if (fb.subFrame >= 5) {
+                if (fb.subFrame == 5) heapO1 = true;
+                else heapO2 = true;
+            } else {
+                subFrame++;
+            }
             arrived++;
             if (arrived >= FRAGS) phaseIn();
         }
@@ -660,6 +670,11 @@ public final class Fruits {
             dy = 0;
             fl_shooter = false;
             fl_anim = false;
+            // gotoAndStop("15") : le tas, sous-clip arrêté sur sa 1re image, morceaux o1 / o2 cachés
+            animId = 14;
+            subFrame = 1;
+            heapO1 = false;
+            heapO2 = false;
             hide();
         }
 

@@ -117,4 +117,16 @@ class QuestBookTest {
         assertEquals(12, s.stats.maxLevel, "niveau max conservé");
         assertEquals(2, s.stats.gamesPlayed);
     }
+
+    /** Toutes les quêtes : une famille retirée (zodiaque, Coeur 2, clé avinée, paperasse) ne revient pas. */
+    @Test
+    void removedFamiliesStayRemovedWhateverTheQuestOrder() {
+        hammerfest.save.SaveData save = new hammerfest.save.SaveData();
+        for (hammerfest.data.QuestDef q : data.quests) save.completedQuests.add(q.id);
+        book.recomputeUnlocks(save);
+        for (int f : new int[]{5, 8, 1021, 1022}) {
+            assertFalse(save.unlockedFamilies.contains(f), "famille " + f + " retirée par une quête");
+        }
+        assertTrue(save.unlockedFamilies.contains(1), "famille donnée (quête 10) et jamais retirée");
+    }
 }

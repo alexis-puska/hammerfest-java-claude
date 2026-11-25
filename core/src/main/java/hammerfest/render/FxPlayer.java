@@ -24,6 +24,8 @@ public class FxPlayer {
         final boolean overlay;
         final int total;
         int frame = 1;
+        /** Position de lecture (images, fractionnaire) : 40 images/s pour 32 cycles/s (Const.CLIP_FRAMES_PER_CYCLE). */
+        double pos = 1;
 
         Fx(String linkage, float x, float y, int total, float scale, boolean overlay) {
             this.overlay = overlay;
@@ -77,15 +79,20 @@ public class FxPlayer {
         f.rotation = rotation;
         f.alpha = alpha;
         f.frame = Math.max(1, Math.min(startFrame, f.total));
+        f.pos = f.frame;
         list.add(f);
     }
 
-    /** Un cycle de jeu : image suivante ; l'effet disparaît après sa dernière image. */
+    /**
+     * Un cycle de jeu : le clip avance de 40/32 image (cadence du SWF d'origine) ; l'effet disparaît une fois sa
+     * dernière image jouée.
+     */
     public void tick() {
         for (Iterator<Fx> it = list.iterator(); it.hasNext(); ) {
             Fx f = it.next();
-            if (f.frame >= f.total) it.remove();
-            else f.frame++;
+            f.pos += hammerfest.sim.Const.CLIP_FRAMES_PER_CYCLE;
+            if (f.pos >= f.total + 1) it.remove();
+            else f.frame = (int) f.pos;
         }
     }
 

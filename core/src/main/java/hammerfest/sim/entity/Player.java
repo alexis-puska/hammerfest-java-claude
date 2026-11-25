@@ -517,6 +517,27 @@ public class Player extends Physics {
             changeWeapon(WEAPON_NONE);
         }
         if (!fl_kill && !fl_destroy && game.script != null) game.script.onEnterCase(cx, cy);
+        showTeleporters();
+    }
+
+    /**
+     * Player.showTeleporters : éteint tous les téléporteurs, puis allume ceux dont le joueur est proche (moins de
+     * TELEPORTER_DISTANCE = 4 cases du centre, à leur hauteur pour un vertical, au-dessus pour un horizontal) et leur
+     * destination quand elle n'est pas tirée au hasard. Allumé : rayon et socles sur leur 2e état (SetManager.showField).
+     */
+    public void showTeleporters() {
+        java.util.List<hammerfest.sim.World.Teleporter> tl = world.teleporterList;
+        for (hammerfest.sim.World.Teleporter t : tl) t.on = false;
+        double dist = CASE_WIDTH * 4;
+        for (hammerfest.sim.World.Teleporter t : tl) {
+            boolean close = t.dir == VERTICAL
+                    ? Math.abs(t.centerX - x) <= dist && y >= t.startY - CASE_HEIGHT * 0.5 && y <= t.endY + CASE_HEIGHT * 0.5
+                    : Math.abs(t.centerY - y) <= dist && x >= t.startX - CASE_WIDTH && x <= t.endX + CASE_WIDTH;
+            if (!close) continue;
+            t.on = true;
+            hammerfest.sim.World.Teleporter next = world.fixedNextTeleporter(t); // getNextTeleporter sans fl_rand
+            if (next != null) next.on = true;
+        }
     }
 
     public void onStartLevel() {
@@ -533,6 +554,7 @@ public class Player extends Physics {
             game.shake(10, 2);
             for (Entity b : game.getList(BAD_CLEAR)) ((Bad) b).knock(SECOND);
         }
+        showTeleporters(); // Player.onHitGround
         if (h >= DUST_FALL_HEIGHT) game.dust(cx, cy + 1);
         game.fx("hammer_fx_fall", x, y);
         game.sound("sound_land");

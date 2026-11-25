@@ -1,5 +1,7 @@
 package hammerfest.net;
 
+import hammerfest.ui.Tr;
+
 import java.util.function.Consumer;
 
 /**
@@ -21,7 +23,7 @@ public interface PortService {
     PortService NONE = new PortService() {
         @Override
         public void open(int tcpPort, int udpPort, Consumer<String> status) {
-            status.accept("Ouverture automatique du port indisponible sur cette plateforme");
+            status.accept(Tr.t("Ouverture automatique du port indisponible sur cette plateforme"));
         }
 
         @Override

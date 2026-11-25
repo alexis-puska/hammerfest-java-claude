@@ -133,6 +133,7 @@
         12
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -148,6 +149,7 @@
         13
       ],
       "removeFrame" : 13,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -161,6 +163,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -186,6 +189,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -199,6 +203,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -212,6 +217,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -225,6 +231,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -238,6 +245,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -378,6 +386,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -391,6 +400,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -404,6 +414,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -417,6 +428,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -430,6 +442,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -443,6 +456,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -456,6 +470,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -469,6 +484,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -482,6 +498,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -495,6 +512,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -508,6 +526,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 7,
       "loopStart" : 6
     },
@@ -521,6 +540,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 13,
       "loopStart" : 12
     },
@@ -534,6 +554,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -547,8 +568,23 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 8,
       "loopStart" : 5
+    },
+    "134" : {
+      "frames" : 1,
+      "x" : -2.7,
+      "y" : -6.625,
+      "w" : 12.0,
+      "h" : 11.0,
+      "subs" : [ ],
+      "stopFrame" : 0,
+      "stopFrames" : [ ],
+      "removeFrame" : 0,
+      "playOnAttach" : false,
+      "loopLength" : 0,
+      "loopStart" : 0
     },
     "143" : {
       "frames" : 5,
@@ -560,8 +596,141 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
-      "loopStart" : 0
+      "loopStart" : 0,
+      "layers" : [
+        [
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : true,
+            "part" : "o2",
+            "a" : -0.6136322,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 0.6136322,
+            "tx" : 12.75,
+            "ty" : 3.95
+          },
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : true,
+            "part" : "o1",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.3,
+            "ty" : 3.2
+          }
+        ],
+        [
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o2",
+            "a" : -0.6136322,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 0.6136322,
+            "tx" : 12.75,
+            "ty" : 3.95
+          },
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o1",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.3,
+            "ty" : 3.2
+          }
+        ],
+        [
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o2",
+            "a" : -0.6136322,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 0.6136322,
+            "tx" : 12.75,
+            "ty" : 3.95
+          },
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o1",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.3,
+            "ty" : 3.2
+          }
+        ],
+        [
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o2",
+            "a" : -0.6136322,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 0.6136322,
+            "tx" : 12.75,
+            "ty" : 3.95
+          },
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o1",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.3,
+            "ty" : 3.2
+          }
+        ],
+        [
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o2",
+            "a" : -0.6136322,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 0.6136322,
+            "tx" : 12.75,
+            "ty" : 3.95
+          },
+          {
+            "id" : 134,
+            "loop" : true,
+            "under" : false,
+            "part" : "o1",
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.3,
+            "ty" : 3.2
+          }
+        ]
+      ]
     },
     "144" : {
       "frames" : 17,
@@ -751,6 +920,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -764,6 +934,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 3,
       "loopStart" : 0
     },
@@ -779,6 +950,7 @@
         10
       ],
       "removeFrame" : 0,
+      "playOnAttach" : true,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -924,6 +1096,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -952,6 +1125,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -965,6 +1139,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -978,6 +1153,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -991,6 +1167,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1004,6 +1181,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1017,6 +1195,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : true,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -1110,6 +1289,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1123,6 +1303,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 1,
       "loopStart" : 0
     },
@@ -1136,6 +1317,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -1219,6 +1401,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1232,6 +1415,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 20,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1245,6 +1429,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1258,6 +1443,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1273,6 +1459,7 @@
         3
       ],
       "removeFrame" : 0,
+      "playOnAttach" : true,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -1315,6 +1502,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1328,6 +1516,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1341,6 +1530,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : true,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1354,6 +1544,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1367,6 +1558,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1380,6 +1572,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1405,6 +1598,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -1467,6 +1661,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1480,6 +1675,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1493,6 +1689,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1506,6 +1703,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1696,6 +1894,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1709,6 +1908,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1758,6 +1958,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -1812,6 +2013,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1837,6 +2039,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1873,6 +2076,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1886,6 +2090,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1901,6 +2106,7 @@
         21
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1948,6 +2154,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1961,6 +2168,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1974,6 +2182,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -1987,6 +2196,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2000,6 +2210,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2013,6 +2224,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2026,6 +2238,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2039,6 +2252,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2052,6 +2266,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2065,6 +2280,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 34,
       "loopStart" : 13
     },
@@ -2078,6 +2294,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2091,6 +2308,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2104,6 +2322,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2117,6 +2336,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2132,6 +2352,7 @@
         28
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2145,6 +2366,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2158,6 +2380,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2171,6 +2394,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2184,6 +2408,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2197,6 +2422,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2210,6 +2436,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2223,6 +2450,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2236,6 +2464,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2503,6 +2732,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2516,6 +2746,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2750,6 +2981,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2797,6 +3029,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2810,6 +3043,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 2,
       "loopStart" : 0
     },
@@ -2835,6 +3069,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2848,6 +3083,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2861,6 +3097,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2874,6 +3111,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2887,6 +3125,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : true,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -2900,6 +3139,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3002,6 +3242,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3048,6 +3289,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -3098,6 +3340,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3111,6 +3354,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 43,
       "loopStart" : 0
     },
@@ -3124,6 +3368,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3137,6 +3382,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3150,6 +3396,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3163,6 +3410,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3210,6 +3458,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3223,6 +3472,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3236,6 +3486,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3249,6 +3500,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3262,6 +3514,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3275,6 +3528,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3288,6 +3542,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3301,6 +3556,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3414,6 +3670,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3506,6 +3763,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3519,6 +3777,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3532,6 +3791,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3545,6 +3805,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3558,6 +3819,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3660,6 +3922,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3673,6 +3936,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3686,6 +3950,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3699,6 +3964,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3712,6 +3978,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3725,6 +3992,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3784,6 +4052,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3797,6 +4066,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -3810,6 +4080,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -5608,6 +5879,7 @@
         9
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -5621,6 +5893,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -5634,6 +5907,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 47,
       "loopStart" : 19
     },
@@ -5647,6 +5921,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 7,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -5660,6 +5935,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -5828,6 +6104,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 23,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -6155,6 +6432,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6192,6 +6470,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6205,6 +6484,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6218,6 +6498,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6231,6 +6512,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6256,6 +6538,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6269,6 +6552,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6316,6 +6600,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6329,6 +6614,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6342,6 +6628,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6355,6 +6642,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6402,6 +6690,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6415,6 +6704,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6428,6 +6718,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6441,6 +6732,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6488,6 +6780,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6501,6 +6794,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6514,6 +6808,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6561,6 +6856,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6574,6 +6870,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6611,6 +6908,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6624,6 +6922,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6649,6 +6948,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6674,6 +6974,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6687,6 +6988,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6700,6 +7002,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6713,6 +7016,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6726,6 +7030,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6773,6 +7078,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6786,6 +7092,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6799,6 +7106,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6812,6 +7120,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6827,6 +7136,7 @@
         1
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6840,6 +7150,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6853,6 +7164,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6866,6 +7178,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6879,6 +7192,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6892,6 +7206,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6905,6 +7220,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6918,6 +7234,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -6931,6 +7248,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7045,6 +7363,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7058,6 +7377,35 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
+      "loopLength" : 0,
+      "loopStart" : 0
+    },
+    "1629" : {
+      "frames" : 25,
+      "x" : -1.001096,
+      "y" : -1.1399839,
+      "w" : 2.0,
+      "h" : 10.0,
+      "subs" : [ ],
+      "stopFrame" : 0,
+      "stopFrames" : [ ],
+      "removeFrame" : 0,
+      "playOnAttach" : false,
+      "loopLength" : 0,
+      "loopStart" : 0
+    },
+    "1633" : {
+      "frames" : 4,
+      "x" : -6.475,
+      "y" : -10.0,
+      "w" : 15.0,
+      "h" : 20.0,
+      "subs" : [ ],
+      "stopFrame" : 0,
+      "stopFrames" : [ ],
+      "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7071,8 +7419,48 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
-      "loopStart" : 0
+      "loopStart" : 0,
+      "layers" : [
+        [
+          {
+            "id" : 1629,
+            "loop" : true,
+            "under" : false,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 2.0,
+            "ty" : -3.4
+          }
+        ],
+        [
+          {
+            "id" : 1633,
+            "loop" : true,
+            "under" : false,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0044098,
+            "tx" : 5.8,
+            "ty" : 0.2
+          },
+          {
+            "id" : 1629,
+            "loop" : true,
+            "under" : false,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 2.0,
+            "ty" : -3.4
+          }
+        ]
+      ]
     },
     "1640" : {
       "frames" : 8,
@@ -7084,6 +7472,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 8,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7097,6 +7486,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 8,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7110,6 +7500,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7135,6 +7526,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7148,6 +7540,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7206,6 +7599,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7219,19 +7613,35 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
-    "1663" : {
-      "frames" : 2,
+    "1661" : {
+      "frames" : 1,
       "x" : -11.5,
-      "y" : -11.524837,
+      "y" : -11.425,
       "w" : 23.0,
       "h" : 23.0,
       "subs" : [ ],
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
+      "loopLength" : 0,
+      "loopStart" : 0
+    },
+    "1663" : {
+      "frames" : 2,
+      "x" : -11.375,
+      "y" : -10.625,
+      "w" : 23.0,
+      "h" : 22.0,
+      "subs" : [ ],
+      "stopFrame" : 0,
+      "stopFrames" : [ ],
+      "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7245,6 +7655,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7258,6 +7669,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7271,6 +7683,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7284,6 +7697,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7297,6 +7711,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7310,6 +7725,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7323,6 +7739,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7336,6 +7753,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7349,6 +7767,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7362,6 +7781,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7377,6 +7797,7 @@
         10
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7390,6 +7811,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7504,6 +7926,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7517,6 +7940,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7530,6 +7954,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -7783,6 +8208,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -7966,6 +8392,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7979,6 +8406,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -7992,6 +8420,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -8053,6 +8482,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8066,6 +8496,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8079,6 +8510,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8092,6 +8524,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -8309,6 +8742,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8322,6 +8756,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8335,6 +8770,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8348,6 +8784,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8361,6 +8798,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8464,6 +8902,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8477,6 +8916,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8490,6 +8930,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8503,6 +8944,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8516,6 +8958,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8529,6 +8972,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8542,6 +8986,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8555,6 +9000,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8568,6 +9014,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8581,6 +9028,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8594,6 +9042,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8718,6 +9167,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8731,6 +9181,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8744,6 +9195,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8757,6 +9209,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8770,6 +9223,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8783,6 +9237,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8798,6 +9253,7 @@
         5
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8811,6 +9267,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8824,6 +9281,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8917,6 +9375,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8930,6 +9389,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8943,6 +9403,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8956,6 +9417,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8969,6 +9431,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8982,6 +9445,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -8995,6 +9459,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9008,6 +9473,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9021,6 +9487,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9124,6 +9591,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9137,26 +9605,14 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
-      "loopLength" : 0,
-      "loopStart" : 0
-    },
-    "1985" : {
-      "frames" : 10,
-      "x" : -8.0,
-      "y" : -10.425,
-      "w" : 15.0,
-      "h" : 18.0,
-      "subs" : [ ],
-      "stopFrame" : 0,
-      "stopFrames" : [ ],
-      "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "1986" : {
-      "frames" : 1,
-      "x" : -4.779058,
-      "y" : -3.4691641,
+      "frames" : 60,
+      "x" : -8.789011,
+      "y" : -3.477498,
       "w" : 16.0,
       "h" : 11.0,
       "subs" : [ ],
@@ -9165,6 +9621,7 @@
         1
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9178,6 +9635,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -9192,28 +9650,6 @@
             "d" : 0.69999695,
             "tx" : -0.35,
             "ty" : -12.7
-          },
-          {
-            "id" : 1985,
-            "loop" : true,
-            "under" : false,
-            "a" : -0.22920227,
-            "b" : 0.0,
-            "c" : 0.0,
-            "d" : 0.552063,
-            "tx" : 8.75,
-            "ty" : -12.65
-          },
-          {
-            "id" : 1985,
-            "loop" : true,
-            "under" : false,
-            "a" : 0.7333679,
-            "b" : 0.0,
-            "c" : 0.0,
-            "d" : 0.6099396,
-            "tx" : 0.8,
-            "ty" : -12.5
           }
         ]
       ]
@@ -9228,6 +9664,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9241,6 +9678,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9254,6 +9692,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9267,6 +9706,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9280,6 +9720,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9293,6 +9734,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9306,6 +9748,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9399,6 +9842,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9412,6 +9856,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9427,6 +9872,7 @@
         1
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9440,6 +9886,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9582,6 +10029,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -9739,6 +10187,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9752,6 +10201,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9765,6 +10215,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9778,6 +10229,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9791,6 +10243,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9804,6 +10257,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9817,6 +10271,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9830,6 +10285,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -9843,6 +10299,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10783,6 +11240,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10796,6 +11254,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10811,6 +11270,7 @@
         13
       ],
       "removeFrame" : 13,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10824,6 +11284,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10837,6 +11298,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10850,6 +11312,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10863,6 +11326,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10876,6 +11340,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10889,6 +11354,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10902,6 +11368,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10915,6 +11382,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10928,6 +11396,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -10943,6 +11412,7 @@
         74
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11177,6 +11647,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11190,6 +11661,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11203,6 +11675,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11216,6 +11689,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11229,6 +11703,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11242,6 +11717,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11255,6 +11731,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11268,6 +11745,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11381,6 +11859,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11394,6 +11873,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11407,6 +11887,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11478,6 +11959,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11522,6 +12004,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11535,6 +12018,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11548,6 +12032,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11561,6 +12046,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11619,6 +12105,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11732,6 +12219,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11745,6 +12233,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11758,6 +12247,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 57,
       "loopStart" : 0
     },
@@ -11771,6 +12261,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11784,6 +12275,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -11797,6 +12289,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12110,6 +12603,7 @@
         27
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12123,6 +12617,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12136,6 +12631,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12271,6 +12767,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12564,6 +13061,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -12908,6 +13406,20 @@
         null
       ]
     },
+    "3148" : {
+      "frames" : 5,
+      "x" : 7.7000003,
+      "y" : -0.39989576,
+      "w" : 3.0,
+      "h" : 61.0,
+      "subs" : [ ],
+      "stopFrame" : 0,
+      "stopFrames" : [ ],
+      "removeFrame" : 0,
+      "playOnAttach" : false,
+      "loopLength" : 0,
+      "loopStart" : 0
+    },
     "3151" : {
       "frames" : 16,
       "x" : -9.801848,
@@ -12918,6 +13430,21 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
+      "loopLength" : 0,
+      "loopStart" : 0
+    },
+    "3154" : {
+      "frames" : 5,
+      "x" : -10.07588,
+      "y" : -47.475002,
+      "w" : 20.0,
+      "h" : 131.0,
+      "subs" : [ ],
+      "stopFrame" : 0,
+      "stopFrames" : [ ],
+      "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12931,6 +13458,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12944,6 +13472,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12957,6 +13486,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -12975,6 +13505,17 @@
         {
           "id" : 3151,
           "loop" : true,
+          "alt" : {
+            "id" : 3154,
+            "loop" : true,
+            "under" : false,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 8.75,
+            "ty" : 12.9
+          },
           "under" : false,
           "a" : 1.0,
           "b" : 0.0,
@@ -13002,8 +13543,354 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
+      "blankFrames" : [
+        1,
+        2,
+        3,
+        4,
+        5,
+        8,
+        9,
+        10,
+        11
+      ],
       "loopLength" : 0,
-      "loopStart" : 0
+      "loopStart" : 0,
+      "layers" : [
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 0.5,
+            "a" : 2.027771,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.4,
+            "ty" : 0.0
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.1,
+            "ty" : 0.0
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 0,
+            "tintAlpha" : 1.0,
+            "a" : 2.2219696,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -11.2,
+            "ty" : 0.0
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 13421772,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.1,
+            "ty" : 0.0
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 255,
+            "tintAlpha" : 1.0,
+            "a" : 2.027771,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.4,
+            "ty" : 0.0
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.1,
+            "ty" : 0.0
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 65280,
+            "tintAlpha" : 1.0,
+            "a" : 2.027771,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.4,
+            "ty" : 0.0
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.1,
+            "ty" : 0.0
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16711680,
+            "tintAlpha" : 1.0,
+            "a" : 2.027771,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -9.4,
+            "ty" : 0.0
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 0.1,
+            "ty" : 0.0
+          }
+        ],
+        null,
+        null,
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 10027212,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -12.0,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 10027212,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -4.2,
+            "ty" : -0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -2.8,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 5.0,
+            "ty" : -0.05
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16750848,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -12.0,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16750848,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -4.2,
+            "ty" : -0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -2.8,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 5.0,
+            "ty" : -0.05
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16750848,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -12.0,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16776960,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -4.2,
+            "ty" : -0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -2.8,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 16777215,
+            "tintAlpha" : 1.0,
+            "a" : 1.0,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : 5.0,
+            "ty" : -0.05
+          }
+        ],
+        [
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 10040166,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -12.0,
+            "ty" : 0.05
+          },
+          {
+            "id" : 3148,
+            "loop" : true,
+            "under" : false,
+            "tintRgb" : 10040166,
+            "tintAlpha" : 1.0,
+            "a" : 1.9999847,
+            "b" : 0.0,
+            "c" : 0.0,
+            "d" : 1.0,
+            "tx" : -4.2,
+            "ty" : -0.05
+          }
+        ]
+      ]
     },
     "3159" : {
       "frames" : 3,
@@ -13039,6 +13926,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13052,6 +13940,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13065,6 +13954,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13078,6 +13968,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13091,6 +13982,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : true,
       "loopLength" : 2,
       "loopStart" : 0
     },
@@ -13139,6 +14031,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13152,6 +14045,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13165,6 +14059,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13178,6 +14073,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13191,6 +14087,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13204,6 +14101,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13217,6 +14115,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13230,6 +14129,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13243,6 +14143,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13256,6 +14157,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13269,6 +14171,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13393,6 +14296,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13406,6 +14310,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13419,6 +14324,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13432,6 +14338,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13445,6 +14352,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13458,6 +14366,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0,
       "layers" : [
@@ -13508,6 +14417,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13521,6 +14431,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13604,6 +14515,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -13619,6 +14531,7 @@
         13
       ],
       "removeFrame" : 13,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     }
@@ -13645,6 +14558,28 @@
       "d" : 1.0,
       "tx" : -0.45,
       "ty" : -15.4
+    },
+    "hammer_supa_ball/b" : {
+      "id" : 1661,
+      "loop" : false,
+      "under" : false,
+      "a" : 1.0,
+      "b" : 0.0,
+      "c" : 0.0,
+      "d" : 1.002182,
+      "tx" : 0.0,
+      "ty" : -0.1
+    },
+    "hammer_supa_ball/b#2" : {
+      "id" : 1661,
+      "loop" : false,
+      "under" : false,
+      "a" : 1.0,
+      "b" : 0.0,
+      "c" : 0.0,
+      "d" : 1.002182,
+      "tx" : 0.0,
+      "ty" : -0.1
     }
   }
 }

@@ -65,10 +65,13 @@ public final class PackSprites {
                     File dest = new File(staging, "c" + id + "_" + (frame - 1) + ".png");
                     int[] cut = CUT_INNER.get(name + "/" + id);
                     SpriteLibrary.Clip owner = lib.clips.get(id);
+                    if (owner != null && owner.blankFrames != null && owner.blankFrames.contains(frame)) {
+                        continue; // image entièrement dessinée par ses couches teintées (rayons d'arme) : pas de région
+                    }
                     java.util.List<SpriteLibrary.Placement> layerList = owner != null && owner.layers != null
                             && frame - 1 < owner.layers.size() ? owner.layers.get(frame - 1) : null;
-                    if (layerList != null) { // couches à la demande (balle de la fraise) : déjà absentes de l'image
-                        layerList = layerList.stream().filter(p -> p.part == null).collect(java.util.stream.Collectors.toList());
+                    if (layerList != null) { // couches à la demande (balle de la fraise) ou teintées : pas à découper
+                        layerList = layerList.stream().filter(p -> p.part == null && p.tintRgb == null).collect(java.util.stream.Collectors.toList());
                         if (layerList.isEmpty()) layerList = null;
                     }
                     if (layerList != null || cut != null) {

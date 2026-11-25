@@ -149,6 +149,17 @@ public class LevelRenderer implements Disposable {
         }
     }
 
+    /** Téléporteurs allumés (RenderFrame.teleportersOn : cx, cy de chacun) ; null = aucun. */
+    public int[] teleportersOn;
+
+    boolean teleporterOn(TileLayout.Field f) {
+        if (teleportersOn == null) return false;
+        for (int i = 0; i + 1 < teleportersOn.length; i += 2) {
+            if (teleportersOn[i] == f.x && teleportersOn[i + 1] == f.y) return true;
+        }
+        return false;
+    }
+
     /** Longueur du rayon dans le clip « skin » des champs (3 cases) : base de l'étirement (mc._width/_height). */
     static final float FIELD_ART_LENGTH = 60;
 
@@ -159,6 +170,8 @@ public class LevelRenderer implements Disposable {
                 float y = f.y * CASE;
                 int skin = Math.abs(f.id);
                 float stretch = f.length * CASE / FIELD_ART_LENGTH;
+                boolean on = f.id == -6 && teleporterOn(f);
+                sprites.altInnerLoop = on; // SetManager.showField : rayon sur sa 2e boucle
                 // GameMechanics : les champs portail flottent (3 px, sinus)
                 if (f.id == -7) y += (float) (3 * Math.sin(sprites.animClock * 0.1));
                 if (f.vertical) {
@@ -169,7 +182,8 @@ public class LevelRenderer implements Disposable {
                 } else {
                     sprites.draw(batch, "field", 1, skin, x, y, stretch, 1, DOC_HEIGHT);
                 }
-                if (f.id == -6) drawPods(batch, f);
+                sprites.altInnerLoop = false;
+                if (f.id == -6) drawPods(batch, f, on ? 2 : 1);
             }
             return;
         }
@@ -194,17 +208,17 @@ public class LevelRenderer implements Disposable {
         if (bar != null) batch.draw(bar, 0, flipY(GAME_HEIGHT, bar.getHeight()));
     }
 
-    /** Embouts des téléporteurs (hammer_pod) aux deux extrémités (View.attachField). */
-    private void drawPods(SpriteBatch batch, TileLayout.Field f) {
+    /** Embouts des téléporteurs (hammer_pod) aux deux extrémités (View.attachField) ; image 2 = allumé (showField). */
+    private void drawPods(SpriteBatch batch, TileLayout.Field f, int state) {
         float len = f.length * CASE;
         if (!f.vertical) {
             float sx = X_OFFSET + f.x * CASE, sy = f.y * CASE + CASE - CASE * 0.5f;
-            sprites.draw(batch, "hammer_pod", -1, 1, sx, sy, 1, 1, 0, DOC_HEIGHT);
-            sprites.draw(batch, "hammer_pod", -1, 1, sx + len, sy, 1, 1, 180, DOC_HEIGHT);
+            sprites.draw(batch, "hammer_pod", -1, state, sx, sy, 1, 1, 0, DOC_HEIGHT);
+            sprites.draw(batch, "hammer_pod", -1, state, sx + len, sy, 1, 1, 180, DOC_HEIGHT);
         } else {
             float sx = X_OFFSET + f.x * CASE + CASE * 0.5f, sy = f.y * CASE;
-            sprites.draw(batch, "hammer_pod", -1, 1, sx, sy, 1, 1, 90, DOC_HEIGHT);
-            sprites.draw(batch, "hammer_pod", -1, 1, sx, sy + len, 1, 1, 270, DOC_HEIGHT);
+            sprites.draw(batch, "hammer_pod", -1, state, sx, sy, 1, 1, 90, DOC_HEIGHT);
+            sprites.draw(batch, "hammer_pod", -1, state, sx, sy + len, 1, 1, 270, DOC_HEIGHT);
         }
     }
 

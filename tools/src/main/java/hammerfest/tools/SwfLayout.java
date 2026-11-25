@@ -75,12 +75,15 @@ public final class SwfLayout {
         int id;
         Matrix matrix = new Matrix();
         String name;
+        /** Transformation de couleur (CXFORMWITHALPHA) : multiplicateurs r, g, b, a (/256) puis ajouts ; null = aucune. */
+        int[] color;
 
         Placed copy() {
             Placed p = new Placed();
             p.id = id;
             p.matrix = matrix.copy();
             p.name = name;
+            p.color = color;
             return p;
         }
     }
@@ -100,6 +103,8 @@ public final class SwfLayout {
         boolean stoppedAtStart;
         /** Bytecode de l'image 1 (variable lue par gotoAndStop : head, skin, currentWeapon…). */
         String frame1Actions;
+        /** Image 1 avec play() (0x06) sans stop() : le clip repart même si le code l'arrête juste après l'avoir attaché. */
+        boolean playOnAttach;
         /** Liste d'affichage de chaque image : profondeur → objet placé. */
         final List<TreeMap<Integer, Placed>> frames = new ArrayList<>();
     }
@@ -166,6 +171,23 @@ public final class SwfLayout {
     }
 
     /** Vrai si le bytecode AS1/2 contient l'action ActionStop (0x07) au niveau des instructions. */
+    /** L'action {@code wanted} (code d'une action sans données, < 0x80) figure dans le bloc. */
+    static boolean hasOp(String hex, int wanted) {
+        int i = 0;
+        while (i + 2 <= hex.length()) {
+            int op = Integer.parseInt(hex.substring(i, i + 2), 16);
+            if (op == 0) return false;
+            if (op == wanted) return true;
+            i += 2;
+            if (op >= 0x80) {
+                if (i + 4 > hex.length()) return false;
+                int len = Integer.parseInt(hex.substring(i, i + 2), 16) | Integer.parseInt(hex.substring(i + 2, i + 4), 16) << 8;
+                i += 4 + len * 2;
+            }
+        }
+        return false;
+    }
+
     static boolean hasStop(String hex) {
         int i = 0;
         while (i + 2 <= hex.length()) {
@@ -248,6 +270,10 @@ public final class SwfLayout {
                     case "MATRIX":
                         if (pendingPlace != null) pendingPlace.matrix = readMatrix(r);
                         break;
+                    case "CXFORMWITHALPHA":
+                    case "CXFORM":
+                        if (pendingPlace != null) pendingPlace.color = readColor(r);
+                        break;
                     case "RemoveObject2Tag":
                     case "RemoveObjectTag":
                         if (!displayStack.isEmpty()) displayStack.peek().remove(intAttr(r, "depth"));
@@ -263,6 +289,7 @@ public final class SwfLayout {
                         if (hasStop(hex) && !s.stopFrames.contains(frame)) s.stopFrames.add(frame);
                         if (frame == 1 && (hasStop(hex) || hasGotoAndStop(hex))) s.stoppedAtStart = true;
                         if (frame == 1 && s.frame1Actions == null) s.frame1Actions = hex;
+                        if (frame == 1 && hasOp(hex, 0x06) && !hasStop(hex)) s.playOnAttach = true;
                         if (frame > 1 && s.jumpFrame == 0 && hex.contains("9f010001")) s.jumpFrame = frame; // GotoFrame2, play
                         // ActionGoToLabel (0x8C) suivi de Play (0x06) : gotoAndPlay("étiquette")
                         if (frame > 1 && s.jumpFrame == 0 && hex.startsWith("8c")) {
@@ -383,6 +410,24 @@ public final class SwfLayout {
         return m;
     }
 
+    /** Transformation de couleur d'un placement : {mult r, g, b, a (sur 256), ajout r, g, b, a}. */
+    static int[] readColor(XMLStreamReader r) {
+        boolean mult = "true".equals(r.getAttributeValue(null, "hasMultTerms"));
+        boolean add = "true".equals(r.getAttributeValue(null, "hasAddTerms"));
+        int[] c = {256, 256, 256, 256, 0, 0, 0, 0};
+        String[] keys = {"red", "green", "blue", "alpha"};
+        for (int i = 0; i < 4; i++) {
+            if (mult) c[i] = intOr(r, keys[i] + "MultTerm", 256);
+            if (add) c[4 + i] = intOr(r, keys[i] + "AddTerm", 0);
+        }
+        return c;
+    }
+
+    static int intOr(XMLStreamReader r, String name, int def) {
+        String v = r.getAttributeValue(null, name);
+        return v == null ? def : Integer.parseInt(v);
+    }
+
     // ------------------------------------------------------------------ calcul
 
     /** Bornes d'un caractère (forme, texte ou clip : union de toutes ses images). */
@@ -437,9 +482,29 @@ public final class SwfLayout {
      */
     Set<Integer> frozenNested() {
         Set<Integer> reach = reachable();
+        Set<Integer> parts = partClips();
         Set<Integer> out = new TreeSet<>();
         for (Sprite s : sprites.values()) {
-            if (s.stoppedAtStart && s.frames.size() > 1 && !reach.contains(s.id) && !exports.containsValue(s.id)) out.add(s.id);
+            if (s.stoppedAtStart && s.frames.size() > 1 && !reach.contains(s.id) && !exports.containsValue(s.id)
+                    && !parts.contains(s.id)) out.add(s.id);
+        }
+        return out;
+    }
+
+    /**
+     * Clips des parties dessinées à part (PARTS) : le jeu choisit leur image (yeux de la boule de feu :
+     * eyes.gotoAndStop(angle), jauge de la carte…), ils gardent donc toutes leurs images au lieu d'être figés.
+     */
+    Set<Integer> partClips() {
+        Set<Integer> out = new TreeSet<>();
+        for (Map.Entry<String, List<String>> e : PARTS.entrySet()) {
+            Integer sid = exports.get(e.getKey());
+            if (sid == null || !sprites.containsKey(sid)) continue;
+            for (TreeMap<Integer, Placed> frame : sprites.get(sid).frames) {
+                for (Map.Entry<Integer, Placed> d : frame.entrySet()) {
+                    if (partKey(e.getValue(), d.getValue().name, d.getKey()) != null) out.add(d.getValue().id);
+                }
+            }
         }
         return out;
     }
@@ -506,7 +571,9 @@ public final class SwfLayout {
             // carte : fond (profondeur 2), jauge, pointeur, Igor (profondeur 8) ; « @n » = enfant sans nom à la profondeur n
             "hammer_map", List.of("pit", "ptr"),
             // lettres EXTEND du bandeau (visibles une fois ramassées) ; « * » = préfixe
-            "hammer_interf_game", List.of("letter*"));
+            "hammer_interf_game", List.of("letter*"),
+            // ballon géant (objet 3) : ballon « b » tourné par script (b._rotation += 3) ; reflet resté dans l'image
+            "hammer_supa_ball", List.of("b"));
 
     /** XML d'origine où lire les parties quand la mise en page vient de l'XML figé (enfants retirés). */
     SwfLayout partsSource;
@@ -528,6 +595,13 @@ public final class SwfLayout {
         Sprite t = sprites.get(id);
         if (t == null || (t.frames.size() != 1 && !scriptStopped().contains(id))) return null;
         return loopChild(t.frames.get(0));
+    }
+
+    /** Boucle de la 2e image d'un clip arrêté par script (rayon de téléporteur allumé, SetManager.showField) ; null sinon. */
+    Placed wrappedLoopOn(int id) {
+        Sprite t = sprites.get(id);
+        if (t == null || t.frames.size() < 2 || !scriptStopped().contains(id)) return null;
+        return loopChild(t.frames.get(1));
     }
 
     private Set<Integer> scriptStopped;
@@ -577,7 +651,8 @@ public final class SwfLayout {
 
     /** Symboles dont les images figées peuvent contenir des couches animées : ennemis, et objets (brioche dorée…). */
     static final String LAYER_PREFIX = "hammer_bad_";
-    static final Set<String> LAYER_SYMBOLS = Set.of("hammer_item_score", "hammer_item_special");
+    // hammer_pod : socles des téléporteurs, boucle 1629 (éteint) ou 1633 (allumé) par-dessus la partie fixe
+    static final Set<String> LAYER_SYMBOLS = Set.of("hammer_item_score", "hammer_item_special", "hammer_pod");
 
     static boolean hasLayers(String symbol) {
         return symbol.startsWith(LAYER_PREFIX) || LAYER_SYMBOLS.contains(symbol) || decorNames().contains(symbol);
@@ -615,6 +690,59 @@ public final class SwfLayout {
         boolean under;
         /** Enfant affiché à la demande (balle de la fraise) : nom de la partie, null = couche toujours dessinée. */
         String part;
+        /** Teinte en aplat (multiplicateurs de couleur à 0) : couleur 0xRRGGBB et opacité, -1 = aucune. */
+        int tintRgb = -1;
+        float tintAlpha = 1;
+    }
+
+    /**
+     * Rayons d'arme (« field », habillages 1 à 5) : deux instances du trait animé 3148 (halo élargi à 50 %, cœur) en
+     * aplat de la couleur de l'arme (CXFORM : multiplicateurs 0, ajouts = couleur). L'image d'origine n'a rien d'autre :
+     * elle est vidée à l'assemblage (Clip.blankFrames) et entièrement redessinée par ces couches teintées, qui jouent
+     * en boucle (le skin.sub.stop() d'origine ne les concerne pas, elles ne s'appellent pas « sub »).
+     */
+    static final List<String> COLOR_LAYER_SYMBOLS = List.of("field");
+
+    /** Clip → images (1..n) vidées à l'assemblage car entièrement dessinées par des couches teintées. */
+    final Map<Integer, Set<Integer>> blankFrames = new TreeMap<>();
+
+    void colorLayers(Map<Integer, Map<Integer, List<LayerSpec>>> out) {
+        for (String sym : COLOR_LAYER_SYMBOLS) {
+            Integer sid = exports.get(sym);
+            if (sid == null || !sprites.containsKey(sid)) continue;
+            Set<Integer> skins = new TreeSet<>();
+            for (TreeMap<Integer, Placed> fr : sprites.get(sid).frames) {
+                for (Placed p : fr.values()) if ("skin".equals(p.name) && sprites.containsKey(p.id)) skins.add(p.id);
+            }
+            for (int skinId : skins) {
+                List<TreeMap<Integer, Placed>> frames = sprites.get(skinId).frames;
+                for (int f = 0; f < frames.size(); f++) {
+                    TreeMap<Integer, Placed> fr = frames.get(f);
+                    if (fr.isEmpty()) continue;
+                    boolean flat = true;
+                    for (Placed p : fr.values()) {
+                        int[] c = p.color;
+                        if (c == null || c[0] != 0 || c[1] != 0 || c[2] != 0 || !playsAlone(p.id)) flat = false;
+                    }
+                    if (!flat) continue;
+                    List<LayerSpec> l = new ArrayList<>();
+                    for (Placed p : fr.values()) {
+                        LayerSpec s = new LayerSpec();
+                        s.id = p.id;
+                        s.m = p.matrix;
+                        s.tintRgb = (clamp255(p.color[4]) << 16) | (clamp255(p.color[5]) << 8) | clamp255(p.color[6]);
+                        s.tintAlpha = Math.max(0, Math.min(1, p.color[3] / 256f + p.color[7] / 255f));
+                        l.add(s);
+                    }
+                    out.computeIfAbsent(skinId, k -> new TreeMap<>()).put(f, l);
+                    blankFrames.computeIfAbsent(skinId, k -> new TreeSet<>()).add(f + 1);
+                }
+            }
+        }
+    }
+
+    static int clamp255(int v) {
+        return Math.max(0, Math.min(255, v));
     }
 
     /**
@@ -794,7 +922,10 @@ public final class SwfLayout {
         // (pièce qui rebondit une fois puis tourne sur elle-même : 2905 s'arrête, son enfant 2904 continue)
         Set<Integer> loopTargets = new HashSet<>();
         Map<Integer, Map<Integer, List<LayerSpec>>> layers = onlySymbol == null ? enemyLayers() : Map.of();
-        if (onlySymbol == null) toggleLayers(layers);
+        if (onlySymbol == null) {
+            toggleLayers(layers);
+            colorLayers(layers);
+        }
         for (Map<Integer, List<LayerSpec>> m : layers.values()) for (List<LayerSpec> l : m.values()) for (LayerSpec s : l) todo.add(s.id);
         while (!todo.isEmpty()) {
             int id = todo.poll();
@@ -806,6 +937,8 @@ public final class SwfLayout {
                         todo.add(p.id);
                         Placed w = wrappedLoop(p.id);
                         if (w != null) todo.add(w.id);
+                        Placed on = wrappedLoopOn(p.id);
+                        if (on != null) todo.add(on.id);
                     }
                 }
                 if (loopers.contains(id) || loopTargets.contains(id)) {
@@ -824,6 +957,8 @@ public final class SwfLayout {
             clip.stopFrame = s.stopFrame;
             clip.stopFrames = new ArrayList<>(s.stopFrames);
             clip.removeFrame = s.removeFrame;
+            clip.playOnAttach = s.playOnAttach;
+            if (blankFrames.containsKey(id)) clip.blankFrames = new ArrayList<>(blankFrames.get(id));
             clip.loopLength = s.jumpFrame > 0 ? s.jumpFrame - 1 : 0;
             if (s.jumpLabel != null && s.labels.containsKey(s.jumpLabel)) clip.loopStart = s.labels.get(s.jumpLabel);
             Rect r = bounds(id);
@@ -846,6 +981,19 @@ public final class SwfLayout {
                         pl.id = w == null ? p.id : w.id;
                         pl.loop = w != null;
                         if (w != null) nestedLoops.put(id, p.id);
+                        Placed on = wrappedLoopOn(p.id);
+                        if (on != null) {
+                            Matrix om = compose(p.matrix, on.matrix);
+                            pl.alt = new SpriteLibrary.Placement();
+                            pl.alt.id = on.id;
+                            pl.alt.loop = true;
+                            pl.alt.a = (float) om.a;
+                            pl.alt.b = (float) om.b;
+                            pl.alt.c = (float) om.c;
+                            pl.alt.d = (float) om.d;
+                            pl.alt.tx = (float) (om.tx / TWIPS);
+                            pl.alt.ty = (float) (om.ty / TWIPS);
+                        }
                         pl.a = (float) m.a;
                         pl.b = (float) m.b;
                         pl.c = (float) m.c;
@@ -897,6 +1045,10 @@ public final class SwfLayout {
                         p.loop = true;
                         p.under = ly.under;
                         p.part = ly.part;
+                        if (ly.tintRgb >= 0) { // couche teintée (rayons d'arme)
+                            p.tintRgb = ly.tintRgb;
+                            p.tintAlpha = ly.tintAlpha;
+                        }
                         pl.add(p);
                     }
                     clip.layers.add(pl);

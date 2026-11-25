@@ -68,10 +68,12 @@ public final class ScarfShader implements Disposable {
     }
 
     /** Shader prêt pour l'arme {@code weapon} (-1 = aucune), ou null si la carte graphique l'a refusé. */
-    public ShaderProgram forWeapon(int weapon) {
+    public ShaderProgram forWeapon(com.badlogic.gdx.graphics.g2d.SpriteBatch batch, int weapon) {
         if (program == null) return null;
         int[] c = COLORS[weapon <= 0 || weapon >= COLORS.length ? 0 : weapon];
-        program.bind();
+        // shader posé AVANT les couleurs : setShader dessine d'abord ce qui attend (autre joueur, objets…) avec
+        // l'ancien shader ; lier le programme avant faisait partir ces sprites avec la couleur de cette écharpe
+        batch.setShader(program);
         program.setUniformf("u_light", ((c[0] >> 16) & 0xff) / 255f, ((c[0] >> 8) & 0xff) / 255f, (c[0] & 0xff) / 255f);
         program.setUniformf("u_dark", ((c[1] >> 16) & 0xff) / 255f, ((c[1] >> 8) & 0xff) / 255f, (c[1] & 0xff) / 255f);
         return program;

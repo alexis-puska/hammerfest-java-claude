@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -107,6 +109,16 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(new InputAdapter() {
+            // Musique coupée / rétablie : caractère tapé (m), qui suit la disposition du clavier (AZERTY, QWERTY…),
+            // et non la position physique de la touche (Input.Keys.M = touche « , » sur un AZERTY)
+            @Override
+            public boolean keyTyped(char character) {
+                if (character != 'm' && character != 'M') return false;
+                view.toggleMusic();
+                app.persist();
+                return true;
+            }
+
             @Override
             public boolean keyDown(int keycode) {
                 for (int pid = 0; pid < pendingBits.length; pid++) pendingBits[pid] |= bitFor(pid, keycode);
@@ -132,6 +144,11 @@ public class GameScreen extends ScreenAdapter {
                     if (!finished) game.debugSkipLevel();
                     return true;
                 }
+                // TEMPORAIRE (tests manuels) : 2 = une vie de plus pour chaque joueur. À retirer.
+                if (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) {
+                    if (!finished) game.debugAddLife();
+                    return true;
+                }
                 return false;
             }
         });
@@ -143,10 +160,6 @@ public class GameScreen extends ScreenAdapter {
     private final hammerfest.input.Gamepads gamepads = new hammerfest.input.Gamepads();
 
     private void togglePause() {
-        if (host != null) { // partie partagée : pas de pause
-            view.alert("Pas de pause en ligne");
-            return;
-        }
         if (view.paused) {
             view.paused = false;
             view.mapOpen = false;
@@ -154,10 +167,10 @@ public class GameScreen extends ScreenAdapter {
             view.paused = true;
             view.tipIndex++;
         }
+        sendPauseState();
     }
 
     private void toggleMap() {
-        if (host != null) return;
         if (view.paused) {
             view.paused = false;
             view.mapOpen = false;
@@ -165,6 +178,16 @@ public class GameScreen extends ScreenAdapter {
             view.paused = true;
             view.mapOpen = true;
         }
+        sendPauseState();
+    }
+
+    /** En ligne : la pause et la carte valent pour les deux joueurs, le client reçoit le nouvel état. */
+    private void sendPauseState() {
+        if (host == null || remoteGone) return;
+        Net.PauseMsg m = new Net.PauseMsg();
+        m.paused = view.paused;
+        m.map = view.mapOpen;
+        host.send(m);
     }
 
     /** Touches enfoncées depuis le dernier cycle, par joueur (un appui bref entre deux cycles n'est pas perdu). */
@@ -172,7 +195,7 @@ public class GameScreen extends ScreenAdapter {
 
     /** Touches surveillées pour chaque joueur. */
     static final int[] KEYS = {Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.UP, Input.Keys.DOWN,
-            Input.Keys.SPACE, Input.Keys.CONTROL_LEFT, Input.Keys.ENTER,
+            Input.Keys.SPACE, Input.Keys.CONTROL_LEFT, Input.Keys.CONTROL_RIGHT, Input.Keys.ENTER,
             Input.Keys.D, Input.Keys.G, Input.Keys.R, Input.Keys.F, Input.Keys.A};
 
     /**
@@ -188,6 +211,7 @@ public class GameScreen extends ScreenAdapter {
                 case Input.Keys.DOWN: return InputFrame.DOWN;
                 case Input.Keys.SPACE:
                 case Input.Keys.CONTROL_LEFT:
+                case Input.Keys.CONTROL_RIGHT: // Key.CONTROL d'origine : les deux touches Ctrl
                 case Input.Keys.ENTER: return InputFrame.BOMB;
                 default: return 0;
             }
@@ -231,10 +255,14 @@ public class GameScreen extends ScreenAdapter {
                 remoteHeld = in.bits;
                 lastRemoteTick = Math.max(lastRemoteTick, in.tick);
                 remoteLatched |= in.bits;
+            } else if (e.type == NetEvent.Type.MESSAGE && e.message instanceof Net.PauseMsg) {
+                if (finished) continue; // le joueur distant met en pause, ouvre la carte, ou reprend
+                if (((Net.PauseMsg) e.message).map && view.hasMap()) toggleMap();
+                else togglePause();
             } else if (e.type == NetEvent.Type.DISCONNECTED && !remoteGone) {
                 remoteGone = true;
                 remoteHeld = 0;
-                view.alert((e.name != null ? e.name : "L'autre joueur") + " a quitté la partie");
+                view.alert((e.name != null ? e.name : Tr.t("L'autre joueur")) + Tr.t(" a quitté la partie"));
             }
         }
     }
@@ -290,10 +318,10 @@ public class GameScreen extends ScreenAdapter {
         GameResult result = new GameResult(mode.id, score, game.maxLevel, game.picks());
         result.victory = game.fl_victory;
         if (game.fl_timeAttack) result.timeMs = game.fl_gameOver ? game.totalTime : Game.TA_INFINITY;
-        if (game.fl_bossRush) result.scoreText = "Score : " + score + "   Temps : " + Game.formatTime(game.chronoMs());
+        if (game.fl_bossRush) result.scoreText = Tr.t("Score : ") + score + Tr.t("   Temps : ") + Game.formatTime(game.chronoMs());
         if (game.fl_soccer) {
             result.victory = false;
-            result.scoreText = "Igor " + game.soccerScores[0] + " - " + game.soccerScores[1] + " Sandy";
+            result.scoreText = Tr.t("Igor ") + game.soccerScores[0] + " - " + game.soccerScores[1] + Tr.t(" Sandy");
         }
         if (host != null) {
             if (!game.fl_gameOver) { // abandon de l'hôte : le client est prévenu

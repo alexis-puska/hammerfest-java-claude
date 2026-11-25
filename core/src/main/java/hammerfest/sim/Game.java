@@ -175,6 +175,7 @@ public class Game {
         for (hammerfest.data.ItemFamily f : all) {
             for (hammerfest.data.ItemDef i : f.items) {
                 if (i.value != null) itemValues.put(i.id, i.value);
+                itemRarities.put(i.id, i.rarity);
                 if (!families.contains(f.id)) continue;
                 int weight = i.rarity >= 0 && i.rarity < RARITY.length ? RARITY[i.rarity] : 0;
                 if (f.isScoreFamily()) randScores.put(i.id, weight);
@@ -182,6 +183,13 @@ public class Game {
             }
         }
     }
+
+    /** Indice de rareté d'origine de l'objet (0 = jamais tiré au hasard), 0 si inconnu. */
+    public int itemRarity(int dataId) {
+        return itemRarities.getOrDefault(dataId, 0);
+    }
+
+    private final Map<Integer, Integer> itemRarities = new HashMap<>();
 
     public Integer itemValue(int dataId) {
         return itemValues.get(dataId);
@@ -345,10 +353,11 @@ public class Game {
         if (link == null || link.toDid >= dimensionNames.length || setLoader == null) return false;
         pendingLink = link; // appliqué en fin de cycle (pas pendant le déplacement des entités)
         if (isMainWorld()) { // GameMode.usePortal : sortie notée sur la carte, côté du portail
-            // Portail déclenché par script (e_portal) : pas d'entité, on prend le joueur qui y est entré
-            // (en Flash, e.x sur null valait « undefined » et la sortie était toujours notée à gauche).
-            double ex = e != null ? e.x : players.isEmpty() ? 0 : players.get(0).x;
-            registerMapEvent(flipCoordReal(ex) >= GAME_WIDTH * 0.5 ? EVENT_EXIT_RIGHT : EVENT_EXIT_LEFT,
+            // Portail ouvert par script (e_openPortal) : pas d'entité ; en Flash e.x vaut alors « undefined », la
+            // comparaison est fausse et la sortie est toujours notée à GAUCHE du puits (le retour, lui, suit le point
+            // d'arrivée : souvent à droite), comme dans le jeu d'origine.
+            boolean right = e != null && flipCoordReal(e.x) >= GAME_WIDTH * 0.5;
+            registerMapEvent(right ? EVENT_EXIT_RIGHT : EVENT_EXIT_LEFT,
                     (levelId + 1) + ". {level." + link.toDid + "." + link.toLid + "}");
         }
         for (Player p : players) p.hide();
@@ -547,8 +556,19 @@ public class Game {
         for (Entity e : new ArrayList<>(getList(type))) e.destroy();
     }
 
+    /** Adventure.isBossLevel : monde principal, niveaux 30, 40… 90, chauve-souris (100) et Tuberculoz (101). */
     public boolean isBossLevel(int id) {
-        return "adventure".equals(set.name) && (id == BAT_LEVEL || id == TUBERCULOZ_LEVEL);
+        return "adventure".equals(set.name) && isMainWorld()
+                && ((id >= 30 && id % 10 == 0) || id == BAT_LEVEL || id == TUBERCULOZ_LEVEL);
+    }
+
+    /**
+     * TEMPORAIRE (aide aux tests manuels, touche 2) : une vie de plus pour chaque joueur (niveaux difficiles des
+     * contrées). À supprimer une fois le portage terminé.
+     */
+    public void debugAddLife() {
+        for (Player p : players) if (!p.fl_kill) p.lives++;
+        sound("sound_item_special");
     }
 
     /**
@@ -581,6 +601,7 @@ public class Game {
 
     /** Saut direct à un niveau (warp) : joueurs replacés au départ, protégés par un bouclier. */
     public void forcedGoto(int id) {
+        if (fakeLevelId != null) fakeLevelId += id - levelId; // GameMode.forcedGoto : numéro affiché dans une contrée
         goTo(id);
         for (Player p : players) {
             p.moveTo(Entity.xCtr(world.data.playerX), Entity.yCtr(world.data.playerY - 1));
@@ -647,6 +668,7 @@ public class Game {
             forcedGoto(10);
             return;
         }
+        if (fakeLevelId != null) fakeLevelId++; // GameMode.nextLevel : numéro affiché dans une contrée
         goTo(levelId + 1);
     }
 
@@ -702,7 +724,8 @@ public class Game {
         levelCycle = 0;
         if (!isVisited()) resetHurry(); // GameMode.initLevel
         dynamicVars.clear();
-        fakeLevelId = null;
+        // fakeLevelId n'est PAS remis à zéro à chaque niveau (GameMode) : 0 en entrant dans une contrée, +1 par niveau,
+        // fixé ou effacé par script (e_fakelid), effacé au retour dans le puits (switchDimension)
         message(null, null);
         forcedDarkness = null;
         clearExtraHoles();
@@ -717,6 +740,7 @@ public class Game {
             fl_warpStart = false;
         }
         script.onPlayerBirth();
+        if (isBossLevel(levelId)) alert("static.12", ""); // GameMode.startLevel : fxMan.attachWarning, « DANGER BOSS ! »
         updateDarkness();
         for (Player p : players) { // GameMode.initLevel : flèche d'entrée au-dessus du joueur qui arrive par le haut
             p.onStartLevel();
@@ -822,15 +846,17 @@ public class Game {
 
     /** GameMode.clearLevel : retire tout sauf les joueurs avant de changer de niveau. */
     private void clearLevel() {
+        itemNameId = -1; // GameMode.clearLevel : killItemName
         for (Entity e : new ArrayList<>(getList(ENTITY))) {
             if (!(e instanceof Player)) e.destroy();
         }
         cleanKills();
     }
 
+    /** GameMode.getOne : une entité du type AU HASARD (l[Std.random(l.length)]), null si aucune. */
     public Entity getOne(int type) {
         List<Entity> l = getList(type);
-        return l.isEmpty() ? null : l.get(0);
+        return l.isEmpty() ? null : l.get(random(l.size()));
     }
 
     /** Nombre d'ennemis touchés par la même bombe (pour la valeur des cristaux de combo). */
@@ -1279,7 +1305,10 @@ public class Game {
     public void registerMapEvent(int eid, String misc) {
         if (!isMainWorld()) return;
         int lid = levelId;
-        for (MapEvent e : mapTravels) { // aller-retour ou sorties répétées au même niveau : déjà noté
+        // GameMode.registerMapEvent filtre allers-retours et sorties répétées en parcourant mapEvents… où ne sont
+        // jamais rangées les sorties (elles vont dans mapTravels) : le filtre ne retire rien, sortie ET retour au même
+        // niveau sont tous deux affichés sur la carte. Reproduit tel quel.
+        for (MapEvent e : mapEvents) {
             if (e.lid != lid) continue;
             if (e.eid == EVENT_EXIT_RIGHT && (eid == EVENT_BACK_RIGHT || eid == EVENT_EXIT_RIGHT)) return;
             if (e.eid == EVENT_EXIT_LEFT && (eid == EVENT_BACK_LEFT || eid == EVENT_EXIT_LEFT)) return;
@@ -1480,6 +1509,16 @@ public class Game {
 
     /** Pointeur du tutoriel (GameMode.attachPointer) : x, y, rotation ; null = aucun. */
     public double[] pointer;
+
+    /**
+     * Objet dont le nom est affiché en haut au centre (GameMode.attachItemName : objet à effet, ou objet à points
+     * de rareté > 0), id d'objet (score : 1000 + id), -1 = aucun ; effacé au niveau suivant (clearLevel).
+     */
+    public int itemNameId = -1;
+
+    public void attachItemName(int id) {
+        itemNameId = id;
+    }
 
     /**
      * Message en jeu (FxManager.keyRequired / keyUsed : hammer_interf_inGameMsg) : libellé Lang 40 ou 41 et nom de

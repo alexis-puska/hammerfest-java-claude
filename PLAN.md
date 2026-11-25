@@ -25,7 +25,8 @@ Les chemins sont centralisés dans `tools/build.gradle` (`sourceDir`), `export-g
   des classes POJO (`LevelData`, `QuestDef`, `ItemFamily`, `PortalData`, `SaveData`…). Les XML d'origine ne servent
   qu'à la conversion (`./gradlew tools:convertData`).
 - **Simulation** : `core/.../sim`, sans dépendance libGDX, à pas fixe de **32 cycles/s** (`Data.SECOND = 32`, `tmod = 1`),
-  déterministe (RNG à graine). Toutes les entrées passent par `InputFrame` (1 octet de bits), en solo comme en multi.
+  déterministe (RNG à graine). Les clips Flash qui jouent seuls (effets, décors, boucles) suivent la cadence du
+  SWF d'origine, **40 images/s** (`Const.CLIP_FRAMES_PER_CYCLE`, `Const.clipAge`). Toutes les entrées passent par `InputFrame` (1 octet de bits), en solo comme en multi.
 - **Rendu** : `GameView` dessine uniquement à partir d'un `RenderFrame` (liste de dessin générique), en solo comme en
   ligne. Les sprites viennent de l'export FFDec des SWF d'origine, rejoués avec les matrices Flash.
 - **Au lancement** : écran titre puis menus, jamais directement en partie.
@@ -61,7 +62,7 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
    polices `hammerfest.ttf` et `satans.ttf`).
 3. Variantes du joueur : `./gradlew tools:playerVariants` puis `./export-variants.sh [variantes…]` :
    `igor`, `sandy`, `soccer1`, `soccer2`, chapeaux `head2`…`head6`, avec collier `<v>-chourou`, sans arme `<v>-lock`.
-4. `./gradlew tools:tileSkins` : les 63 dalles et embouts depuis l'export gfx (habillage n = image n ; les PNG fournis
+4. `./gradlew tools:tileSkins` : les 63 dalles et embouts depuis l'export gfx, cadrés à (5, 5) sous la marge de FFDec (habillage n = image n ; les PNG fournis
    avec les sources sont mal numérotés).
 5. `./gradlew tools:packSprites` (lance `layoutSprites`) : `assets/sprites/<lib>.json` (`SpriteLibrary`) + atlas.
    - `SwfLayout` : cadres recalés sur les PNG, sous-clips « sub », clips qui jouent seuls en boucle (`LOOP_CLIPS`,
@@ -73,7 +74,13 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
    - couches animées des images figées des ennemis, des objets et des décors de script (`SwfLayout.enemyLayers`, `Clip.layers` ; décors lus dans les niveaux via la propriété `hammerfest.levels`) : clips qui
      jouent seuls à côté de parties fixes (étoiles des ennemis assommés, ailes du tzongre, éclats de la brioche
      dorée…), retirés de l'image à l'assemblage (`PackSprites.cutLayers`) et redessinés à leur image courante ;
-     sous-clips des rayons arrêtés par script dont l'enfant boucle (scintillement des téléporteurs).
+     sous-clips des rayons arrêtés par script dont l'enfant boucle (scintillement des téléporteurs) ; leur 2e image donne
+     `Placement.alt` (rayon allumé, `Sprites.altInnerLoop`), et `hammer_pod` (socles) a ses boucles en couches.
+   - rayons d'arme (`SwfLayout.colorLayers`) : traits animés teintés en aplat (CXFORM lu par `readColor`), images
+     vidées (`Clip.blankFrames`, sautées par PackSprites) et redessinées en couches teintées (`Placement.tintRgb`) ;
+   - parties à la demande (`toggleLayers`, `Placement.part`) : balle de la fraise, morceaux o1/o2 du tas de la framboise ;
+     parties dessinées à part non figées (`partClips` : yeux de la boule de feu, 60 images) ; ballon géant (« b » tourné) ;
+   - décor e_mc p="0" dont l'image 1 fait play() : relancé (`Clip.playOnAttach`, levier des enfers qui s'allume).
    - audits des animations (original contre portage) : `node tools/audit/items-audit.js` (objets) et `node tools/audit/decors-audit.js` (décors), arguments dans l'en-tête des scripts.
    - audit des effets visuels (chaque appel `fxMan.*` de l'original contre `game.fx`/`particles`/`explosion`/`shine`/`dust`… du portage) : `node tools/audit/fx-audit.js original_sources/hammerfest-master/class/hammer core/src/main/java/hammerfest/sim build/check/audit-fx.md` (0 absent ; écarts justifiés listés dans le script).
 6. Images de l'écran Commandes : `./tools/ui/pad-images.sh` (ImageMagick) → `assets/ui`.
@@ -82,14 +89,17 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
 
 Écran titre → menu principal (souris, clavier, manette) : **Jouer** (mode, options débloquées par les quêtes, terrain
 de SoccerFest), **Partie multi**, **Frigo**, **Quêtes** (76, validées automatiquement d'après le frigo),
-**Statistiques**, **Profil** (nom de 3 à 16 caractères, obligatoire pour le multi), **Commandes**, **Quitter**.
+**Statistiques**, **Profil** (nom de 3 à 16 caractères, obligatoire pour le multi), **Commandes**, **Options** (volumes
+musique et bruitages, musique coupée, langue des textes du jeu fr/en/es, `save.AudioSettings`), **Quitter**. Langue
+choisie aussi sur l'écran titre (`HammerfestGame.setLanguage` : données et quêtes rechargées). Menus du portage traduits
+(`ui.Tr.t("texte français")`, table `data/lang/ui.json` en/es ; `TrTest` vérifie qu'aucun texte ne manque).
 Récapitulatif en fin de partie (objets rangés au frigo, quêtes terminées). Polices : Franklin Gothic Heavy (jeu),
 Verdana du système (menus, parchemins), Satans (en-tête du tutoriel).
 
 ## Contrôles
 
-- Clavier : Igor flèches + Espace/Ctrl/Entrée (bombe), Sandy D/G/R/F + A ; P pause, C carte, D déguisement (solo),
-  Échap quitter. Les touches ne se règlent pas.
+- Clavier : Igor flèches + Espace/Ctrl (gauche ou droit)/Entrée (bombe), Sandy D/G/R/F + A ; P pause (aussi en ligne,
+  pour les deux joueurs : `Net.PauseMsg`), C carte (aussi en ligne, pour les deux), M musique coupée (caractère tapé, suit AZERTY/QWERTY, sans message), D déguisement (solo), Échap quitter. Les touches ne se règlent pas.
 - Manettes (`gdx-controllers`, `input/Gamepads`) converties en `InputFrame`. Fixes : croix/stick gauche = déplacement,
   Menu/Options = pause. Réglables (disposition par défaut) : A/Croix = saut, X/Carré = bombe, Y/Triangle = bombe vers
   le haut, B/Rond = carte, RB/R1 = bombe, LB/L1 = bombe vers le haut, LT/L2, RT/R2, clics des sticks et View/Create =
@@ -107,7 +117,7 @@ Verdana du système (menus, parchemins), Satans (en-tête du tutoriel).
 ## Fonctionnalités portées
 
 - **Niveaux et données** : 17 sets décodés (`tools/PersistCodec`), rendu des niveaux (fond `hammer_bg`, dalles, colonnes,
-  champs/rayons, téléporteurs), scripts de niveau (`sim/ScriptEngine` : tous les déclencheurs, actions et codes 0-15),
+  champs/rayons, téléporteurs allumés près du joueur : `Player.showTeleporters`, `RenderFrame.teleportersOn`), scripts de niveau (`sim/ScriptEngine` : tous les déclencheurs, actions et codes 0-15),
   décors animés, obscurité et halos (joueur, bougie, torches), inversion de l'écran, miroir, niveaux visités.
 - **Joueur** : déplacement, sauts, bombes et armes (classique, noire, bleue, verte, rouge, répulsive, tirs), coup de
   pied, bouclier, vies, lettres EXTEND, objets spéciaux (118 effets, `SpecialManager`) et à score, super-objets,
@@ -148,7 +158,7 @@ Verdana du système (menus, parchemins), Satans (en-tête du tutoriel).
   écran Commandes avec de vraies manettes Xbox et DualSense (gâchettes LT/RT, L2/R2 comprises), vibrations
   comprises ; variantes « sans arme » (cadenas sur l'écharpe) et têtes de SoccerFest (couronne du buteur, tête
   basse contre son camp), exportées et assemblées le 24/11.
-- **Fin de portage** : retirer la touche 1 (saut de niveau, tests manuels).
+- **Fin de portage** : retirer les touches 1 (saut de niveau) et 2 (vie en plus) des tests manuels.
 
 ## Vérification
 

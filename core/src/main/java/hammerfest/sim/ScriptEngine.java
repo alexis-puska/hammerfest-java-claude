@@ -36,6 +36,8 @@ public class ScriptEngine {
         public final boolean back;
         public boolean playing;
         public int frame = 1;
+        /** Images de clip à jouer (fractionnaire) : 40 images/s pour 32 cycles/s (Const.CLIP_FRAMES_PER_CYCLE). */
+        double clock;
         /** Retourné horizontalement (option Miroir : mc._xscale *= -1). */
         public boolean mirrored;
         /** Tête du joueur affichée dans le clip (ascenseur de fin : mc.head). */
@@ -353,7 +355,9 @@ public class ScriptEngine {
                 if (game.fl_mirror) x += CASE_WIDTH;
                 double y = xr != null ? getInt(ev, "yr", 0) : Entity.yCtr(getInt(ev, "y", 0));
                 Decor decor = new Decor(sid == null ? -1 : sid, ev.getAttribute("n"), x, y,
-                        getInt(ev, "back", 0) == 1, getInt(ev, "p", 0) > 0);
+                        getInt(ev, "back", 0) == 1, getInt(ev, "p", 0) > 0
+                        // p="0" : mc.stop(), mais un play() en image 1 du clip s'exécute après et le relance
+                        || game.frames.playsOnAttach(ev.getAttribute("n")));
                 decor.mirrored = game.fl_mirror;
                 decors.add(decor);
                 if ("torch".equals(ev.getAttribute("n"))) { // torche : halo de lumière
@@ -473,18 +477,27 @@ public class ScriptEngine {
      * sur une image à stop() le décor s'arrête (un nouveau play() le relance), sur removeMovieClip() il disparaît.
      */
     public void tickDecors(java.util.function.Function<String, int[]> info) {
+        decor:
         for (java.util.Iterator<Decor> it = decors.iterator(); it.hasNext(); ) {
             Decor d = it.next();
-            if (!d.playing) continue;
-            int[] c = info.apply(d.linkage);
-            int total = Math.max(1, c[0]);
-            d.frame = d.frame >= total ? 1 : d.frame + 1;
-            if (c.length > 1 && c[1] > 0 && d.frame == c[1]) {
-                it.remove();
+            if (!d.playing) {
+                d.clock = 0;
                 continue;
             }
-            for (int i = 2; i < c.length; i++) {
-                if (c[i] == d.frame) d.playing = false;
+            int[] c = info.apply(d.linkage);
+            int total = Math.max(1, c[0]);
+            // 40 images/s (SWF d'origine) pour 32 cycles/s : 1 ou 2 images par cycle
+            d.clock += CLIP_FRAMES_PER_CYCLE;
+            while (d.clock >= 1 && d.playing) {
+                d.clock -= 1;
+                d.frame = d.frame >= total ? 1 : d.frame + 1;
+                if (c.length > 1 && c[1] > 0 && d.frame == c[1]) {
+                    it.remove();
+                    continue decor;
+                }
+                for (int i = 2; i < c.length; i++) {
+                    if (c[i] == d.frame) d.playing = false;
+                }
             }
         }
     }

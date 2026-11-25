@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,17 +18,17 @@ public class PlayScreen extends MenuScreen {
 
     public PlayScreen(HammerfestGame game) {
         super(game);
-        Table panel = panel("Jouer");
+        Table panel = panel(Tr.t("Jouer"));
         optionsTable = new ModeOptionsTable(game, skin, game.save.lastOptions);
 
-        panel.add(label("Mode de jeu", "heading")).padBottom(6).row();
+        panel.add(label(Tr.t("Mode de jeu"), "heading")).padBottom(6).row();
         ButtonGroup<TextButton> group = new ButtonGroup<>();
         group.setMinCheckCount(1);
         GameModes.Mode last = GameModes.mode(game.save.lastMode);
         mode = isUnlocked(game, last) ? last : GameModes.MODES.get(0);
         for (GameModes.Mode m : GameModes.MODES) {
             boolean unlocked = isUnlocked(game, m);
-            String text = m.label + (unlocked ? "" : "  - " + ModeOptionsTable.lockText(game, m.unlockMode));
+            String text = Tr.t(m.label) + (unlocked ? "" : "  - " + ModeOptionsTable.lockText(game, m.unlockMode));
             TextButton b = new TextButton(text, skin, "small");
             b.getLabel().setAlignment(com.badlogic.gdx.utils.Align.left);
             b.getLabelCell().padLeft(10);
@@ -45,17 +47,17 @@ public class PlayScreen extends MenuScreen {
             panel.add(b).width(560).height(30).padBottom(4).row();
         }
 
-        panel.add(label("Options", "heading")).padTop(12).padBottom(6).row();
+        panel.add(label(Tr.t("Options"), "heading")).padTop(12).padBottom(6).row();
         panel.add(optionsTable).left().row();
         if (game.save.unlockedOptions.contains(GameModes.PASSIVE_BOOST)) {
-            panel.add(label("Tornade (boost de vitesse en début de partie) : toujours active.", "ok")).padTop(6).row();
+            panel.add(label(Tr.t("Tornade (boost de vitesse en début de partie) : toujours active."), "ok")).padTop(6).row();
         }
         optionsTable.setMode(mode);
 
         panel.add().expandY().row();
         Table buttons = new Table();
-        buttons.add(button("Lancer (Entrée)", this::launch)).width(200).padRight(16);
-        buttons.add(button("Retour", this::back)).width(200);
+        buttons.add(button(Tr.t("Lancer (Entrée)"), this::launch)).width(200).padRight(16);
+        buttons.add(button(Tr.t("Retour"), this::back)).width(200);
         panel.add(buttons).center();
 
         stage.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {

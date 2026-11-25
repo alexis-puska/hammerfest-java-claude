@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -86,7 +88,7 @@ public abstract class MenuScreen extends ScreenAdapter {
     }
 
     protected void addBackButton(Table panel) {
-        panel.add(button("Retour", this::back)).center().width(200).padTop(12);
+        panel.add(button(Tr.t("Retour"), this::back)).center().width(200).padTop(12);
     }
 
     @Override
@@ -113,6 +115,11 @@ public abstract class MenuScreen extends ScreenAdapter {
 
     /** Bouton mis en surbrillance à la manette (écran Commandes : choix du personnage réglé). */
     protected void onFocus(com.badlogic.gdx.scenes.scene2d.ui.Button b) {
+    }
+
+    /** Direction de la croix ou du stick : true si l'écran la traite lui-même (écran titre : choix de la langue). */
+    protected boolean onGamepadDirection(int dir) {
+        return false;
     }
 
     /** Validation sans bouton en surbrillance (écran titre : continuer). */
@@ -144,7 +151,7 @@ public abstract class MenuScreen extends ScreenAdapter {
         int dir = gamepads.menuBits();
         repeat -= delta;
         if (dir != 0 && (dir != lastDir || repeat <= 0)) {
-            moveFocus(dir);
+            if (!onGamepadDirection(dir)) moveFocus(dir);
             repeat = dir != lastDir ? 0.35f : 0.12f; // première répétition plus lente
         }
         lastDir = dir;

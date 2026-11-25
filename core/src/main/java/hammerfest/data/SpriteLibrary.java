@@ -42,6 +42,13 @@ public class SpriteLibrary {
         /** Image (1..n) portant this.removeMovieClip() : le clip disparaît ; 0 = jamais. */
         public int removeFrame;
         /**
+         * Image 1 avec play() : attaché puis arrêté par le code (décor e_mc p="0" : mc.stop()), le clip repart quand son
+         * script d'image s'exécute, après ce stop() (levier des enfers qui s'allume).
+         */
+        public boolean playOnAttach;
+        /** Images (1..n) vides : entièrement dessinées par leurs couches teintées (rayons d'arme). */
+        public List<Integer> blankFrames;
+        /**
          * Images réellement jouées en boucle quand une image saute ailleurs par gotoAndPlay avant d'être affichée
          * (flamme de la torche : image 8 → gotoAndPlay(1 ou 2)) ; 0 = toutes les images.
          */
@@ -61,6 +68,11 @@ public class SpriteLibrary {
         public int id;
         /** Clip animé qui joue tout seul en boucle (l'image suit le temps, pas l'entité). */
         public boolean loop;
+        /**
+         * Boucle du 2e état du clip arrêté par script qui l'emballe (rayon de téléporteur allumé : 3155 image 2,
+         * SetManager.showField) ; null = un seul état. Choisie par {@code Sprites.altInnerLoop}.
+         */
+        public Placement alt;
         /** Couche animée dessinée sous l'image (sinon par-dessus). */
         public boolean under;
         /**
@@ -68,6 +80,10 @@ public class SpriteLibrary {
          * l'entité doit demander ({@code Sprites.visiblePart}) ; null = couche toujours dessinée.
          */
         public String part;
+        /** Teinte en aplat de la couche (CXFORM : multiplicateurs 0, couleur ajoutée) 0xRRGGBB, null = aucune. */
+        public Integer tintRgb;
+        /** Opacité de la couche teintée (multiplicateur alpha d'origine). */
+        public Float tintAlpha;
         public float a = 1;
         public float b;
         public float c;

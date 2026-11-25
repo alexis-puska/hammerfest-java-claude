@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -29,17 +31,17 @@ public class JoinScreen extends MenuScreen {
 
     public JoinScreen(HammerfestGame game) {
         super(game);
-        Table panel = panel("Rejoindre une partie");
-        panel.add(label("Parties sur le réseau local", "heading")).padBottom(6).row();
+        Table panel = panel(Tr.t("Rejoindre une partie"));
+        panel.add(label(Tr.t("Parties sur le réseau local"), "heading")).padBottom(6).row();
         panel.add(list).width(560).left().padBottom(6).row();
-        panel.add(button("Rechercher", "small", this::search)).width(200).padBottom(14).row();
+        panel.add(button(Tr.t("Rechercher"), "small", this::search)).width(200).padBottom(14).row();
 
-        panel.add(label("Ou adresse de l'hôte (IP ou nom)", "heading")).padBottom(6).row();
+        panel.add(label(Tr.t("Ou adresse de l'hôte (IP ou nom)"), "heading")).padBottom(6).row();
         Table row = new Table();
         row.add(address).width(330).height(30).padRight(10);
-        row.add(button("Se connecter", "small", () -> {
+        row.add(button(Tr.t("Se connecter"), "small", () -> {
             String a = address.getText().trim();
-            if (!a.isEmpty()) connect(a, "l'hôte");
+            if (!a.isEmpty()) connect(a, Tr.t("l'hôte"));
         })).width(180);
         panel.add(row).left().padBottom(14).row();
 
@@ -54,7 +56,7 @@ public class JoinScreen extends MenuScreen {
         if (searching) return;
         searching = true;
         list.clearChildren();
-        list.add(label("Recherche…", "dim")).left();
+        list.add(label(Tr.t("Recherche…"), "dim")).left();
         new Thread(() -> {
             List<LanDiscovery.HostInfo> found = LanDiscovery.discover(Net.DISCOVERY_PORT, 1500);
             Gdx.app.postRunnable(() -> showHosts(found));
@@ -65,12 +67,12 @@ public class JoinScreen extends MenuScreen {
         searching = false;
         list.clearChildren();
         if (found.isEmpty()) {
-            list.add(label("Aucune partie trouvée.", "dim")).left();
+            list.add(label(Tr.t("Aucune partie trouvée."), "dim")).left();
             return;
         }
         for (LanDiscovery.HostInfo h : found) {
             boolean ok = h.version == Net.PROTOCOL_VERSION;
-            String text = h + (ok ? "" : "  - version différente");
+            String text = h + (ok ? "" : Tr.t("  - version différente"));
             com.badlogic.gdx.scenes.scene2d.ui.TextButton b = button(text, "small",
                     () -> connect(h.address.getHostAddress(), h.hostName));
             b.setDisabled(!ok);
@@ -83,14 +85,14 @@ public class JoinScreen extends MenuScreen {
         ClientSession c = new ClientSession();
         client = c;
         status.setStyle(skin.get("dim", Label.LabelStyle.class));
-        status.setText("Connexion à " + hostLabel + "…");
+        status.setText(Tr.t("Connexion à ") + hostLabel + "…");
         new Thread(() -> {
             try {
                 c.connect(InetAddress.getByName(host), Net.TCP_PORT, Net.UDP_PORT, game.save.playerName, game.save.playerId);
-                Gdx.app.postRunnable(() -> status.setText("Demande envoyée à la partie de " + hostLabel
-                        + ". En attente de sa réponse (30 s au plus)…"));
+                Gdx.app.postRunnable(() -> status.setText(Tr.t("Demande envoyée à la partie de ") + hostLabel
+                        + Tr.t(". En attente de sa réponse (30 s au plus)…")));
             } catch (Exception e) {
-                Gdx.app.postRunnable(() -> error("Impossible de joindre " + hostLabel + " (" + host + ")."));
+                Gdx.app.postRunnable(() -> error(Tr.t("Impossible de joindre ") + hostLabel + " (" + host + ")."));
             }
         }, "hammerfest-connect").start();
     }
@@ -108,18 +110,18 @@ public class JoinScreen extends MenuScreen {
                 switch (e.type) {
                     case ACCEPTED:
                         status.setStyle(skin.get("ok", Label.LabelStyle.class));
-                        status.setText("Connecté à la partie de " + e.name + ". En attente du lancement par l'hôte…");
+                        status.setText(Tr.t("Connecté à la partie de ") + e.name + Tr.t(". En attente du lancement par l'hôte…"));
                         break;
                     case REFUSED:
-                        error(e.name + " a refusé votre demande" + (e.text != null ? " (" + e.text + ")." : "."));
+                        error(e.name + Tr.t(" a refusé votre demande") + (e.text != null ? " (" + e.text + ")." : "."));
                         client = null;
                         break;
                     case TIMED_OUT:
-                        error("Pas de réponse de l'hôte : demande annulée.");
+                        error(Tr.t("Pas de réponse de l'hôte : demande annulée."));
                         client = null;
                         break;
                     case DISCONNECTED:
-                        error("Déconnecté de la partie de " + e.name + " (" + e.text + ").");
+                        error(Tr.t("Déconnecté de la partie de ") + e.name + " (" + e.text + ").");
                         client = null;
                         break;
                     case MESSAGE:

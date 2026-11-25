@@ -341,4 +341,27 @@ class BadTest {
         GameTest.run(normal, 2, 0);
         assertEquals(0, bad(normal).anger, "sans Cauchemar : calme au début");
     }
+
+    /** Framboise.phaseOut / onArrived : tas (image 15) qui grossit fragment par fragment, morceaux o1 / o2 à la fin. */
+    @Test
+    void raspberryHeapGrowsAsFragmentsArrive() {
+        Game g = game(20, 15, 5); // framboise
+        var fr = (hammerfest.sim.entity.bad.Fruits.Framboise) bad(g);
+        GameTest.run(g, 2, 0);
+        fr.onShoot();
+        assertTrue(fr.fl_phased, "dispersée (case d'arrivée trouvée)");
+        assertEquals(14, fr.animId, "gotoAndStop(\"15\") : le tas");
+        java.util.List<hammerfest.sim.entity.shoot.FramBall> frags = new java.util.ArrayList<>();
+        for (var e : g.getList(Const.SHOOT)) if (e instanceof hammerfest.sim.entity.shoot.FramBall) frags.add((hammerfest.sim.entity.shoot.FramBall) e);
+        frags.sort(java.util.Comparator.comparingDouble(b -> b.subFrame));
+        assertEquals(6, frags.size());
+        for (int k = 0; k < 4; k++) fr.onArrived(frags.get(k));
+        assertEquals(5, fr.subFrame, 1e-9, "4 fragments : tas complet (image 5)");
+        assertFalse(fr.heapO1);
+        fr.onArrived(frags.get(4));
+        assertTrue(fr.heapO1, "5e fragment : morceau o1");
+        assertFalse(fr.heapO2);
+        fr.onArrived(frags.get(5));
+        assertFalse(fr.fl_phased, "reconstituée");
+    }
 }

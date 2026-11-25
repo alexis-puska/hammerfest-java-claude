@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -28,13 +30,13 @@ public class ProfileScreen extends MenuScreen {
         super(game);
         this.next = next;
 
-        Table panel = panel("Profil");
+        Table panel = panel(Tr.t("Profil"));
         if (reason != null) panel.add(label(reason, "accent")).padBottom(10).row();
-        panel.add(label("Nom du joueur", "heading")).padBottom(6).row();
-        panel.add(label("Utilisé en ligne pour vous identifier auprès des autres joueurs.", "dim")).padBottom(10).row();
+        panel.add(label(Tr.t("Nom du joueur"), "heading")).padBottom(6).row();
+        panel.add(label(Tr.t("Utilisé en ligne pour vous identifier auprès des autres joueurs."), "dim")).padBottom(10).row();
 
         field = new TextField(game.save.playerName, skin);
-        field.setMessageText("Votre nom");
+        field.setMessageText(Tr.t("Votre nom"));
         field.setMaxLength(PlayerName.MAX_LENGTH);
         field.setTextFieldFilter((f, c) -> PlayerName.isAllowed(c));
         field.setTextFieldListener((f, c) -> {
@@ -42,15 +44,15 @@ public class ProfileScreen extends MenuScreen {
         });
         panel.add(field).width(360).height(40).padBottom(6).row();
         panel.add(label(PlayerName.MIN_LENGTH + " à " + PlayerName.MAX_LENGTH
-                + " caractères : lettres, chiffres, espace, - et _", "dim")).padBottom(10).row();
+                + Tr.t(" caractères : lettres, chiffres, espace, - et _"), "dim")).padBottom(10).row();
 
         feedback = label("", "default");
         feedback.setWrap(true);
         panel.add(feedback).width(540).padBottom(10).row();
 
         Table buttons = new Table();
-        buttons.add(button("Valider", this::validate)).width(200).padRight(16);
-        buttons.add(button("Retour", this::back)).width(200);
+        buttons.add(button(Tr.t("Valider"), this::validate)).width(200).padRight(16);
+        buttons.add(button(Tr.t("Retour"), this::back)).width(200);
         panel.add(buttons).center().row();
         panel.add().expandY();
 
@@ -73,7 +75,7 @@ public class ProfileScreen extends MenuScreen {
         } else {
             field.setText(name);
             feedback.setStyle(skin.get("ok", Label.LabelStyle.class));
-            feedback.setText("Nom enregistré : " + name);
+            feedback.setText(Tr.t("Nom enregistré : ") + name);
         }
     }
 }

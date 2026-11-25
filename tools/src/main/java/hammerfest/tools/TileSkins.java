@@ -10,7 +10,9 @@ import java.io.File;
  * choisit l'habillage par {@code skin.gotoAndStop("" + id)} : sans étiquette, c'est l'image n° id. Les PNG fournis
  * avec les sources d'origine sautent les images 20, 21, 41 et 42 et sont renumérotés à partir de là (tile_54 =
  * image 58) : on ne s'en sert pas. Cadrage identique aux textures d'origine :
- * dalle 395×20 à (5, 6), embout 5×20 à (7, 6) dans les images exportées.
+ * dalle 395×20 à (5, 5), embout 5×20 à (7, 5) dans les images exportées (marge de 5 px de FFDec : la forme
+ * d'origine occupe y = 0 à 20 ; un cadrage à y = 6 décalait les dalles d'1 px vers le haut avec une ligne vide en
+ * bas, d'où des colonnes « décollées » des plateformes).
  *
  * <p>Usage : TileSkins &lt;dossier export gfx&gt; &lt;assets/images/tiles&gt;</p>
  */
@@ -28,11 +30,11 @@ public final class TileSkins {
             String nn = String.format("%02d", n);
             File tile = new File(out, "tile_" + nn + ".png"), end = new File(out, "end_" + nn + ".png");
             {
-                ImageIO.write(crop(ImageIO.read(s), 5, 6, 395, 20), "png", tile);
+                ImageIO.write(crop(ImageIO.read(s), 5, 5, 395, 20), "png", tile);
                 written++;
             }
             if (e.exists()) {
-                ImageIO.write(crop(ImageIO.read(e), 7, 6, 5, 20), "png", end);
+                ImageIO.write(crop(ImageIO.read(e), 7, 5, 5, 20), "png", end);
                 written++;
             }
         }

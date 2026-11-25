@@ -46,6 +46,7 @@ public class ScoreItem extends Item {
             for (Player pl : game.players()) game.timePop(pl.x, pl.y, bonus);
         }
         game.pickUp(id + 1000);
+        if (game.itemRarity(id + 1000) > 0) game.attachItemName(id + 1000); // ScoreItem.execute : rareté r > 0
         if (id == CONVERT_DIAMANT) p.specialMan.onPickPerfectItem();
         super.execute(p);
     }

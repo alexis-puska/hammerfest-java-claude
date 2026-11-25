@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -91,13 +93,13 @@ public class ControlsScreen extends MenuScreen {
 
     private void build() {
         closePopup();
-        Table panel = panel("Commandes");
+        Table panel = panel(Tr.t("Commandes"));
         Table tabs = new Table();
-        tabs.add(button("Clavier", keyboardTab ? "focused" : "default", () -> {
+        tabs.add(button(Tr.t("Clavier"), keyboardTab ? "focused" : "default", () -> {
             keyboardTab = true;
             build();
         })).width(150).height(32).padRight(10);
-        tabs.add(button("Manette", keyboardTab ? "default" : "focused", () -> {
+        tabs.add(button(Tr.t("Manette"), keyboardTab ? "default" : "focused", () -> {
             keyboardTab = false;
             build();
         })).width(150).height(32);
@@ -107,7 +109,7 @@ public class ControlsScreen extends MenuScreen {
         panel.add().expandY().row();
         Table bottom = new Table();
         if (!keyboardTab) {
-            bottom.add(button("Réinitialiser", () -> {
+            bottom.add(button(Tr.t("Réinitialiser"), () -> {
                 settings.faces[editPid] = ControlSettings.defaultButtons();
                 settings.vibration = true;
                 settings.vibrationStrength = 0.7f;
@@ -116,21 +118,21 @@ public class ControlsScreen extends MenuScreen {
                 build();
             })).width(200).padRight(14);
         }
-        bottom.add(button("Retour", this::back)).width(200);
+        bottom.add(button(Tr.t("Retour"), this::back)).width(200);
         panel.add(bottom).center().padTop(8);
     }
 
     private void buildKeyboard(Table panel) {
         String[][] keys = {
-                {"", "Igor", "Sandy (2 joueurs)"},
-                {"Gauche / droite", "Flèches", "D / G"},
-                {"Sauter", "Flèche haut", "R"},
-                {"Bombe", "Espace, Ctrl, Entrée", "A"},
-                {"Bombe en haut", "Flèche bas", "F"},
-                {"Pause", "P", "P"},
-                {"Carte", "C", "C"},
-                {"Déguisement (solo)", "D", ""},
-                {"Quitter la partie", "Échap", "Échap"},
+                {"", Tr.t("Igor"), Tr.t("Sandy (2 joueurs)")},
+                {Tr.t("Gauche / droite"), Tr.t("Flèches"), "D / G"},
+                {Tr.t("Sauter"), Tr.t("Flèche haut"), "R"},
+                {Tr.t("Bombe"), Tr.t("Espace, Ctrl, Entrée"), "A"},
+                {Tr.t("Bombe en haut"), Tr.t("Flèche bas"), "F"},
+                {Tr.t("Pause"), "P", "P"},
+                {Tr.t("Carte"), "C", "C"},
+                {Tr.t("Déguisement (solo)"), "D", ""},
+                {Tr.t("Quitter la partie"), Tr.t("Échap"), Tr.t("Échap")},
         };
         Table t = new Table();
         t.defaults().left().padBottom(8).padRight(24);
@@ -141,13 +143,13 @@ public class ControlsScreen extends MenuScreen {
             t.add(label(keys[i][2], style)).row();
         }
         panel.add(t).left().row();
-        panel.add(label("Les touches du clavier ne se règlent pas.", "dim")).left().padTop(6).row();
+        panel.add(label(Tr.t("Les touches du clavier ne se règlent pas."), "dim")).left().padTop(6).row();
     }
 
     private void buildGamepad(Table panel) {
         names = gamepads.names();
         int[] resolved = settings.resolve(names);
-        panel.add(label("Manettes branchées : " + names.size(), "heading")).left().padBottom(8).row();
+        panel.add(label(Tr.t("Manettes branchées : ") + names.size(), "heading")).left().padBottom(8).row();
 
         // affectation : un menu déroulant par personnage
         List<String> keys = ControlSettings.keys(names);
@@ -157,7 +159,7 @@ public class ControlsScreen extends MenuScreen {
             final int p = pid;
             List<String> options = new ArrayList<>();
             for (String n : names) options.add(n);
-            options.add("Aucune (clavier)");
+            options.add(Tr.t("Aucune (clavier)"));
             int current = resolved[pid] >= 0 ? resolved[pid] : names.size();
             assign.add(label(PLAYER[pid], pid == editPid ? "accent" : "default")).width(70);
             TextButton dd = dropdown(options, current, 330, i -> {
@@ -179,10 +181,10 @@ public class ControlsScreen extends MenuScreen {
         // réglage de la manette du personnage choisi
         int ctrl = resolved[editPid];
         shownController = ctrl;
-        String title = (editPid == 0 ? "Manette d'Igor" : "Manette de Sandy");
+        String title = (editPid == 0 ? Tr.t("Manette d'Igor") : Tr.t("Manette de Sandy"));
         Table head = new Table();
         head.add(label(title, "heading")).padRight(10);
-        head.add(label(ctrl >= 0 ? "— " + names.get(ctrl) : "— aucune manette affectée", "dim"));
+        head.add(label(ctrl >= 0 ? "— " + names.get(ctrl) : Tr.t("— aucune manette affectée"), "dim"));
         panel.add(head).left().padTop(10).padBottom(8).row();
 
         int type = ctrl >= 0 && ControlSettings.isPlayStation(names.get(ctrl)) ? 1 : 0;
@@ -202,19 +204,19 @@ public class ControlsScreen extends MenuScreen {
         pad.add(middle).top().padTop(20);
         pad.add(buttonRows(RIGHT_ROWS, typeName, type, ctrl)).top().padLeft(4);
         panel.add(pad).center().row();
-        String start = type == 1 ? "Options" : "Menu";
-        panel.add(label("Croix / stick gauche : déplacement   •   " + start + " : pause", "dim")).left().padBottom(4).row();
+        String start = type == 1 ? Tr.t("Options") : Tr.t("Menu");
+        panel.add(label(Tr.t("Croix / stick gauche : déplacement   •   ") + start + Tr.t(" : pause"), "dim")).left().padBottom(4).row();
         StringBuilder missing = new StringBuilder();
         for (int a = 0; a <= ControlSettings.BOMB; a++) {
-            if (settings.missing(editPid, a)) missing.append(missing.length() > 0 ? ", " : "").append(ControlSettings.ACTION_NAMES[a]);
+            if (settings.missing(editPid, a)) missing.append(missing.length() > 0 ? ", " : "").append(Tr.t(ControlSettings.ACTION_NAMES[a]));
         }
         if (ctrl >= 0 && missing.length() > 0) {
-            panel.add(label("Aucun bouton pour : " + missing, "accent")).left().padBottom(4).row();
+            panel.add(label(Tr.t("Aucun bouton pour : ") + missing, "accent")).left().padBottom(4).row();
         } else {
-            panel.add(label("Plusieurs boutons peuvent faire la même action.", "dim")).left().padBottom(4).row();
+            panel.add(label(Tr.t("Plusieurs boutons peuvent faire la même action."), "dim")).left().padBottom(4).row();
         }
         if (editPid == 0) { // le joueur qui rejoint une partie en ligne joue Sandy, avec ce réglage
-            Label online = label("Réglage utilisé en jeu local et quand vous rejoignez une partie en ligne (vous y jouez Sandy).", "accent");
+            Label online = label(Tr.t("Réglage utilisé en jeu local et quand vous rejoignez une partie en ligne (vous y jouez Sandy)."), "accent");
             online.setWrap(true);
             panel.add(online).width(560).left().padBottom(10).row();
         } else {
@@ -224,7 +226,7 @@ public class ControlsScreen extends MenuScreen {
         // vibrations et zone morte (communes)
         Table opts = new Table();
         opts.defaults().left().padBottom(8);
-        CheckBox vib = new CheckBox(" Vibrations", skin);
+        CheckBox vib = new CheckBox(Tr.t(" Vibrations"), skin);
         vib.setChecked(settings.vibration);
         vib.addListener(new ChangeListener() {
             @Override
@@ -234,7 +236,7 @@ public class ControlsScreen extends MenuScreen {
             }
         });
         opts.add(vib).width(170);
-        opts.add(label("intensité", "dim")).padRight(10);
+        opts.add(label(Tr.t("intensité"), "dim")).padRight(10);
         Slider strength = new Slider(0, 1, 0.05f, false, skin);
         strength.setValue(settings.vibrationStrength);
         strength.addListener(new ChangeListener() {
@@ -248,7 +250,7 @@ public class ControlsScreen extends MenuScreen {
             }
         });
         opts.add(strength).width(200).row();
-        opts.add(label("Zone morte du stick", "default"));
+        opts.add(label(Tr.t("Zone morte du stick"), "default"));
         Label dzValue = label(Math.round(settings.deadZone * 100) + " %", "dim");
         opts.add(dzValue);
         Slider dz = new Slider(0.05f, 0.9f, 0.05f, false, skin);
@@ -263,7 +265,14 @@ public class ControlsScreen extends MenuScreen {
         });
         opts.add(dz).width(200).row();
         panel.add(opts).left().row();
-        panel.add(label("Vibrations : explosion proche, vie perdue, boss touché.", "dim")).left().row();
+        panel.add(label(Tr.t("Vibrations : explosion proche, vie perdue, boss touché."), "dim")).left().row();
+    }
+
+    /** Noms des actions des boutons dans la langue choisie. */
+    private static List<String> actionNames() {
+        List<String> out = new ArrayList<>();
+        for (String a : ControlSettings.ACTION_NAMES) out.add(Tr.t(a));
+        return out;
     }
 
     /** Colonne de lignes « icône du bouton + action » ; survoler une ligne affiche le nom du bouton sous le dessin. */
@@ -275,8 +284,8 @@ public class ControlsScreen extends MenuScreen {
             rowIcons[button] = icon;
             Table row = new Table();
             row.add(icon).size(26, 26).padRight(4);
-            String name = BUTTON_NAMES[type][button];
-            TextButton dd = dropdown(List.of(ControlSettings.ACTION_NAMES), settings.faces[editPid][button], 142, a -> {
+            String name = Tr.t(BUTTON_NAMES[type][button]);
+            TextButton dd = dropdown(actionNames(), settings.faces[editPid][button], 142, a -> {
                 settings.setButton(editPid, button, a);
                 save();
                 build();
@@ -377,7 +386,7 @@ public class ControlsScreen extends MenuScreen {
             rowIcons[b].setScale(down ? 1.25f : 1f);
             if (down && buttonName != null) {
                 int type = shownController >= 0 && ControlSettings.isPlayStation(names.get(shownController)) ? 1 : 0;
-                buttonName.setText(BUTTON_NAMES[type][b]);
+                buttonName.setText(Tr.t(BUTTON_NAMES[type][b]));
             }
         }
         super.render(delta);

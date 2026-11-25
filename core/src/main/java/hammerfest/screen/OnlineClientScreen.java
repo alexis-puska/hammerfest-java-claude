@@ -1,5 +1,7 @@
 package hammerfest.screen;
 
+import hammerfest.ui.Tr;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -59,11 +61,29 @@ public class OnlineClientScreen extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(new InputAdapter() {
+            // Musique coupée / rétablie : caractère tapé (m), qui suit la disposition du clavier (AZERTY, QWERTY…),
+            // et non la position physique de la touche (Input.Keys.M = touche « , » sur un AZERTY)
+            @Override
+            public boolean keyTyped(char character) {
+                if (character != 'm' && character != 'M') return false;
+                view.toggleMusic();
+                app.persist();
+                return true;
+            }
+
             @Override
             public boolean keyDown(int keycode) {
                 pendingBits |= GameScreen.bitFor(0, keycode);
+                if (keycode == Input.Keys.P) { // demande à l'hôte de mettre en pause ou de reprendre (pour les deux)
+                    requestPause(false);
+                    return true;
+                }
+                if (keycode == Input.Keys.C && view.hasMap()) { // carte du puits, pour les deux joueurs
+                    requestPause(true);
+                    return true;
+                }
                 if (keycode == Input.Keys.ESCAPE) {
-                    leave("Vous avez quitté la partie");
+                    leave(Tr.t("Vous avez quitté la partie"));
                     return true;
                 }
                 return false;
@@ -77,6 +97,13 @@ public class OnlineClientScreen extends ScreenAdapter {
         for (NetEvent e = client.poll(); e != null; e = client.poll()) {
             if (e.type == NetEvent.Type.MESSAGE && e.message instanceof RenderFrame) {
                 receive((RenderFrame) e.message);
+            } else if (e.type == NetEvent.Type.MESSAGE && e.message instanceof Net.PauseMsg) { // pause décidée par l'hôte
+                Net.PauseMsg pm = (Net.PauseMsg) e.message;
+                if (pm.paused && !pm.map && !view.paused) view.tipIndex++;
+                view.paused = pm.paused;
+                view.mapOpen = pm.paused && pm.map;
+                pendingBits = 0;
+                accumulator = 0;
             } else if (e.type == NetEvent.Type.DISCONNECTED) {
                 // l'hôte a quitté juste après son dernier instantané (Échap : fin de partie) : on termine
                 // normalement (récapitulatif, objets rangés au frigo) au lieu de revenir au menu sans rien garder
@@ -84,12 +111,12 @@ public class OnlineClientScreen extends ScreenAdapter {
                     finishGame();
                     return;
                 }
-                leave((e.name != null ? e.name : "L'hôte") + " a quitté la partie (" + e.text + ")");
+                leave((e.name != null ? e.name : Tr.t("L'hôte")) + Tr.t(" a quitté la partie (") + e.text + ")");
                 return;
             }
         }
-        // touches envoyées à chaque cycle de 1/32 s (état tenu + appuis brefs)
-        accumulator += Math.min(delta, 0.25f);
+        // touches envoyées à chaque cycle de 1/32 s (état tenu + appuis brefs) ; rien pendant la pause
+        if (!view.paused) accumulator += Math.min(delta, 0.25f);
         while (accumulator >= STEP) {
             accumulator -= STEP;
             int bits = pendingBits;
@@ -103,7 +130,8 @@ public class OnlineClientScreen extends ScreenAdapter {
             client.send(in);
             predictor.step(in.tick, bits);
         }
-        if (gamepads.consumePause()) view.alert("Pas de pause en ligne");
+        if (gamepads.consumePause()) requestPause(false);
+        if (gamepads.consumeMap() && view.hasMap()) requestPause(true);
         sinceCurrent += delta;
         if (current == null) {
             view.render(new RenderFrame()); // écran noir en attendant le premier instantané
@@ -227,10 +255,18 @@ public class OnlineClientScreen extends ScreenAdapter {
         }
         GameResult result = new GameResult(modeId, score, current.mainLevelId, items);
         result.victory = current.victory;
-        if (current.soccer) result.scoreText = "Igor " + current.soccer0 + " - " + current.soccer1 + " Sandy";
+        if (current.soccer) result.scoreText = Tr.t("Igor ") + current.soccer0 + " - " + current.soccer1 + Tr.t(" Sandy");
         client.close();
         List<hammerfest.data.QuestDef> completed = app.finishGame(result);
         app.show(new RecapScreen(app, result, completed));
+    }
+
+    /** P ou Start (carte : C ou bouton Carte) : demande à l'hôte de mettre en pause / d'ouvrir la carte, ou de reprendre. */
+    private void requestPause(boolean map) {
+        if (finished) return;
+        Net.PauseMsg m = new Net.PauseMsg();
+        m.map = map;
+        client.send(m);
     }
 
     private void leave(String message) {

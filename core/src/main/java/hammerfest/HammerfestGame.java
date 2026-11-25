@@ -44,7 +44,10 @@ public class HammerfestGame extends Game {
         store = new SaveStore(dir != null ? Gdx.files.absolute(dir + "/save.json") : Gdx.files.local("save.json"));
         save = store.load();
         hammerfest.input.Gamepads.settings = save.controls; // réglages des manettes partagés par les écrans
+        hammerfest.render.Audio.settings = save.audio;
         data = GameData.load(Gdx.files.internal("data"), save.lang);
+        com.badlogic.gdx.files.FileHandle uiTexts = Gdx.files.internal("data/lang/ui.json"); // textes du portage (menus…)
+        hammerfest.ui.Tr.load(save.lang, uiTexts.exists() ? uiTexts.readString("UTF-8") : null);
         quests = new QuestBook(data.quests);
         quests.update(save);
         persist();
@@ -53,6 +56,16 @@ public class HammerfestGame extends Game {
         menuBackground = new Texture(Gdx.files.internal("images/bgMenu.jpg"));
         menuBackground.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         setScreen(new TitleScreen(this));
+    }
+
+    /** Change la langue des textes du jeu (fr, en, es) : données rechargées, quêtes recalculées, sauvegarde. */
+    public void setLanguage(String code) {
+        save.lang = code;
+        hammerfest.ui.Tr.setLanguage(code);
+        data = GameData.load(Gdx.files.internal("data"), code);
+        quests = new QuestBook(data.quests);
+        quests.update(save);
+        persist();
     }
 
     public void persist() {

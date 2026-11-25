@@ -1,5 +1,7 @@
 package hammerfest.net;
 
+import hammerfest.ui.Tr;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -78,14 +80,14 @@ public final class HostSession implements Closeable {
         if (o instanceof Net.JoinRequest) {
             Net.JoinRequest r = (Net.JoinRequest) o;
             if (r.version != Net.PROTOCOL_VERSION) {
-                refuse(c, "Version du jeu différente");
+                refuse(c, Tr.t("Version du jeu différente"));
                 return;
             }
             if (peer != null) {
-                refuse(c, "Partie complète");
+                refuse(c, Tr.t("Partie complète"));
                 return;
             }
-            String name = r.playerName == null || r.playerName.isBlank() ? "Joueur" : r.playerName;
+            String name = r.playerName == null || r.playerName.isBlank() ? Tr.t("Joueur") : r.playerName;
             if (pending == null) {
                 pending = c;
                 events.add(new NetEvent(NetEvent.Type.JOIN_ASKED, name, null, null));
@@ -107,7 +109,7 @@ public final class HostSession implements Closeable {
             peer = null;
             String name = peerName;
             peerName = null;
-            events.add(new NetEvent(NetEvent.Type.DISCONNECTED, name, "Connexion perdue", null));
+            events.add(new NetEvent(NetEvent.Type.DISCONNECTED, name, Tr.t("Connexion perdue"), null));
         } else if (c == pending) {
             pending = null;
             nextRequest();
@@ -141,7 +143,7 @@ public final class HostSession implements Closeable {
         peer = pending;
         peerName = name;
         pending = null;
-        while (!waiting.isEmpty()) refuse((Connection) waiting.poll()[0], "Partie complète");
+        while (!waiting.isEmpty()) refuse((Connection) waiting.poll()[0], Tr.t("Partie complète"));
     }
 
     /** Refuse la demande en cours (la connexion est fermée par le client à la réception) ; passe à la suivante. */
@@ -170,7 +172,7 @@ public final class HostSession implements Closeable {
         Connection p = peer;
         if (p != null) {
             Net.Leave l = new Net.Leave();
-            l.reason = "L'hôte a quitté la partie";
+            l.reason = Tr.t("L'hôte a quitté la partie");
             p.sendTCP(l);
         }
         server.stop();

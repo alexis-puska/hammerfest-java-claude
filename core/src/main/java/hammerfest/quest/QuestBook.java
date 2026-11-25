@@ -60,19 +60,26 @@ public class QuestBook {
         return newlyCompleted;
     }
 
-    /** Applique, dans l'ordre des quêtes, les give puis remove de chaque quête terminée. */
+    /**
+     * Familles, options et modes des quêtes terminées : familles de départ + données (give) − retirées (remove).
+     * Un retrait l'emporte toujours, quel que soit l'ordre des quêtes : la quête qui fait apparaître une famille
+     * (grimoire des étoiles : signes du zodiaque) est souvent plus loin dans la liste que celle qui la retire une
+     * fois la collection faite (constellations) ; de même pour la clé avinée et la paperasse.
+     */
     public void recomputeUnlocks(SaveData save) {
         save.unlockedFamilies.clear();
         save.unlockedOptions.clear();
         save.unlockedModes.clear();
         for (int f : START_FAMILIES) save.unlockedFamilies.add(f);
+        java.util.Set<Integer> removed = new java.util.HashSet<>();
         for (QuestDef q : quests) {
             if (!save.completedQuests.contains(q.id)) continue;
             for (int f : q.give) save.unlockedFamilies.add(f);
-            for (int f : q.remove) save.unlockedFamilies.remove(f);
+            removed.addAll(q.remove);
             for (String o : q.options) save.unlockedOptions.add(o);
             for (String m : q.modes) save.unlockedModes.add(m);
         }
+        save.unlockedFamilies.removeAll(removed);
     }
 
     /** Quête qui débloque l'option (ou le mode) donnée, pour l'afficher sur une option grisée. */

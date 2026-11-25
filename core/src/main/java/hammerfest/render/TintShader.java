@@ -45,9 +45,11 @@ public final class TintShader implements Disposable {
     }
 
     /** Shader réglé sur {@code tint} (intensité 0..100 << 24 | 0xRRGGBB), ou null si indisponible. */
-    public ShaderProgram forTint(int tint) {
+    public ShaderProgram forTint(com.badlogic.gdx.graphics.g2d.SpriteBatch batch, int tint) {
         if (program == null) return null;
-        program.bind();
+        // shader posé AVANT la couleur : setShader dessine d'abord ce qui attend (objets, lettres, pics…) avec
+        // l'ancien shader ; lier le programme avant faisait teinter tout le lot en orange (blob qui tire)
+        batch.setShader(program);
         program.setUniformf("u_tint", ((tint >> 16) & 0xff) / 255f, ((tint >> 8) & 0xff) / 255f, (tint & 0xff) / 255f,
                 Math.min(100, (tint >>> 24) & 0xff) / 100f);
         return program;

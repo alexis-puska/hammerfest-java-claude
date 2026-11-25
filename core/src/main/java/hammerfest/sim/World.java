@@ -63,6 +63,11 @@ public class World {
     public static final class Teleporter {
         public final int cx, cy, length, dir;
         public final double centerX, centerY;
+        /** Extrémités (TeleporterData.startX/Y, endX/Y) : centre de la 1re case, recalé d'une demi-case (horizontal) ou
+         *  d'une case (vertical), puis longueur ajoutée. */
+        public final double startX, startY, endX, endY;
+        /** Allumé (TeleporterData.fl_on, SetManager.showField) : un joueur est proche de lui ou de son départ. */
+        public boolean on;
 
         Teleporter(int cx, int cy, int length, int dir) {
             this.cx = cx;
@@ -75,6 +80,13 @@ public class World {
             else centerY += length / 2.0 * CASE_HEIGHT;
             this.centerX = centerX;
             this.centerY = centerY;
+            double sx = cx * CASE_WIDTH + CASE_WIDTH * 0.5, sy = cy * CASE_HEIGHT + CASE_HEIGHT;
+            if (dir == HORIZONTAL) sx -= CASE_WIDTH * 0.5;
+            else sy -= CASE_HEIGHT;
+            startX = sx;
+            startY = sy;
+            endX = dir == HORIZONTAL ? sx + length * CASE_WIDTH : sx;
+            endY = dir == HORIZONTAL ? sy : sy + length * CASE_HEIGHT;
         }
 
         boolean contains(int x, int y) {
@@ -112,6 +124,25 @@ public class World {
         for (Teleporter t : teleporterList) if (t != start) any.add(t);
         if (any.isEmpty()) return null;
         return new Object[]{any.get(game.random(any.size())), true};
+    }
+
+    /**
+     * Destination fixe de getNextTeleporter (en face, ou seul téléporteur de même direction et longueur), sans tirage
+     * au hasard ; null si elle serait tirée au hasard (fl_rand) ou s'il n'y en a pas. Sert à allumer la destination
+     * (Player.showTeleporters) sans consommer les tirages de la partie.
+     */
+    public Teleporter fixedNextTeleporter(Teleporter start) {
+        for (Teleporter t : teleporterList) {
+            if (t == start || t.dir != start.dir || t.length != start.length) continue;
+            if (start.dir == HORIZONTAL ? t.cx == start.cx : t.cy == start.cy) return t;
+        }
+        Teleporter only = null;
+        for (Teleporter t : teleporterList) {
+            if (t == start || t.dir != start.dir || t.length != start.length) continue;
+            if (only != null) return null;
+            only = t;
+        }
+        return only;
     }
 
     /** Index du portail dont la case (cx, cy) fait partie, -1 si aucun (Physics.infix). */

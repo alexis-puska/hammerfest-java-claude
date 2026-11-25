@@ -1,5 +1,7 @@
 package hammerfest.net;
 
+import hammerfest.ui.Tr;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -36,7 +38,7 @@ public final class ClientSession implements Closeable {
                 if (waitingAnswer || accepted) {
                     waitingAnswer = false;
                     accepted = false;
-                    events.add(new NetEvent(NetEvent.Type.DISCONNECTED, hostName, "Connexion perdue", null));
+                    events.add(new NetEvent(NetEvent.Type.DISCONNECTED, hostName, Tr.t("Connexion perdue"), null));
                 }
             }
         });
@@ -85,7 +87,7 @@ public final class ClientSession implements Closeable {
     public NetEvent poll() {
         if (waitingAnswer && System.currentTimeMillis() - askedAt > Net.JOIN_TIMEOUT_MS) {
             waitingAnswer = false;
-            events.add(new NetEvent(NetEvent.Type.TIMED_OUT, null, "Pas de réponse de l'hôte", null));
+            events.add(new NetEvent(NetEvent.Type.TIMED_OUT, null, Tr.t("Pas de réponse de l'hôte"), null));
             closeQuietly();
         }
         return events.poll();
@@ -139,7 +141,7 @@ public final class ClientSession implements Closeable {
         synchronized (stopLock) {
             if (!stopped && accepted && client.isConnected()) {
                 Net.Leave l = new Net.Leave();
-                l.reason = "Le joueur a quitté la partie";
+                l.reason = Tr.t("Le joueur a quitté la partie");
                 try {
                     client.sendTCP(l);
                 } catch (RuntimeException e) {

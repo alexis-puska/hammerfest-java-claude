@@ -10,6 +10,11 @@ public interface FrameSource {
     /** Images du sous-clip de l'animation {@code animId} du clip {@code linkage} (au moins 1). */
     int frames(String linkage, int animId);
 
+    /** Le clip se relance de lui-même à l'attache (play() en image 1), même arrêté par le script. */
+    default boolean playsOnAttach(String linkage) {
+        return false;
+    }
+
     /** Valeur par défaut tant que les sprites ne sont pas disponibles. */
     FrameSource DEFAULT = (linkage, animId) -> 10;
 }

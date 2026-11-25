@@ -22,8 +22,14 @@ public class Audio implements Disposable {
     private final Map<String, Sound> sounds = new HashMap<>();
     private Music music;
     private String musicName;
-    private float musicVolume = 0.5f;
-    private float soundVolume = 0.7f;
+
+    /** Réglages du son (save.json), partagés par tous les écrans (HammerfestGame). */
+    public static hammerfest.save.AudioSettings settings = new hammerfest.save.AudioSettings();
+
+    /** Volumes changés (écran Options, touche M) : appliqués à la musique en cours. */
+    public void applySettings() {
+        if (music != null) music.setVolume(settings.effectiveMusic());
+    }
 
     /** Joue en boucle la musique {@code name} (sans extension) si ce n'est pas déjà elle. */
     public void playMusic(String name) {
@@ -34,7 +40,7 @@ public class Audio implements Disposable {
         try {
             music = Gdx.audio.newMusic(f);
             music.setLooping(true);
-            music.setVolume(musicVolume);
+            music.setVolume(settings.effectiveMusic());
             music.play();
             musicName = name;
         } catch (RuntimeException e) {
@@ -66,7 +72,7 @@ public class Audio implements Disposable {
             }
             return null;
         });
-        if (s != null) s.play(soundVolume);
+        if (s != null && settings.soundVolume > 0) s.play(settings.soundVolume);
     }
 
     @Override

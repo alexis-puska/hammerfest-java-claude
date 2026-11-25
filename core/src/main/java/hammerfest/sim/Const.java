@@ -12,6 +12,19 @@ public final class Const {
     /** Durée d'une seconde en cycles de jeu. */
     public static final int SECOND = 32;
 
+    /**
+     * Cadence des clips Flash qui jouent tout seuls (effets, décors, boucles) : le SWF d'origine tourne à 40 images
+     * par seconde, alors que la simulation avance à SECOND (32) cycles par seconde (Timer.tmod). Images de clip
+     * jouées pendant un cycle de jeu : 40 / 32.
+     */
+    public static final int FLASH_FPS = 40;
+    public static final double CLIP_FRAMES_PER_CYCLE = FLASH_FPS / (double) SECOND;
+
+    /** Images de clip jouées depuis {@code cycles} cycles de jeu (arrondi inférieur). */
+    public static long clipAge(long cycles) {
+        return cycles * FLASH_FPS / SECOND;
+    }
+
     // Types d'entités (Data.ENTITY...)
     public static final int ENTITY = 1;
     public static final int PHYSICS = 1 << 1;
