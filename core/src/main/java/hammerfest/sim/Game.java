@@ -288,6 +288,9 @@ public class Game {
             e.endUpdate();
         }
         cleanKills();
+        // sortie par le bas pendant ce cycle : défilement lancé, partie verrouillée (GameMode.lock) jusqu'à
+        // onLevelReady ; surtout pas de checkLevelClear, le nouveau niveau n'a pas encore ses fruits
+        if (scrolling()) return;
         if (pendingLink != null) {
             PortalLinks.Link link = pendingLink;
             pendingLink = null;
@@ -822,7 +825,9 @@ public class Game {
                         Entity.xCtr(flipCoordCase(b.x)) - CASE_WIDTH * 0.5, Entity.yCtr(b.y - 1));
             }
         }
-        if (visitedLevel || world.data.badList.isEmpty()) { // GameMode.startLevel : aucun ennemi → flèche de sortie
+        // GameMode.startLevel : aucun ennemi → flèche de sortie ; les fruits déjà posés par la 1re lecture du script
+        // (avant le défilement : attach / do, niveau 86) comptent aussi
+        if ((visitedLevel || world.data.badList.isEmpty()) && countList(BAD_CLEAR) == 0) {
             fl_clear = true;
             attachExit();
         }
