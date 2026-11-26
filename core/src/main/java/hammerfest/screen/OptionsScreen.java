@@ -15,7 +15,7 @@ import hammerfest.render.Audio;
 import hammerfest.save.AudioSettings;
 
 /**
- * Options : volume de la musique et des bruitages, musique coupée (aussi touche M en jeu), langue des textes du jeu
+ * Options : volume de la musique et des bruitages, musique coupée (aussi touche M, en jeu et dans les menus), langue des textes du jeu
  * (fr, en, es : messages, objets, quêtes et contrées d'origine). Réglages enregistrés dans save.json.
  */
 public class OptionsScreen extends MenuScreen {
@@ -26,6 +26,13 @@ public class OptionsScreen extends MenuScreen {
     private final AudioSettings audio = game.save.audio;
     /** Lecteur de l'écran : bruitage d'essai quand on lâche le curseur. */
     private final Audio preview = new Audio();
+    private final CheckBox mute;
+
+    @Override
+    protected void toggleMusic() {
+        super.toggleMusic();
+        mute.setChecked(audio.musicMuted); // case à jour après la touche M
+    }
 
     public OptionsScreen(HammerfestGame game) {
         super(game);
@@ -43,6 +50,7 @@ public class OptionsScreen extends MenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 audio.musicVolume = music.getValue();
                 musicValue.setText(percent(audio.musicVolume));
+                game.menuAudio.applySettings(); // volume appliqué tout de suite à la musique des menus
                 if (!music.isDragging()) game.persist();
             }
         });
@@ -67,13 +75,14 @@ public class OptionsScreen extends MenuScreen {
         sound.add(sfx).width(260).padRight(10);
         sound.add(soundValue).width(60).row();
 
-        CheckBox mute = new CheckBox(Tr.t(" Musique coupée (touche M en jeu)"), skin);
+        mute = new CheckBox(Tr.t(" Musique coupée (touche M)"), skin);
         mute.getImageCell().padRight(6);
         mute.setChecked(audio.musicMuted);
         mute.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 audio.musicMuted = mute.isChecked();
+                game.menuAudio.applySettings();
                 game.persist();
             }
         });

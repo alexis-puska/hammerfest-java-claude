@@ -60,6 +60,7 @@ public class OnlineClientScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        app.menuAudio.stopMusic(); // la musique des menus se coupe pendant la partie
         Gdx.input.setInputProcessor(new InputAdapter() {
             // Musique coupée / rétablie : caractère tapé (m), qui suit la disposition du clavier (AZERTY, QWERTY…),
             // et non la position physique de la touche (Input.Keys.M = touche « , » sur un AZERTY)

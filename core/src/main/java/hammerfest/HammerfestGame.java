@@ -24,6 +24,9 @@ public class HammerfestGame extends Game {
     public SaveData save;
     public QuestBook quests;
     public Texture menuBackground;
+    /** Musique des menus (sfx/boss_v2.3.mp3) : jouée par les écrans de menu, coupée pendant une partie. */
+    public final hammerfest.render.Audio menuAudio = new hammerfest.render.Audio();
+    public static final String MENU_MUSIC = "boss_v2.3";
     /** Ouverture du port de jeu (UPnP sur le bureau), fournie par le lanceur de la plateforme. */
     public final hammerfest.net.PortService ports;
 
@@ -96,6 +99,7 @@ public class HammerfestGame extends Game {
         if (getScreen() != null) getScreen().dispose();
         if (ui != null) ui.dispose();
         if (menuBackground != null) menuBackground.dispose();
+        menuAudio.dispose();
         ports.close();
     }
 }

@@ -32,7 +32,7 @@ public class SaveData {
     public String lastMode = "adventure";
     public Set<String> lastOptions = new LinkedHashSet<>();
 
-    /** Volumes et musique coupée (écran Options, touche M en jeu). */
+    /** Volumes et musique coupée (écran Options, touche M, en jeu et dans les menus). */
     public AudioSettings audio = new AudioSettings();
 
     /** Réglages des manettes (écran Commandes). */

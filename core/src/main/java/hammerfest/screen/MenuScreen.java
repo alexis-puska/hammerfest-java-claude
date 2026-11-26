@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import hammerfest.HammerfestGame;
@@ -48,7 +49,24 @@ public abstract class MenuScreen extends ScreenAdapter {
                 }
                 return false;
             }
+
+            // Musique coupée / rétablie : caractère tapé (m), comme en jeu (suit la disposition du clavier),
+            // sauf pendant la saisie d'un texte (nom du joueur, adresse de l'hôte)
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                if (character != 'm' && character != 'M') return false;
+                if (stage.getKeyboardFocus() instanceof TextField) return false;
+                toggleMusic();
+                return true;
+            }
         });
+    }
+
+    /** Touche M : coupe ou rétablit la musique (réglage partagé avec le jeu, sauvegardé). */
+    protected void toggleMusic() {
+        game.save.audio.musicMuted = !game.save.audio.musicMuted;
+        game.menuAudio.applySettings();
+        game.persist();
     }
 
     /** Action d'Échap : retour au menu principal par défaut. */
@@ -94,6 +112,7 @@ public abstract class MenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        game.menuAudio.playMusic(HammerfestGame.MENU_MUSIC); // sans effet si elle joue déjà (changement de menu)
     }
 
     @Override

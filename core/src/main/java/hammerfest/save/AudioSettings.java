@@ -1,6 +1,6 @@
 package hammerfest.save;
 
-/** Réglages du son (save.json) : volumes de la musique et des bruitages, musique coupée (touche M en jeu). */
+/** Réglages du son (save.json) : volumes de la musique et des bruitages, musique coupée (touche M, en jeu et dans les menus). */
 public class AudioSettings {
 
     /** Volume de la musique, 0..1. */
