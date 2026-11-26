@@ -38,6 +38,8 @@ def playerVariants = ['igor', 'sandy', 'soccer1', 'soccer2', 'head2', 'head3', '
     'igor-chourou', 'sandy-chourou', 'head2-chourou', 'head3-chourou', 'head4-chourou', 'head5-chourou', 'head6-chourou',
     'igor-lock', 'sandy-lock', 'head2-lock', 'head3-lock', 'head4-lock', 'head5-lock', 'head6-lock',
     'soccer1-crown', 'soccer1-lose', 'soccer2-crown', 'soccer2-lose']
+// chacune aussi avec la carotte d'Igor (famille 108 ou objet 102) : <v>-carot
+playerVariants = playerVariants + playerVariants.collect { it + '-carot' }
 
 // ./gradlew tools:layoutSprites  ->  assets/sprites/<lib>.json (images, cadres, sous-clips)
 tasks.register('layoutSprites') {

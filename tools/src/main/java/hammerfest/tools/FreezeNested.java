@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
  *
  * <p>FFDec ignore l'ActionScript et anime ces clips à l'export : la tête d'Igor change à chaque image.
  * On réécrit l'XML puis on reconstruit un SWF (FFDec -xml2swf) dont l'export donne des images figées.
+ * Les clips qui jouent une fois puis s'arrêtent ({@link #PLAY_ONCE}) sont figés sur leur dernière image.
  * Les identifiants de caractères ne changent pas : la mise en page (SwfLayout) reste valable.</p>
  *
  * <p>Usage : FreezeNested &lt;in.xml&gt; &lt;out.xml&gt;</p>
@@ -37,8 +38,19 @@ public final class FreezeNested {
         }
         Map<Integer, Integer> frozen = new java.util.TreeMap<>();
         for (int id : layout.frozenNested()) frozen.put(id, 1);
+        // Clips qui jouent une fois puis s'arrêtent : figés sur leur dernière image
+        for (Map.Entry<String, Set<Integer>> e : PLAY_ONCE.entrySet()) {
+            Integer sid = layout.exports.get(e.getKey());
+            if (sid == null || !layout.sprites.containsKey(sid)) continue;
+            for (java.util.TreeMap<Integer, SwfLayout.Placed> frame : layout.sprites.get(sid).frames) {
+                for (Map.Entry<Integer, SwfLayout.Placed> d : frame.entrySet()) {
+                    SwfLayout.Sprite child = layout.sprites.get(d.getValue().id);
+                    if (e.getValue().contains(d.getKey()) && child != null) frozen.put(child.id, child.frames.size());
+                }
+            }
+        }
         int done = rewrite(Path.of(args[0]), Path.of(args[1]), frozen, Set.of());
-        System.out.println(done + " clips imbriqués figés sur leur 1re image -> " + args[1]);
+        System.out.println(done + " clips imbriqués figés (1re image, ou dernière pour PLAY_ONCE) -> " + args[1]);
         // Enfants affichés par script seulement (lettres EXTEND du bandeau) : retirés de l'image du clip
         Map<Integer, Set<Integer>> depths = new java.util.TreeMap<>();
         for (Map.Entry<String, java.util.List<String>> e : HIDDEN_CHILDREN.entrySet()) {
@@ -69,6 +81,13 @@ public final class FreezeNested {
             System.out.println(removed + " placements d'enfants affichés par script retirés " + depths);
         }
     }
+
+    /**
+     * Symbole → profondeurs de clips imbriqués qui jouent une fois puis s'arrêtent (stop sur la dernière image) :
+     * figés sur cette image. Igor dans l'ascenseur de fin (clip 221 de prison_loop) : sinon FFDec fait tourner ses
+     * poses en boucle et SwfLayout en fait une couche dessinée par-dessus les portes qui se ferment sur lui.
+     */
+    static final Map<String, Set<Integer>> PLAY_ONCE = Map.of("prison_loop", Set.of(8));
 
     /** Symbole → préfixe du nom des enfants que le jeu n'affiche qu'à la demande (dessinés à part par le jeu). */
     static final Map<String, java.util.List<String>> HIDDEN_CHILDREN = Map.of("hammer_interf_game", java.util.List.of("letter"),

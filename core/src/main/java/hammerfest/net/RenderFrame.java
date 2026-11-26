@@ -53,6 +53,8 @@ public class RenderFrame {
     public static final int EXTRA_BALL = 1 << 26;
     /** Bits de {@link #extras} d'une framboise en tas : morceaux o1 / o2 révélés (couches « o1 », « o2 »). */
     public static final int EXTRA_O1 = 1 << 27, EXTRA_O2 = 1 << 28;
+    /** Bit de {@link #extras} d'un joueur qui porte la carotte d'Igor (Player.fl_carot : variante {@code <v>-carot}). */
+    public static final int EXTRA_CAROT = 1 << 29;
     /** Nombre d'entités dessinées derrière les joueurs, en tête de liste (Tuberculoz vaincu : DP_SPRITE_BACK_LAYER). */
     public int backEntities;
     /** Nombre de joueurs dans la liste des entités, juste après les {@link #backEntities} (les joueurs visibles). */
@@ -289,6 +291,7 @@ public class RenderFrame {
                 Player p = (Player) a;
                 extra = (p.skin & 0xff) | ((p.head & 0x7f) << 9) | (((p.currentWeapon + 1) & 0xff) << 16)
                         | (p.fl_chourou ? 1 << 24 : 0)
+                        | (p.fl_carot ? EXTRA_CAROT : 0)
                         | (p.specialMan.active(100) ? 1 << 25 : 0); // nuage de la poupée Guu
                 if (p.fl_shield && !p.fl_kill && !(p.shieldTimer <= Const.SECOND * 3 && (g.cycle / 2) % 2 == 1)) {
                     shields.add((float) p.shieldX);

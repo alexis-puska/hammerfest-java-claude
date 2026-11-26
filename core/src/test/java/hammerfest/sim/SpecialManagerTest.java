@@ -228,4 +228,31 @@ class SpecialManagerTest {
         p.specialMan.interrupt(99);
         assertFalse(p.fl_chourou);
     }
+
+    /** Bit de la carotte dans l'instantané du premier joueur affiché. */
+    static boolean carrotShown(Game g) {
+        hammerfest.net.RenderFrame f = hammerfest.net.RenderFrame.capture(g, java.util.List.of(), false);
+        assertTrue(f.playerEntities > 0);
+        return (f.extras[f.backEntities] & hammerfest.net.RenderFrame.EXTRA_CAROT) != 0;
+    }
+
+    /** Carotte d'Igor : absente au départ, portée après l'objet 102 ou dès le début avec la famille 108. */
+    @Test
+    void carrotShownAfterPickupOrWithFamily() {
+        Game g = game(1, true);
+        Player p = g.players().get(0);
+        assertFalse(p.fl_carot, "pas de carotte sans la famille 108");
+        assertFalse(carrotShown(g));
+        pick(g, 102, -1);
+        assertTrue(p.fl_carot, "carotte ramassée : portée aussitôt");
+        assertTrue(carrotShown(g));
+
+        LevelSet set = new LevelSet("test");
+        set.levels.add(GameTest.level(15, 3, 14));
+        Game g2 = new Game(set, FrameSource.DEFAULT, 5L, Set.of(108), Set.of());
+        g2.start(0, 1);
+        GameTest.run(g2, 10, 0);
+        assertTrue(g2.players().get(0).fl_carot, "famille 108 : carotte dès le début");
+        assertTrue(carrotShown(g2));
+    }
 }

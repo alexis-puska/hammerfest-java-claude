@@ -87,11 +87,7 @@ public final class GameView implements Disposable {
     public GameView(HammerfestGame app, GameModes.Mode mode) {
         this.app = app;
         this.mode = mode;
-        this.sprites = new Sprites("anims", "gfx", "ending", "sandy", "soccer1", "soccer2", "igor",
-                "head2", "head3", "head4", "head5", "head6", "igor-chourou", "sandy-chourou",
-                "head2-chourou", "head3-chourou", "head4-chourou", "head5-chourou", "head6-chourou",
-                "igor-lock", "sandy-lock", "head2-lock", "head3-lock", "head4-lock", "head5-lock", "head6-lock",
-                "soccer1-crown", "soccer1-lose", "soccer2-crown", "soccer2-lose");
+        this.sprites = new Sprites(spriteLibs());
         this.fx = new hammerfest.render.FxPlayer(sprites);
         this.particles = new hammerfest.render.ParticleSystem(sprites);
         // Particle.onHitGround : goutte d'eau à 10-59 %, retournée au hasard
@@ -480,6 +476,20 @@ public final class GameView implements Disposable {
         batch.setProjectionMatrix(worldMatrix);
     }
 
+    /** Variantes du joueur exportées (PlayerVariants), chacune aussi avec la carotte d'Igor ({@code <v>-carot}). */
+    private static final String[] PLAYER_LIBS = {"sandy", "soccer1", "soccer2", "igor",
+            "head2", "head3", "head4", "head5", "head6", "igor-chourou", "sandy-chourou",
+            "head2-chourou", "head3-chourou", "head4-chourou", "head5-chourou", "head6-chourou",
+            "igor-lock", "sandy-lock", "head2-lock", "head3-lock", "head4-lock", "head5-lock", "head6-lock",
+            "soccer1-crown", "soccer1-lose", "soccer2-crown", "soccer2-lose"};
+
+    private static String[] spriteLibs() {
+        java.util.List<String> libs = new java.util.ArrayList<>(java.util.List.of("anims", "gfx", "ending"));
+        java.util.Collections.addAll(libs, PLAYER_LIBS);
+        for (String v : PLAYER_LIBS) libs.add(v + "-carot");
+        return libs.toArray(new String[0]);
+    }
+
     /** Costume du joueur (skin) → variante exportée du clip (PlayerVariants), si ses images sont présentes. */
     private static final String[] PLAYER_VARIANTS = {null, null, "hammer_player_sandy", "hammer_player_soccer1", "hammer_player_soccer2"};
 
@@ -548,7 +558,8 @@ public final class GameView implements Disposable {
 
     /**
      * Variante du clip du joueur : déguisement d'Igor (têtes 2 à 6), sinon selon le costume ; collier de Poils de
-     * Chourou (suffixe -chourou) seulement si l'objet est actif. Les variantes exportées cachent le collier.
+     * Chourou (suffixe -chourou) seulement si l'objet est actif. Les variantes exportées cachent le collier ; la
+     * carotte d'Igor (Player.fl_carot, suffixe -carot) s'ajoute à la variante choisie.
      */
     private String playerLinkage(String link, int extra) {
         int skin = extra & 0xff, head = (extra >> 9) & 0x7f;
@@ -558,14 +569,16 @@ public final class GameView implements Disposable {
         if (skin <= 1 && head >= 2 && head <= 6) v = "hammer_player_head" + head;
         else if (skin < PLAYER_VARIANTS.length && PLAYER_VARIANTS[skin] != null) v = PLAYER_VARIANTS[skin];
         else v = "hammer_player_igor";
+        String mood = "";
         if (skin == 3 || skin == 4) { // SoccerFest : couronne du buteur, tête basse contre son camp
-            String mood = head == 9 || head == 12 ? "-crown" : head == 8 || head == 11 ? "-lose" : "";
-            if (!mood.isEmpty() && sprites.has(v + mood)) return v + mood;
+            mood = head == 9 || head == 12 ? "-crown" : head == 8 || head == 11 ? "-lose" : "";
         }
-        if (noWeapon && sprites.has(v + "-lock")) return v + "-lock";
-        if (chourou && sprites.has(v + "-chourou")) return v + "-chourou";
-        if (sprites.has(v)) return v;
-        return link;
+        if (!mood.isEmpty() && sprites.has(v + mood)) v += mood;
+        else if (noWeapon && sprites.has(v + "-lock")) v += "-lock";
+        else if (chourou && sprites.has(v + "-chourou")) v += "-chourou";
+        else if (!sprites.has(v)) return link;
+        if ((extra & RenderFrame.EXTRA_CAROT) != 0 && sprites.has(v + "-carot")) return v + "-carot";
+        return v;
     }
 
     private void drawEntities(RenderFrame f) {

@@ -55,6 +55,12 @@ public final class PlayerVariants {
 
     /** Collier de Poils de Chourou : clip dont le script fait _visible = _parent._parent.fl_chourou. */
     static final int CHOUROU_CLIP = 483;
+    /**
+     * Carotte d'Igor (famille 108 ou objet 102) : clip dont le script fait _visible = _parent._parent.fl_carot,
+     * gardée seulement dans les variantes {@code <v>-carot} (une par entrée de {@link #VARIANTS}).
+     */
+    static final int CAROT_CLIP = 479;
+    static final String CAROT = "-carot";
 
     static final String SYMBOL = "hammer_player";
 
@@ -75,15 +81,18 @@ public final class PlayerVariants {
 
         System.out.println("Commandes FFDec (depuis la racine du projet) :");
         for (Object[] v : VARIANTS) {
-            String name = (String) v[0];
             Map<Integer, Integer> frames = layout.frozenFrames((Integer) v[1], (Integer) v[2], v.length > 3 ? (Integer) v[3] : 1);
-            Path out = dir.resolve("anims-" + name + ".xml");
-            FreezeNested.rewrite(xml, out, frames,
-                    name.endsWith("-chourou") ? Set.of() : Set.of(CHOUROU_CLIP));
-            String swf = "build/swf-export/_anims-" + name + ".swf";
-            System.out.println("java -jar .tools/ffdec/ffdec-cli.jar -xml2swf build/swf-export/anims-" + name + ".xml " + swf
-                    + " && java -jar .tools/ffdec/ffdec-cli.jar -selectid " + sel
-                    + " -format sprite:png -export sprite build/swf-export/anims-" + name + " " + swf);
+            for (String name : new String[] {(String) v[0], v[0] + CAROT}) {
+                Set<Integer> hidden = new java.util.TreeSet<>();
+                if (!name.contains("-chourou")) hidden.add(CHOUROU_CLIP);
+                if (!name.endsWith(CAROT)) hidden.add(CAROT_CLIP);
+                Path out = dir.resolve("anims-" + name + ".xml");
+                FreezeNested.rewrite(xml, out, frames, hidden);
+                String swf = "build/swf-export/_anims-" + name + ".swf";
+                System.out.println("java -jar .tools/ffdec/ffdec-cli.jar -xml2swf build/swf-export/anims-" + name + ".xml " + swf
+                        + " && java -jar .tools/ffdec/ffdec-cli.jar -selectid " + sel
+                        + " -format sprite:png -export sprite build/swf-export/anims-" + name + " " + swf);
+            }
         }
     }
 

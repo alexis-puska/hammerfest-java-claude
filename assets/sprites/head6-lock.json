@@ -13,6 +13,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -26,6 +27,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -39,6 +41,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -52,6 +55,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -65,6 +69,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -78,6 +83,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -91,6 +97,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -104,6 +111,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -117,6 +125,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 34,
       "loopStart" : 13
     },
@@ -130,6 +139,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -143,6 +153,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -156,6 +167,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -169,6 +181,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -184,6 +197,7 @@
         28
       ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -197,12 +211,13 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "744" : {
       "frames" : 6,
-      "x" : -40.106762,
+      "x" : -41.106762,
       "y" : -83.66788,
       "w" : 69.0,
       "h" : 75.0,
@@ -210,38 +225,41 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "757" : {
       "frames" : 13,
-      "x" : -30.23673,
-      "y" : -73.71244,
+      "x" : -29.23673,
+      "y" : -76.71244,
       "w" : 72.0,
       "h" : 78.0,
       "subs" : [ ],
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "766" : {
       "frames" : 9,
       "x" : -41.375,
-      "y" : -78.183624,
+      "y" : -76.183624,
       "w" : 86.0,
       "h" : 99.0,
       "subs" : [ ],
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "776" : {
       "frames" : 16,
-      "x" : -36.500153,
+      "x" : -35.500153,
       "y" : -83.58558,
       "w" : 75.0,
       "h" : 88.0,
@@ -249,6 +267,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -262,12 +281,13 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "802" : {
       "frames" : 7,
-      "x" : -31.32452,
+      "x" : -29.32452,
       "y" : -69.20958,
       "w" : 79.0,
       "h" : 79.0,
@@ -275,19 +295,21 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
     "804" : {
       "frames" : 30,
       "x" : -29.525421,
-      "y" : -69.687355,
+      "y" : -70.687355,
       "w" : 73.0,
       "h" : 77.0,
       "subs" : [ ],
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     },
@@ -555,6 +577,7 @@
       "stopFrame" : 0,
       "stopFrames" : [ ],
       "removeFrame" : 0,
+      "playOnAttach" : false,
       "loopLength" : 0,
       "loopStart" : 0
     }

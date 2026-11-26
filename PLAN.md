@@ -53,6 +53,8 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
    `-format sprite:png -export sprite build/swf-export/<lib> …` (lib = `anims`, `gfx`, `ending`).
 2. `./gradlew tools:freezeNested` écrit `build/swf-export/<lib>-frozen.xml` :
    - clips imbriqués figés par script (tête `head`, costume `skin`, arme `currentWeapon`) réduits à une image ;
+   - clips qui jouent une fois puis s'arrêtent figés sur leur dernière image (`PLAY_ONCE` : Igor dans l'ascenseur de
+     fin, sinon FFDec le fait boucler et `SwfLayout` le dessine en couche par-dessus les portes) ;
    - textes par défaut des champs vidés (« pouet », « blabla »… : le jeu dessine le vrai texte) ;
    - enfants affichés à la demande retirés (`HIDDEN_CHILDREN` : lettres EXTEND du bandeau, jauge et pointeur de la carte ;
      `HIDDEN_IN_SUBS`, dans les sous-clips « sub » : balle de la fraise, redessinée par `SwfLayout.toggleLayers` comme
@@ -61,7 +63,7 @@ FFDec (`.tools/ffdec/ffdec-cli.jar`) ne peut être lancé que par l'utilisateur.
    ending, `./export-gfx.sh` pour gfx, qui exporte aussi les
    polices `hammerfest.ttf` et `satans.ttf`).
 3. Variantes du joueur : `./gradlew tools:playerVariants` puis `./export-variants.sh [variantes…]` :
-   `igor`, `sandy`, `soccer1`, `soccer2`, chapeaux `head2`…`head6`, avec collier `<v>-chourou`, sans arme `<v>-lock`.
+   `igor`, `sandy`, `soccer1`, `soccer2`, chapeaux `head2`…`head6`, avec collier `<v>-chourou`, sans arme `<v>-lock`, et chacune avec la carotte d'Igor `<v>-carot` (sprite 479, famille 108 ou objet 102 ; cachée dans les autres).
 4. `./gradlew tools:tileSkins` : les 63 dalles et embouts depuis l'export gfx, cadrés à (5, 5) sous la marge de FFDec (habillage n = image n ; les PNG fournis
    avec les sources sont mal numérotés).
 5. `./gradlew tools:packSprites` (lance `layoutSprites`) : `assets/sprites/<lib>.json` (`SpriteLibrary`) + atlas.
